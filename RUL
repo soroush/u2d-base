@@ -1,0 +1,14 @@
+
+%{
+#include <math.h>
+#include <QDebug>
+#include "parserbase.h"
+%}
+
+DIGIT   [0-9]
+DOUBLE  {DIGIT}+"."{DIGIT}*
+
+%%
+
+'audio_cut_dist'        {
+                        }

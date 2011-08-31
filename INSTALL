@@ -1,0 +1,85 @@
+Introduction
+============
+
+u2d_base uses qmake to build all its components. 
+qmake is part of a Qt distribution. 
+
+qmake reads project files, that contain the options and rules how to 
+build a certain project. A project file ends with the suffix "*.pro". 
+Files that end with the suffix "*.pri" are included by the project 
+files and contain definitions, that are common for several project files.
+
+The subdirs template of qmake is known to be buggy when using spaces 
+in path names. So better don't build u2d_base below a path name with spaces. 
+( Otherwise you might have to run qmake in all subdirs manually ).
+
+Building u2d_base
+==========================
+
+The easiest way to build u2d_base is from the command line - but you insist on 
+using an IDE don't forget the "make install" step.
+
+A) Unix 
+--------
+
+qmake
+make
+make install
+
+B) Win32/MSVC 
+--------
+
+Check that your Qt version has been built with MSVC - not with MinGW !
+
+Please read the qmake documentation how to convert 
+your *.pro files into your development environment.
+
+F.e MSVC with nmake:
+qmake u2d_base.pro
+nmake
+nmake install
+
+C) Win32/MinGW 
+--------
+
+Check that your Qt version has been built with MinGW - not with MSVC !
+
+Start a Shell, where Qt4 is initialized. ( F.e. with
+"Programs->Qt...->Qt 4.x.x Command Prompt" ).
+Check if you can execute "make" or something like "mingw32-make".
+
+qmake u2d_base.pro
+make
+make install
+
+D) MacOSX
+--------
+
+Well, the Mac is only another Unix system. So read the instructions in A).
+
+In the recent Qt4 releases the default target of qmake is to generate
+XCode project files instead of makefiles. So you might need to do the
+following:
+
+qmake -spec macx-g++
+...
+
+D) Qt Embedded
+--------
+
+I only tested u2d_base with Qt Embedded in qvfb (Virtual Framebuffer Devivce)
+Emulator on my Linux box. To build u2d_base for the emulator was as simple as 
+for a regular Unix build.
+
+F) Symbian
+--------
+
+I never tried this platform myself. But there should't be any problem with that.
+
+Using u2d_base
+===========
+
+For using u2d_base you need to specify your own strategies and play rules, 
+and put your codes into the `brain' part of u2d_base
+
+Good luck !
