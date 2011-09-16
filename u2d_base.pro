@@ -11,7 +11,7 @@ INCLUDEPATH += /usr/include/
 
 LIBS += -lfl
 
-LEXSOURCES = RUL
+LEXSOURCES = rules
 
 TARGET = u2d_base
 
@@ -27,8 +27,8 @@ SOURCES += main.cpp \
     visualsensor.cpp \
     connection.cpp \
     parserbase.cpp \
-#lex.yy.cc
-    RUL
+    lex.yy.cc \
+    rules
 
 
 HEADERS += \
