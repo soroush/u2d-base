@@ -17,6 +17,11 @@ public:
     void readTeamSide();
     void readFormNumber();
     void readPlayMode();
+    // server_param:
+    void sp_read();
+    void sp_readParameterName();
+    void sp_au();
+    void sp_ba();
 signals:
 
 public slots:

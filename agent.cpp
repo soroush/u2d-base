@@ -1,9 +1,10 @@
 #include "agent.h"
 #include "connection.h"
+#include <iostream>
 
 Agent::Agent(int argc, char *argv[]) :
     QCoreApplication(argc, argv),
-    teamName(QLatin1String("")),
+    teamName(QString("")),
     connection(Connection(this))
 {
     if(argc > 1)
@@ -13,7 +14,7 @@ Agent::Agent(int argc, char *argv[]) :
     if(argc > 3)
         connection.portNumber = atoi(argv[3]);
     // Initializing teammate:
-    qDebug() << "Team name:\t" << teamName;
+    std::cout << "Team name:\t" << teamName.toStdString() << std::endl;
     connection.initialize();
 }
 // add a comment here

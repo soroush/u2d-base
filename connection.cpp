@@ -19,22 +19,24 @@ void Connection::initialize()
 {
     if(!bind(0))
     {
-        qDebug() << "Unable to Bind to server";
+        std::cout << "Unable to Bind to server!" <<std::endl;
         exit(1);
     }
     else
     {
-        qDebug() << "Binded to server";
+        std::cout << "Binded to server" << std::endl;
     }
-    qDebug() << "Address:\t" << address;
-    qDebug() << "Port:\t\t" << portNumber;
+    std::cout << "Address:\t\t" << address.toString().toStdString()<<std::endl;
+    std::cout << "Port:\t\t\t" << portNumber << std::endl;
     QString initializeCommand(QString("(init %1 (version 14))").arg(agent()->teamName));
-    qDebug() << writeDatagram(initializeCommand.toAscii(),QHostAddress::LocalHost,portNumber);
+    std::cout << "init datagram size:\t" << writeDatagram(initializeCommand.toAscii(),QHostAddress::LocalHost,portNumber)
+              << std::endl;
     waitForReadyRead();
 }
 
 void Connection::processData()
 {
+    int counter = 0;
     char buffer[8192];
     while ( hasPendingDatagrams() )
     {
@@ -48,17 +50,18 @@ void Connection::processData()
             if ( newPortNumber != portNumber )
             {
                 // Testing proposed:
-                qDebug() << "updated server port number:\t" << newPortNumber;
-                qDebug() << "localPort:\t" << localPort();
+                std::cout << "updated server port:\t" << newPortNumber <<std::endl;
+                std::cout << "localPort:\t\t" << localPort()<<std::endl;
                 portNumber = newPortNumber;
             }
             // Testing proposed:
-//             std::cout << buffer;
             /*
             * Send readed data to PARSER
             * PARSER should tokenize the input string and extract data from it
             * then it should send data to BRAIN part
              */
+//            std::cout<<counter++<<": "<<std::endl;
+//            std::cout<<buffer<<std::endl;
             ParserBase parser;
             parser.input = buffer;
             parser.i = 0;

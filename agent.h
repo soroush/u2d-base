@@ -11,7 +11,7 @@ class Agent : public QCoreApplication
     Q_OBJECT
 public:
     explicit Agent(int argc, char *argv[]);
-    QLatin1String teamName;
+    QString teamName;
     Connection connection;
 signals:
 

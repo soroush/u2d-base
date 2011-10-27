@@ -46,11 +46,26 @@ void ParserBase::readSensorName()
                 break;
             case 'r':
                 std::cout << "seen server_param at "<< i << std::endl;
+                i+=10;
+                sp_read();
                 break;
             }
-
+            break;
+        case 'c': // score
             break;
         }
+        break;
+    case 'p': // player_type
+        std::cout << "seen player_type at "<< i << std::endl;
+        break;
+    case 'h': // hear
+        std::cout << "seen hear at "<< i << std::endl;
+        break;
+    case 'e': // error
+        std::cout << "seen error at "<< i << std::endl;
+        break;
+    case 'o': // ok_say
+        std::cout << "seen ok_say at "<< i << std::endl;
         break;
     }
 }
