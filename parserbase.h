@@ -8,7 +8,15 @@ class ParserBase : public QObject
     Q_OBJECT
 public:
     explicit ParserBase(QObject *parent = 0);
-    static bool expectInt;
+    char* input;
+    int size;
+    int i;      // index
+    void start();
+    void readSensorName();
+    // init
+    void readTeamSide();
+    void readFormNumber();
+    void readPlayMode();
 signals:
 
 public slots:
