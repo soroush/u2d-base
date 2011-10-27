@@ -22,6 +22,7 @@ public:
     void sp_readParameterName();
     void sp_au();
     void sp_ba();
+    void sp_ball_();
 signals:
 
 public slots:
