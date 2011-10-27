@@ -13,7 +13,7 @@ Agent::Agent(int argc, char *argv[]) :
     if(argc > 3)
         connection.portNumber = atoi(argv[3]);
     // Initializing teammate:
-    qDebug()<<"Team name:\t"<<teamName;
+    qDebug() << "Team name:\t" << teamName;
     connection.initialize();
 }
 // add a comment here

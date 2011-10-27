@@ -1,6 +1,8 @@
 #include "connection.h"
 #include "agent.h"
+#include "parserbase.h"
 #include <QString>
+#include <iostream>
 
 Connection::Connection(Agent *parent) :
     QUdpSocket(parent)
@@ -24,10 +26,10 @@ void Connection::initialize()
     {
         qDebug() << "Binded to server";
     }
-    qDebug() << address;
-    qDebug() << portNumber;
+    qDebug() << "Address:\t" << address;
+    qDebug() << "Port:\t\t" << portNumber;
     QString initializeCommand(QString("(init %1 (version 14))").arg(agent()->teamName));
-    qDebug()<<writeDatagram(initializeCommand.toAscii(),QHostAddress::LocalHost,portNumber);
+    qDebug() << writeDatagram(initializeCommand.toAscii(),QHostAddress::LocalHost,portNumber);
     waitForReadyRead();
 }
 
@@ -51,13 +53,16 @@ void Connection::processData()
                 portNumber = newPortNumber;
             }
             // Testing proposed:
-             qDebug() << buffer;
+//             std::cout << buffer;
             /*
             * Send readed data to PARSER
             * PARSER should tokenize the input string and extract data from it
             * then it should send data to BRAIN part
              */
-//            yyFlexLexer lexer;
+            ParserBase parser;
+            parser.input = buffer;
+            parser.i = 0;
+            parser.start();
         }
         waitForReadyRead();
     }

@@ -64,6 +64,7 @@ public:
     /*  There are not any setter function here
     *   this class provides data holders for visual sensor information
     *   the parser will be able to set flags directly
+    *
     */
 private:
     QList<FlagData> flags;

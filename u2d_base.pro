@@ -9,9 +9,7 @@ QT       -= gui
 
 INCLUDEPATH += /usr/include/
 
-LIBS += -lfl
-
-LEXSOURCES = rules
+LEXSOURCES =
 
 TARGET = u2d_base
 
@@ -27,8 +25,8 @@ SOURCES += main.cpp \
     visualsensor.cpp \
     connection.cpp \
     parserbase.cpp \
-    lex.yy.cc \
-    rules
+    parser-init.cpp \
+    parser-server-param.cpp
 
 
 HEADERS += \
@@ -40,5 +38,6 @@ HEADERS += \
     parserbase.h
 #    parser.h
 
-OTHER_FILES += \
-    rules.l
+
+
+
