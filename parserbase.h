@@ -23,6 +23,9 @@ public:
     void sp_au();
     void sp_ba();
     void sp_ball_();
+    void sp_c();
+    void sp_catch();
+    void sp_clang_();
 signals:
 
 public slots:
