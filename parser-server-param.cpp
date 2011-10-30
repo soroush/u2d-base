@@ -208,7 +208,6 @@ void ParserBase::sp_c()
     case 'o':
         i++;
 
-
     }
 }
 
