@@ -26,6 +26,8 @@ public:
     void sp_c();
     void sp_catch();
     void sp_clang_();
+    void sp_d();
+    void sp_dash_();
 signals:
 
 public slots:

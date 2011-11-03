@@ -26,7 +26,8 @@ SOURCES += main.cpp \
     connection.cpp \
     parserbase.cpp \
     parser-init.cpp \
-    parser-server-param.cpp
+    parser-server-param.cpp \
+    server_param.cpp
 
 
 HEADERS += \
@@ -35,8 +36,11 @@ HEADERS += \
     sensor.h \
     visualsensor.h \
     connection.h \
-    parserbase.h
+    parserbase.h \
+    server_param.h
 #    parser.h
+
+
 
 
 

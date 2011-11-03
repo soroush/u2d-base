@@ -11,11 +11,13 @@ Connection::Connection(Agent *parent) :
 }
 
 Connection::Connection(const Connection & other):
-    QUdpSocket(other.parent())
+    QUdpSocket(other.parent()),
+    address(QHostAddress::LocalHost),
+    portNumber(6000)
 {
 }
 
-void Connection::initialize()
+void Connection:: initialize()
 {
     if(!bind(0))
     {
@@ -29,7 +31,7 @@ void Connection::initialize()
     std::cout << "Address:\t\t" << address.toString().toStdString()<<std::endl;
     std::cout << "Port:\t\t\t" << portNumber << std::endl;
     QString initializeCommand(QString("(init %1 (version 14))").arg(agent()->teamName));
-    std::cout << "init datagram size:\t" << writeDatagram(initializeCommand.toAscii(),QHostAddress::LocalHost,portNumber)
+    std::cout << "init datagram size:\t" << writeDatagram(initializeCommand.toAscii(),QHostAddress::LocalHost,this->portNumber)
               << std::endl;
     waitForReadyRead();
 }

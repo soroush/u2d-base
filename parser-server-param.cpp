@@ -28,6 +28,9 @@ void ParserBase::sp_readParameterName()
         // cat't skip :(
         sp_c();
         break;
+    case 'd':
+        sp_d();
+        break;
     }
 }
 
@@ -45,6 +48,7 @@ void ParserBase::sp_au()
             i++;
         }
         std::cout << "audio_cut_dist: " << value.toInt() << std::endl;
+
         sp_read();
         break;
     case 't':
@@ -207,7 +211,81 @@ void ParserBase::sp_c()
         break; 
     case 'o':
         i++;
-
+        switch(input[i])
+        {
+        case 'a':
+            // std::cout<<"seen: sp_coa"<<std::endl;
+            i+=3;
+            switch(input[i])
+            {
+            case '_':
+                // std::cout<<"seen: sp_coach_"<<std::endl;
+                i++;
+                switch(input[i])
+                {
+                case 'p':
+                    i+=5;
+                    while(input[i]!=')')
+                    {
+                        value+=input[i];
+                        i++;
+                    }
+                    std::cout << "coach_port: " << value.toInt() << std::endl;
+                    sp_read();
+                    break;
+                case 'w':
+                    i+=10;
+                    while(input[i]!=')')
+                    {
+                        value+=input[i];
+                        i++;
+                    }
+                    std::cout << "coach_w_referee: " << value.toInt() << std::endl;
+                    sp_read();
+                    break;
+                }
+                break;
+            case ' ':
+                i++;
+                // std::cout<<"seen: sp_coach "<<std::endl;
+                while(input[i]!=')')
+                {
+                    value+=input[i];
+                    i++;
+                }
+                std::cout << "coach: " << value.toInt()<< std::endl;
+                sp_read();
+                break;
+            }
+            break;
+        case 'n':
+            i++;
+            switch(input[i])
+            {
+            case 'n':
+                i+=10;
+                while(input[i]!=')')
+                {
+                    value+=input[i];
+                    i++;
+                }
+                std::cout << "connect_wait: " << value.toInt() << std::endl;
+                sp_read();
+                break;
+            case 't':
+                i+=12;
+                while(input[i]!=')')
+                {
+                    value+=input[i];
+                    i++;
+                }
+                std::cout << "control_radius: " << value.toDouble() << std::endl;
+                sp_read();
+                break;
+            }
+            break;
+        }
+        break;
     }
 }
 
@@ -376,6 +454,58 @@ void ParserBase::sp_clang_()
             i++;
         }
         std::cout << "clang_win_size: " << value.toDouble() << std::endl;
+        sp_read();
+        break;
+    }
+}
+
+void ParserBase::sp_d()
+{
+    i++;
+    // std::cout<<"seen: sp_da"<<std::endl;
+    switch(input[i])
+    {
+    case 'a':
+        sp_dash_();
+        break;
+    case 'r':
+        i+=14;
+        QString value("");
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "drop_ball_time: " << value.toInt() << std::endl;
+        sp_read();
+        break;
+    }
+}
+
+void ParserBase::sp_dash_()
+{
+    i+=4;
+    QString value("");
+    switch(input[i])
+    {
+    case 'a':
+        i+=11;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "dash_angle_step: " << value.toDouble() << std::endl;
+        sp_read();
+        break;
+    case 'p':
+        i+=11;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "dash_power_rate: " << value.toDouble() << std::endl;
         sp_read();
         break;
     }
