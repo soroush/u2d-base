@@ -27,6 +27,9 @@ public:
     void sp_catch();
     void sp_clang_();
     void sp_d();
+    void sp_e();
+    void sp_effort_();
+    void sp_extra_();
     void sp_dash_();
 signals:
 

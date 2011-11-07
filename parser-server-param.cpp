@@ -31,6 +31,20 @@ void ParserBase::sp_readParameterName()
     case 'd':
         sp_d();
         break;
+    case 'e':
+        i++;
+        switch(input[i])
+        {
+        case 'f':
+            i+=6;
+            sp_effort_();
+            break;
+        case 'x':
+            i+=5;
+            sp_extra_();
+            break;
+        }
+        break;
     }
 }
 
@@ -208,7 +222,7 @@ void ParserBase::sp_c()
     case 'l':
         i+=4;
         sp_clang_();
-        break; 
+        break;
     case 'o':
         i++;
         switch(input[i])
@@ -509,4 +523,110 @@ void ParserBase::sp_dash_()
         sp_read();
         break;
     }
+}
+
+void ParserBase::sp_effort_()
+{
+    QString value("");
+    switch(input[i])
+    {
+    case 'd':
+        i+=3;
+        switch(input[i])
+        {
+        case ' ':
+            i++;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "effort_dec: " << value.toDouble() << std::endl;
+            sp_read();
+            break;
+        case '_':
+            i+=5;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "effort_dec_thr: " << value.toDouble() << std::endl;
+            sp_read();
+            break;
+        }
+        break;
+    case 'i':
+        i+=3;
+        switch(input[i])
+        {
+        case ' ':
+            i++;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "effort_inc: " << value.toDouble() << std::endl;
+            sp_read();
+            break;
+        case '_':
+            i+=5;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "effort_inc_thr: " << value.toDouble() << std::endl;
+            sp_read();
+            break;
+        case 't':
+            i+=2;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "effort_init: " << value.toInt()/*?*/ << std::endl;
+            sp_read();
+            break;
+        }
+        break;
+    case 'm':
+        i+=4;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "effort_min: " << value.toDouble() << std::endl;
+        sp_read();
+        break;
+    }
+}
+
+void ParserBase::sp_extra_()
+{
+    QString value("");
+    switch(input[i])
+    {
+    case 'h':
+        i+=10;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "extra_half_time: " << value.toInt() << std::endl;
+        break;
+    case 's':
+        i+=8;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "extra_stamina: " << value.toDouble()/*?*/ << std::endl;
+    }
+    sp_read();
 }
