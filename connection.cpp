@@ -38,7 +38,7 @@ void Connection:: initialize()
 
 void Connection::processData()
 {
-    int counter = 0;
+//    int counter = 0;
     char buffer[8192];
     while ( hasPendingDatagrams() )
     {

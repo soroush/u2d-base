@@ -31,6 +31,14 @@ public:
     void sp_effort_();
     void sp_extra_();
     void sp_dash_();
+    void sp_fo();
+    void sp_free();
+    void sp_fullstate_();
+    void sp_g();
+    void sp_game_();
+    void sp_game_log_();
+    void sp_go();
+    void sp_golden_goal();
 signals:
 
 public slots:

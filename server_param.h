@@ -40,6 +40,12 @@ struct server_param
     int effort_dec_thr;
     int effort_inc;
     int effort_inc_thr;
+    int effort_init;
+    double effort_min;
+    int extra_half_time;
+    double extra_stamina;
+    int forbid_kick_off_offside;
+    int foul_cycles;
 };
 
 #endif // SERVER_PARAM_H

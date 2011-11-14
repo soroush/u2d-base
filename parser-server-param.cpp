@@ -45,6 +45,26 @@ void ParserBase::sp_readParameterName()
             break;
         }
         break;
+    case 'f':
+        i++;
+        switch(input[i])
+        {
+        case 'o':
+            sp_fo();
+            break;
+        case 'r':
+            i+=3;
+            sp_free();
+            break;
+        case 'u':
+            i+=9;
+            sp_fullstate_();
+            break;
+        }
+        break;
+    case 'g':
+        sp_g();
+        break;
     }
 }
 
@@ -627,6 +647,283 @@ void ParserBase::sp_extra_()
             i++;
         }
         std::cout << "extra_stamina: " << value.toDouble()/*?*/ << std::endl;
+    }
+    sp_read();
+}
+
+void ParserBase::sp_fo()
+{
+    QString value("");
+//    std::cout << "fo";
+    i+=1;
+    switch(input[i])
+    {
+    case 'r':
+        i+=22;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "forbid_kick_off_offside: " << value.toInt() << std::endl;
+        break;
+    case 'u':
+        i+=3;
+        switch(input[i])
+        {
+        case 'c':
+            i+=7;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "foul_cycles: " << value.toInt() << std::endl;
+            break;
+        case 'd':
+            i+=19;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "foul_detect_probability: " << value.toDouble() << std::endl;
+            break;
+        case 'e':
+            i+=9;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "foul_exponent: " << value.toInt() << std::endl;
+            break;
+        }
+        break;
+    }
+    sp_read();
+}
+
+void ParserBase::sp_free()
+{
+    QString value("");
+    switch(input[i])
+    {
+    case '_':
+        i+=13;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "free_kick_faults: " << value.toInt() << std::endl;
+        break;
+    case 'f':
+        i+=5;
+        switch(input[i])
+        {
+        case 's':
+            i+=12;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "freeform_send_period: " << value.toInt() << std::endl;
+            break;
+        case 'w':
+            i+=12;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "freeform_wait_period: " << value.toInt() << std::endl;
+            break;
+        }
+        break;
+    }
+    sp_read();
+}
+
+void ParserBase::sp_fullstate_()
+{
+    QString value("");
+    switch(input[i])
+    {
+    case 'l':
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "fullstate_l: " << value.toInt() << std::endl;
+        break;
+    case 'r':
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "fullstate_r: " << value.toInt() << std::endl;
+        break;
+    }
+    sp_read();
+}
+
+void ParserBase::sp_g()
+{
+    i++;
+    switch(input[i])
+    {
+    case 'a':
+        i+=4;
+        sp_game_();
+        break;
+    case 'o':
+        sp_go();
+        break;
+    }
+}
+
+void ParserBase::sp_game_()
+{
+    QString value("");
+    switch(input[i])
+    {
+    case 'l':
+        i+=4;
+        sp_game_log_();
+        break;
+    case 'o':
+        i+=10;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "game_over_wait: " << value.toInt() << std::endl;
+        break;
+    }
+    sp_read();
+}
+
+void ParserBase::sp_game_log_()
+{
+    QString value("");
+    switch(input[i])
+    {
+    case 'c':
+        i+=12;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "game_log_compression: " << value.toInt() << std::endl;
+        break;
+    case 'd':
+        i++;
+        switch(input[i])
+        {
+        case 'a':
+            i+=5;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "game_log_dated: " << value.toInt() << std::endl;
+            break;
+        case 'i':
+            // TODO : write a string reader
+            i+=3;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "game_log_dir: " << value.toAscii().data() << std::endl;
+            break;
+        }
+        break;
+    case 'f':
+        i+=5;
+        switch(input[i])
+        {
+        case ' ':
+            i++;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "game_log_fixed: " << value.toInt() << std::endl;
+            break;
+        case '_':
+            i+=6;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "game_log_fixed_name: " << value.toAscii().data() << std::endl;
+            break;
+        }
+        break;
+    case 'v':
+        i+=8;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "game_log_version: " << value.toInt() << std::endl;
+        break;
+    }
+    sp_read();
+}
+
+void ParserBase::sp_go()
+{
+    QString value("");
+    i++;
+    switch(input[i])
+    {
+    case 'a':
+        i+=2;
+        switch(input[i])
+        {
+        case '_':
+            i+=7;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "goal_width: " << value.toDouble() << std::endl;
+            break;
+        case 'i':
+            i+=13;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "goalie_max_moves: " << value.toInt() << std::endl;
+
+            break;
+        }
+        break;
+    case 'l':
+        i+=10;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "golden_goal: " << value.toInt() << std::endl;
+        break;
     }
     sp_read();
 }
