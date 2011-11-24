@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     parserbase.cpp \
     parser-init.cpp \
     parser-server-param.cpp \
-    server_param.cpp
+    server_param.cpp \
+    parser-sense_body.cpp
 
 
 HEADERS += \
@@ -39,6 +40,7 @@ HEADERS += \
     parserbase.h \
     server_param.h
 #    parser.h
+
 
 
 

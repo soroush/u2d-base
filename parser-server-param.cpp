@@ -65,6 +65,32 @@ void ParserBase::sp_readParameterName()
     case 'g':
         sp_g();
         break;
+    case 'h':
+        i++;
+        switch(input[i])
+        {
+        case 'a':
+            sp_half_time();
+            break;
+        case 'e':
+            sp_hear_();
+            break;
+        }
+    case 'i':
+        sp_inertia_moment();
+        break;
+    case 'k':
+        i++;
+        switch(input[i])
+        {
+        case 'e':
+            sp_keepaway();
+            break;
+        case 'i':
+            sp_kick();
+            break;
+        }
+        break;
     }
 }
 
@@ -82,16 +108,14 @@ void ParserBase::sp_au()
             i++;
         }
         std::cout << "audio_cut_dist: " << value.toInt() << std::endl;
-
-        sp_read();
         break;
     case 't':
         i+=8;
         std::cout << "auto_mode: " << input[i] << std::endl;
         i++;
-        sp_read();
         break;
     }
+    sp_read();
 }
 
 void ParserBase::sp_ba()
@@ -112,7 +136,6 @@ void ParserBase::sp_ba()
                 i++;
             }
             std::cout << "back_dash_rate: " << value.toDouble() << std::endl;
-            sp_read();
             break;
         case 'p':
             i+=7;
@@ -122,7 +145,6 @@ void ParserBase::sp_ba()
                 i++;
             }
             std::cout << "back_passes: " << value.toInt() << std::endl;
-            sp_read();
             break;
         }
         break;
@@ -132,6 +154,7 @@ void ParserBase::sp_ba()
         // no neet to call sp_read() !
         break;
     }
+    sp_read();
 }
 
 void ParserBase::sp_ball_()
@@ -148,7 +171,6 @@ void ParserBase::sp_ball_()
             i++;
         }
         std::cout << "ball_accel_max: " << value.toDouble() << std::endl;
-        sp_read();
         break;
     case 'd':
         i+=6;
@@ -158,7 +180,6 @@ void ParserBase::sp_ball_()
             i++;
         }
         std::cout << "ball_decay: " << value.toDouble() << std::endl;
-        sp_read();
         break;
     case 'r':
         i+=5;
@@ -168,7 +189,6 @@ void ParserBase::sp_ball_()
             i++;
         }
         std::cout << "ball_rand: " << value.toDouble() << std::endl;
-        sp_read();
         break;
     case 's':
         i++;
@@ -192,7 +212,6 @@ void ParserBase::sp_ball_()
                 i++;
             }
             std::cout << "ball_speed_max: " << value.toInt() << std::endl;
-            sp_read();
             break;
         case 't':
             i+=10;
@@ -202,7 +221,6 @@ void ParserBase::sp_ball_()
                 i++;
             }
             std::cout << "ball_stuck_area: " << value.toInt() << std::endl;
-            sp_read();
             break;
         }
         break;
@@ -214,7 +232,6 @@ void ParserBase::sp_ball_()
             i++;
         }
         std::cout << "ball_weight: " << value.toDouble() << std::endl;
-        sp_read();
         break;
     }
 }
@@ -923,6 +940,295 @@ void ParserBase::sp_go()
             i++;
         }
         std::cout << "golden_goal: " << value.toInt() << std::endl;
+        break;
+    }
+    sp_read();
+}
+
+void ParserBase::sp_half_time()
+{
+    i+=9;
+    QString value("");
+    while(input[i]!=')')
+    {
+        value+=input[i];
+        i++;
+    }
+    std::cout << "half_time: " << value.toInt() << std::endl;
+    sp_read();
+}
+
+void ParserBase::sp_hear_()
+{
+    i+=4;
+    QString value("");
+    switch(input[i])
+    {
+    case 'd':
+        i+=6;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "hear_decay: " << value.toInt() << std::endl;
+        break;
+    case 'i':
+        i+=4;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "hear_inc: " << value.toInt() << std::endl;
+        break;
+    case 'm':
+        i+=4;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "hear_max: " << value.toInt() << std::endl;
+        break;
+    }
+    sp_read();
+}
+
+void ParserBase::sp_inertia_moment()
+{
+    QString value("");
+    i+=15;
+    while(input[i]!=')')
+    {
+        value+=input[i];
+        i++;
+    }
+    std::cout << "inertia_moment: " << value.toInt() << std::endl;
+    sp_read();
+}
+
+void ParserBase::sp_keepaway()
+{
+    QString value("");
+    i+=7;
+    switch(input[i])
+    {
+    case ' ':
+        i++;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "keepaway: " << value.toDouble() << std::endl;
+        sp_read();
+        break;
+    case '_':
+        i++;
+        switch(input[i])
+        {
+        case 'l': // keepaway_[l].*
+            i++;
+            switch(input[i])
+            {
+            case 'e':
+                i+=6;
+                while(input[i]!=')')
+                {
+                    value+=input[i];
+                    i++;
+                }
+                std::cout << "keepaway_length: " << value.toDouble() <<std::endl;
+                sp_read();
+                break;
+            case 'o':
+                i+=2;
+                switch(input[i])
+                {
+                case '_':
+                    i++;
+                    switch(input[i])
+                    {
+                    case 'd':
+                        i++;
+                        sp_keepaway_log_d();
+                      break;
+                    case 'f': // keepaway_log_[f]ixed
+                        i+=5;
+                        switch(input[i])
+                        {
+                        case ' ':
+                            i++;
+                            while(input[i]!=')')
+                            {
+                                value+=input[i];
+                                i++;
+                            }
+                            std::cout << "keepaway_log_fixed: " << value.toInt() << std::endl;
+                            sp_read();
+                            break;
+                        case '_':
+                            i+=6;
+                            while(input[i]!=')')
+                            {
+                                value+=input[i];
+                                i++;
+                            }
+                            std::cout << "keepaway_log_fixed_name: " << value.toAscii().data() << std::endl;
+                            sp_read();
+                            break;
+                        }
+                        break;
+                    }
+                case 'g':
+                    i+=5;
+                    while(input[i]!=')')
+                    {
+                        value+=input[i];
+                        i++;
+                    }
+                    std::cout << "keepaway_logging: " << value.toAscii().data() << std::endl;
+                    sp_read();
+                    break;
+                }
+                break;
+            }
+            break;
+        case 's':
+            i+=6;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "keepaway_start: " << value.toInt() << std::endl;
+            sp_read();
+            break;
+        case 'w':
+            i+=6;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "keepaway_width: " << value.toInt() << std::endl;
+            sp_read();
+            break;
+        }
+        break;
+    }
+}
+
+void ParserBase::sp_keepaway_log_d()
+{
+    QString value("");
+    switch(input[i])
+    {
+    case 'i': // keepaway_log_d[i]r
+        i+=2;
+        value = "";
+        std::cout << "I'm here!" << std::endl;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "keepaway_log_dir: " << value.toAscii().data() << std::endl;
+        sp_read();
+        break;
+    case 'a': // keepaway_log_d[a]ted
+        i+=5;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "keepaway_log_dated: " << value.toInt() << std::endl;
+        sp_read();
+        break;
+    }
+}
+
+void ParserBase::sp_kick()
+{
+    QString value("");
+    i+=3;
+    switch(input[i])
+    {
+    case '_':
+        i++;
+        switch(input[i])
+        {
+        case 'o':
+            i+=9;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "kick_off_wait: " << value.toDouble() << std::endl;
+            break;
+        case 'p':
+            i+=11;
+            while(input[i]!=')')
+            {
+                value+=input[i];
+                i++;
+            }
+            std::cout << "kick_power_rate: " << value.toDouble() << std::endl;
+            break;
+        case 'r':
+            i+=4;
+            switch(input[i])
+            {
+            case ' ':
+                i++;
+                while(input[i]!=')')
+                {
+                    value+=input[i];
+                    i++;
+                }
+                std::cout << "kick_rand: " << value.toDouble() << std::endl;
+                break;
+            case '_':
+                i+=8;
+                switch(input[i])
+                {
+                case 'l':
+                    value="";
+                    i+=2;
+                    while(input[i]!=')')
+                    {
+                        value+=input[i];
+                        i++;
+                    }
+                    std::cout << "kick_rand_factor_l: " << value.toDouble() << std::endl;
+                    break;
+                case 'r':
+                    value="";
+                    i+=2;
+                    while(input[i]!=')')
+                    {
+                        value+=input[i];
+                        i++;
+                    }
+                    std::cout << "kick_rand_factor_r: " << value.toDouble() << std::endl;
+                    break;
+                }
+                break;
+            }
+            break;
+        }
+        break;
+    case 'a':
+        i+=12;
+        while(input[i]!=')')
+        {
+            value+=input[i];
+            i++;
+        }
+        std::cout << "kickable_margin: " << value.toDouble() << std::endl;
         break;
     }
     sp_read();

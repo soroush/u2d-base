@@ -77,7 +77,6 @@ void ParserBase::readPlayMode()
         std::cout << "PlayMode: drop_ball" << std::endl;
         break;
     }
-//    std::cout << "Current: " << input[i] << std::endl;
     i++; // skip )
     start();
 }
