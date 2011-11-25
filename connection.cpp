@@ -64,10 +64,9 @@ void Connection::processData()
              */
 //            std::cout<<counter++<<": "<<std::endl;
 //            std::cout<<buffer<<std::endl;
-            ParserBase parser;
-            parser.input = buffer;
-            parser.i = 0;
-            parser.start();
+            this->agent()->parser.input = buffer;
+            this->agent()->parser.i = 0;
+            this->agent()->parser.start();
         }
         waitForReadyRead();
     }

@@ -3,9 +3,11 @@
 
 #include <QCoreApplication>
 #include "connection.h"
-#include "server_param.h"
+#include "parserbase.h"
+#include "sensor.h"
 
 class Connection;
+class ParserBase;
 
 class Agent : public QCoreApplication
 {
@@ -14,7 +16,8 @@ public:
     explicit Agent(int argc, char *argv[]);
     QString teamName;
     Connection connection;
-    server_param server_param_sensor;
+    ParserBase parser;
+    Sensor sensors;
 signals:
 
 public slots:

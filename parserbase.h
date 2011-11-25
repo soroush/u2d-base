@@ -3,11 +3,15 @@
 
 #include <QObject>
 
+class Agent;
+
 class ParserBase : public QObject
 {
     Q_OBJECT
 public:
     explicit ParserBase(QObject *parent = 0);
+    // parent:
+    Agent* agent;
     char* input;
     int size;
     int i;      // index

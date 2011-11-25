@@ -14,7 +14,8 @@ Agent::Agent(int argc, char *argv[]) :
     if(argc > 3)
         connection.portNumber = atoi(argv[3]);
     // Initializing teammate:
-    std::cout << "Team name:\t" << teamName.toStdString() << std::endl;
+    std::cout << "Team name:\t" << teamName.toAscii().data() << std::endl;
+    parser.agent = this;
     connection.initialize();
 }
 // add a comment here
