@@ -5,7 +5,7 @@
 
 class Agent;
 
-class Connection : private QUdpSocket
+class Connection : public QUdpSocket
 {
     Q_OBJECT
 public:

@@ -40,6 +40,7 @@ void ParserBase::readSensorName()
             {
             case 'e': // see
 //                std::cout << "seen see at "<< i << std::endl;
+                ss_startRead();
                 break;
             case 'n': // sense_body
                 i+=9;

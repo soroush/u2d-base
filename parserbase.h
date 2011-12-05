@@ -79,6 +79,9 @@ public:
     void sb_foul();
     void sb_foul_charged();
     void sb_foul_card();
+    // see
+    void ss_startRead();
+    void ss_readParameter();
 signals:
 
 public slots:

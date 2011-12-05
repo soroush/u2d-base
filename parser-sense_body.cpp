@@ -16,7 +16,7 @@ void ParserBase::sb_startRead()
     }
     value[j]='\0';
     agent->sensors.body.time = atoi(value);
-    std::cout << "agent->sensors.body.time: " << agent->sensors.body.time << std::endl;
+    //std::cout << "agent->sensors.body.time: " << agent->sensors.body.time << std::endl;
     // reading parameters by order
     sb_view_mode();
     sb_stamina();
@@ -45,12 +45,12 @@ void ParserBase::sb_view_mode()
     case 'h':
         i+=5;
         agent->sensors.body.view_mode.type = high;
-        // std::cout << "view_mode: high ";
+        //std::cout << "view_mode: high ";
         break;
     case 'l':
         i+=4;
         agent->sensors.body.view_mode.type = low;
-        // std::cout << "view_mode: low ";
+        //std::cout << "view_mode: low ";
         break;
     }
     switch(input[i])
@@ -62,19 +62,19 @@ void ParserBase::sb_view_mode()
         case 'a':
             i+=6;
             agent->sensors.body.view_mode.width = narrow;
-            // std::cout << "narrow " << std::endl;
+            //std::cout << "narrow " << std::endl;
             break;
         case 'o':
             i+=6;
             agent->sensors.body.view_mode.width = normal_w;
-            // std::cout << "normal " << std::endl;
+            //std::cout << "normal " << std::endl;
             break;
         }
         break;
     case 'w':
         i+=5;
         agent->sensors.body.view_mode.width = wide;
-        // std::cout << "wide " << std::endl;
+        //std::cout << "wide " << std::endl;
         break;
     }
     ++i;
@@ -97,7 +97,7 @@ void ParserBase::sb_stamina()
     //agent->sensors.body.stamina = t_stamina();
     double z=atof(value);
     agent->sensors.body.stamina.stamina = z;
-    std::cout << "agent->sensors.body.stamina.stamina: " << agent->sensors.body.stamina.stamina << std::endl;
+    //std::cout << "agent->sensors.body.stamina.stamina: " << agent->sensors.body.stamina.stamina << std::endl;
     ++i;
     k=0;
     while(input[i]!=' ')
@@ -109,7 +109,7 @@ void ParserBase::sb_stamina()
     value[k]='\0';
     z=atof(value);
     agent->sensors.body.stamina.effort = z;
-    std::cout << "agent->sensors.body.stamina.effort: " << agent->sensors.body.stamina.effort << std::endl;
+    //std::cout << "agent->sensors.body.stamina.effort: " << agent->sensors.body.stamina.effort << std::endl;
     ++i;
     k=0;
     while(input[i]!=')')
@@ -121,7 +121,7 @@ void ParserBase::sb_stamina()
     value[k]='\0';
     z=atof(value);
     agent->sensors.body.stamina.capacity = z;
-    std::cout << "agent->sensors.body.stamina.capacity: " << agent->sensors.body.stamina.capacity << std::endl;
+    //std::cout << "agent->sensors.body.stamina.capacity: " << agent->sensors.body.stamina.capacity << std::endl;
     ++i;
 }
 
@@ -137,7 +137,7 @@ void ParserBase::sb_speed()
     }
     value[j]=0;
     double distance = atof(value);
-    // std::cout << "speed: " << value.toDouble();
+    //std::cout << "speed: " << value.toDouble();
     ++i;
     j=0;
     while(input[i]!=')')
@@ -148,7 +148,7 @@ void ParserBase::sb_speed()
     value[j]=0;
     double direction = atof(value);
     agent->sensors.body.speed = QPointF(distance,direction);
-    std::cout << "agent->sensors.body.speed: " << agent->sensors.body.speed.x() << agent->sensors.body.speed.y() << std::endl;
+    //std::cout << "agent->sensors.body.speed: " << agent->sensors.body.speed.x() << agent->sensors.body.speed.y() << std::endl;
     ++i;
 }
 
@@ -165,7 +165,7 @@ void ParserBase::sb_head_angle()
     }
     value[j]='\0';
     agent->sensors.body.head_angle = atof(value);
-    std::cout << "agent->sensors.body.head_angle: " << agent->sensors.body.head_angle << std::endl;
+    //std::cout << "agent->sensors.body.head_angle: " << agent->sensors.body.head_angle << std::endl;
     ++i;
 }
 
@@ -182,7 +182,7 @@ void ParserBase::sb_kick()
     }
     value[j]='\0';
     agent->sensors.body.kick = atoi(value);
-    std::cout << "agent->sensors.body.kick: " << agent->sensors.body.kick << std::endl;
+    //std::cout << "agent->sensors.body.kick: " << agent->sensors.body.kick << std::endl;
     ++i;
 }
 
@@ -199,7 +199,7 @@ void ParserBase::sb_dash()
     }
     value[j]='\0';
     agent->sensors.body.dash = atoi(value);
-    std::cout << "agent->sensors.body.dash: " << agent->sensors.body.dash << std::endl;
+    //std::cout << "agent->sensors.body.dash: " << agent->sensors.body.dash << std::endl;
     ++i;
 }
 
@@ -216,7 +216,7 @@ void ParserBase::sb_turn()
     }
     value[j]='\0';
     agent->sensors.body.turn = atoi(value);
-    std::cout << "agent->sensors.body.turn: " << agent->sensors.body.turn << std::endl;
+    //std::cout << "agent->sensors.body.turn: " << agent->sensors.body.turn << std::endl;
     ++i;
 }
 
@@ -233,7 +233,7 @@ void ParserBase::sb_say()
     }
     value[j]='\0';
     agent->sensors.body.say = atoi(value);
-    std::cout << "agent->sensors.body.say: " << agent->sensors.body.say << std::endl;
+    //std::cout << "agent->sensors.body.say: " << agent->sensors.body.say << std::endl;
     ++i;
 }
 
@@ -250,7 +250,7 @@ void ParserBase::sb_turn_neck()
     }
     value[j]='\0';
     agent->sensors.body.turn_neck = atoi(value);
-    std::cout << "agent->sensors.body.turn_neck: " << agent->sensors.body.turn_neck << std::endl;
+    //std::cout << "agent->sensors.body.turn_neck: " << agent->sensors.body.turn_neck << std::endl;
     ++i;
 }
 
@@ -267,7 +267,7 @@ void ParserBase::sb_catch()
     }
     value[j]='\0';
     agent->sensors.body.catch_ = atoi(value);
-    std::cout << "agent->sensors.body.catch_: " << agent->sensors.body.catch_ << std::endl;
+    //std::cout << "agent->sensors.body.catch_: " << agent->sensors.body.catch_ << std::endl;
     ++i;
 }
 
@@ -284,7 +284,7 @@ void ParserBase::sb_move()
     }
     value[j]='\0';
     agent->sensors.body.move = atoi(value);
-    std::cout << "agent->sensors.body.move: " << agent->sensors.body.move << std::endl;
+    //std::cout << "agent->sensors.body.move: " << agent->sensors.body.move << std::endl;
     ++i;
 }
 
@@ -301,7 +301,7 @@ void ParserBase::sb_change_view()
     }
     value[j]='\0';
     agent->sensors.body.change_view = atoi(value);
-    std::cout << "agent->sensors.body.change_view: " << agent->sensors.body.change_view << std::endl;
+    //std::cout << "agent->sensors.body.change_view: " << agent->sensors.body.change_view << std::endl;
     ++i;
 }
 
@@ -331,7 +331,7 @@ void ParserBase::sb_arm_movable()
     }
     value[j]='\0';
     agent->sensors.body.arm.movable = atoi(value);
-    std::cout << "agent->sensors.body.movable: " << agent->sensors.body.arm.movable << std::endl;
+    //std::cout << "agent->sensors.body.movable: " << agent->sensors.body.arm.movable << std::endl;
     ++i;
 }
 
@@ -348,7 +348,7 @@ void ParserBase::sb_arm_expires()
     }
     value[j]='\0';
     agent->sensors.body.arm.expires = atoi(value);
-    std::cout << "agent->sensors.body.expires: " << agent->sensors.body.arm.expires << std::endl;
+    //std::cout << "agent->sensors.body.expires: " << agent->sensors.body.arm.expires << std::endl;
     ++i;
 }
 
@@ -376,9 +376,7 @@ void ParserBase::sb_arm_target()
     value[j]='\0';
     double direction = atof(value);
     agent->sensors.body.arm.target = QPointF(distance,direction);
-    std::cout << "agent->sensors.body.arm.target: " <<
-                 agent->sensors.body.arm.target.x() << '-' <<
-                 agent->sensors.body.arm.target.y() << std::endl;
+    //std::cout << "agent->sensors.body.arm.target: " << agent->sensors.body.arm.target.x() << '-' << agent->sensors.body.arm.target.y() << std::endl;
     ++i;
 }
 
@@ -395,7 +393,7 @@ void ParserBase::sb_arm_count()
     }
     value[j]='\0';
     agent->sensors.body.arm.count = atoi(value);
-    std::cout << "agent->sensors.body.expires: " << agent->sensors.body.arm.count << std::endl;
+    //std::cout << "agent->sensors.body.expires: " << agent->sensors.body.arm.count << std::endl;
     ++i;
 }
 
@@ -417,7 +415,7 @@ void ParserBase::sb_focus_target()
     case 'n':
         i+=4;
         agent->sensors.body.focus.type = t_focus::none;
-        std::cout << "agent->sensors.body.focus.type: none" << std::endl;
+        //std::cout << "agent->sensors.body.focus.type: none" << std::endl;
         break;
     case 'l':
         i+=2;
@@ -431,9 +429,7 @@ void ParserBase::sb_focus_target()
         value[j]='\0';
         agent->sensors.body.focus.type = t_focus::l;
         agent->sensors.body.focus.unum = atoi(value);
-        std::cout << "focus::target: l - "
-                  << agent->sensors.body.focus.unum
-                  << std::endl;
+        //std::cout << "focus::target: l - " << agent->sensors.body.focus.unum << std::endl;
         break;
     case 'r':
         j=0;
@@ -447,9 +443,7 @@ void ParserBase::sb_focus_target()
         value[j]='\0';
         agent->sensors.body.focus.type = t_focus::l;
         agent->sensors.body.focus.unum = atoi(value);
-        std::cout << "focus::target: r - "
-                  << agent->sensors.body.focus.unum
-                  << std::endl;
+        //std::cout << "focus::target: r - " << agent->sensors.body.focus.unum << std::endl;
         break;
     }
     ++i;
@@ -468,7 +462,7 @@ void ParserBase::sb_focus_count()
     }
     value[j]='\0';
     agent->sensors.body.focus.count = atoi(value);
-    std::cout << "agent->sensors.body.focus.count: " << agent->sensors.body.focus.count << std::endl;
+    //std::cout << "agent->sensors.body.focus.count: " << agent->sensors.body.focus.count << std::endl;
     ++i;
 }
 
@@ -493,7 +487,7 @@ void ParserBase::sb_tackle_expires()
     }
     value[j]='\0';
     agent->sensors.body.tackle.expires = atoi(value);
-    std::cout << "agent->sensors.body.tackle.expires: " << agent->sensors.body.tackle.expires << std::endl;
+    //std::cout << "agent->sensors.body.tackle.expires: " << agent->sensors.body.tackle.expires << std::endl;
     ++i;
 }
 
@@ -510,7 +504,7 @@ void ParserBase::sb_tackle_count()
     }
     value[j]='\0';
     agent->sensors.body.tackle.count = atoi(value);
-    std::cout << "agent->sensors.body.tackle.count: " << agent->sensors.body.tackle.count << std::endl;
+    //std::cout << "agent->sensors.body.tackle.count: " << agent->sensors.body.tackle.count << std::endl;
     ++i;
 }
 
@@ -524,7 +518,7 @@ void ParserBase::sb_collision()
         {
         case 'n': // none
             agent->sensors.body.collition.type |= t_collition::none;
-            std::cout << "agent->sensors.body.collition.type: " << agent->sensors.body.collition.type << std::endl;
+            //std::cout << "agent->sensors.body.collition.type: " << agent->sensors.body.collition.type << std::endl;
             i+=5;
             break;
         case '(':
@@ -534,7 +528,7 @@ void ParserBase::sb_collision()
             case 'b':
                 i+=5;
                 agent->sensors.body.collition.type |= t_collition::ball;
-                std::cout << "agent->sensors.body.collition.type: " << agent->sensors.body.collition.type << std::endl;                break;
+                //std::cout << "agent->sensors.body.collition.type: " << agent->sensors.body.collition.type << std::endl;                break;
             case 'p':
                 ++i;
                 switch(input[i])
@@ -542,11 +536,11 @@ void ParserBase::sb_collision()
                 case 'l':
                     i+=6;
                     agent->sensors.body.collition.type |= t_collition::player;
-                    std::cout << "agent->sensors.body.collition.type: " << agent->sensors.body.collition.type << std::endl;                    break;
+                    //std::cout << "agent->sensors.body.collition.type: " << agent->sensors.body.collition.type << std::endl;                    break;
                 case 'o':
                     i+=5;
                     agent->sensors.body.collition.type |= t_collition::post;
-                    std::cout << "agent->sensors.body.collition.type: " << agent->sensors.body.collition.type << std::endl;                    break;
+                    //std::cout << "agent->sensors.body.collition.type: " << agent->sensors.body.collition.type << std::endl;                    break;
                 }
                 break;
             }
@@ -577,7 +571,7 @@ void ParserBase::sb_foul_charged()
     }
     value[j]='\0';
     agent->sensors.body.foul.charged = atoi(value);
-    std::cout << "agent->sensors.body.foul.charged: " << agent->sensors.body.foul.charged << std::endl;
+    //std::cout << "agent->sensors.body.foul.charged: " << agent->sensors.body.foul.charged << std::endl;
     ++i;
 }
 
@@ -589,12 +583,12 @@ void ParserBase::sb_foul_card()
     case 'n':
         i+=4;
         agent->sensors.body.foul.card = t_foul::none;
-        std::cout << "agent->sensors.body.foul.card: " << agent->sensors.body.foul.card << std::endl;
+        //std::cout << "agent->sensors.body.foul.card: " << agent->sensors.body.foul.card << std::endl;
         break;
     case 'y':
         i+=6;
         agent->sensors.body.foul.card = t_foul::yellow;
-        std::cout << "agent->sensors.body.foul.card: " << agent->sensors.body.foul.card << std::endl;
+        //std::cout << "agent->sensors.body.foul.card: " << agent->sensors.body.foul.card << std::endl;
         break;
     }
     ++i;
