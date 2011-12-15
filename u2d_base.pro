@@ -30,9 +30,9 @@ SOURCES += main.cpp \
     see.cpp \
     parser-server_param.cpp \
     parser-sense_body.cpp \
-    parser-see.cpp \
     parser-player_param.cpp \
-    parser-player_type.cpp
+    parser-player_type.cpp \
+    parser-see.cpp
 
 
 HEADERS += \
@@ -45,6 +45,8 @@ HEADERS += \
     server_param.h \
     see.h
 #    parser.h
+
+
 
 
 

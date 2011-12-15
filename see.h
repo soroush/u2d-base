@@ -3,127 +3,133 @@
 
 #include <QList>
 
-struct flag_t
+struct objectType
 {
     double x;
     double y;
-}
-gl={-52.5,0},
-gr={+52.5,0},
-fc={0.0,0.0},
-flt={-52.5,-34},
-flb={-52.5,+34},
-fct={0,-34},
-fcb={0,+34},
-frt={+52.5,-34},
-frb={+52.5,+34},
-fplt,
-fplc,
-fplb,
-fprt,
-fprc,
-fprb,
-fglt,
-fglb,
-fgrt,
-fgrb,
-fl0,
-fr0,
-ft0,
-fb0,
-ftl10,
-ftl20,
-ftl30,
-ftl40,
-ftl50,
-ftr10,
-ftr20,
-ftr30,
-ftr40,
-ftr50,
-fbl10,
-fbl20,
-fbl30,
-fbl40,
-fbl50,
-fbr10,
-fbr20,
-fbr30,
-fbr40,
-fbr50,
-flt10,
-flt20,
-flt30,
-flb10,
-flb20,
-flb30,
-frt10,
-frt20,
-frt30,
-frb10,
-frb20,
-frb30,
-ll,
-lr,
-lt,
-lb;
-
-struct player_t1
-{
-    char* teamName;
-    unsigned short uniform;
-    player_t1():
-        teamName(new char[10]),
-        uniform(0)
-    {}
+    static objectType ball ;
+    static objectType B    ;
+    static objectType F    ;
+    static objectType G    ;
+    static objectType gl   ;
+    static objectType gr   ;
+    static objectType fc   ;
+    static objectType flt  ;
+    static objectType flb  ;
+    static objectType fct  ;
+    static objectType fcb  ;
+    static objectType frt  ;
+    static objectType frb  ;
+    static objectType fplt ;
+    static objectType fplc ;
+    static objectType fplb ;
+    static objectType fprt ;
+    static objectType fprc ;
+    static objectType fprb ;
+    static objectType fglt ;
+    static objectType fglb ;
+    static objectType fgrt ;
+    static objectType fgrb ;
+    static objectType fl0  ;
+    static objectType fr0  ;
+    static objectType ft0  ;
+    static objectType fb0  ;
+    static objectType ftl10;
+    static objectType ftl20;
+    static objectType ftl30;
+    static objectType ftl40;
+    static objectType ftl50;
+    static objectType ftr10;
+    static objectType ftr20;
+    static objectType ftr30;
+    static objectType ftr40;
+    static objectType ftr50;
+    static objectType fbl10;
+    static objectType fbl20;
+    static objectType fbl30;
+    static objectType fbl40;
+    static objectType fbl50;
+    static objectType fbr10;
+    static objectType fbr20;
+    static objectType fbr30;
+    static objectType fbr40;
+    static objectType fbr50;
+    static objectType flt10;
+    static objectType flt20;
+    static objectType flt30;
+    static objectType flb10;
+    static objectType flb20;
+    static objectType flb30;
+    static objectType frt10;
+    static objectType frt20;
+    static objectType frt30;
+    static objectType frb10;
+    static objectType frb20;
+    static objectType frb30;
+    static objectType ll;
+    static objectType lr;
+    static objectType lt;
+    static objectType lb;
+    static objectType p;
+    static objectType P;
 };
 
-struct see_t6
+struct objectData
 {
-    player_t1 player;
+    enum parameterCountType{P2,P4,P6};
+    parameterCountType parameterCount;
     double distance;
     double direction;
     double distChange;
     double dirChange;
     double bodyFacingDir;
     double headFacingDir;
-    see_t6():
-        player(player_t1()),
-        distance(0),
-        direction(0),
-        distChange(0),
-        dirChange(0),
-        bodyFacingDir(0),
-        headFacingDir(0)
-    {}
+public:
+    objectData();
+    objectData(double p_distance,
+               double p_direction,
+               double p_distChange,
+               double p_dirChange,
+               double p_bodyFacingDir,
+               double p_headFacingDir );
+    objectData(double p_distance,
+               double p_direction,
+               double p_distChange,
+               double p_dirChange);
+    objectData(double p_distance,
+               double p_direction);
 };
 
-struct see_t4
+
+struct playerData : public objectData
 {
-    double distance;
-    double direction;
-    double distChange;
-    double dirChange;
-    see_t4():
-        distance(0),
-        direction(0),
-        distChange(0),
-        dirChange(0)
-    {}
+    char* teamName;
+    unsigned short uniform;
+    bool goalie;
+    playerData();
+    playerData(double distance, double direction);
+    playerData(char* _teamName, double distance, double direction);
+    playerData(char* _teamName,
+               int uniform,
+               bool goalie,
+               double distance, double direction,
+               double distChange, double dirChange,
+               double bodyFacingDir, double headFacingDir);
 };
 
-struct see_t2
+struct object
 {
-    double distance;
-    double direction;
-    see_t2():
-        distance(0),
-        direction(0)
-    {}
+    objectType* type;
+    objectData* data;
+public:
+    object(objectType* _type, objectData* _data);
 };
 
 struct see
 {
+public:
+    static QList<object*> seeingObjects;
+    static int time;
 };
 
 #endif // SEE_H

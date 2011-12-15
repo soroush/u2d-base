@@ -2,6 +2,7 @@
 #include <QString>
 #include "parserbase.h"
 #include "agent.h"
+#include "see.h"
 
 void ParserBase::ss_startRead()
 {
@@ -15,9 +16,8 @@ void ParserBase::ss_startRead()
         ++j;
     }
     value[j]='\0';
-    int time;
-    time = atoi(value);
-    std::cout << "time: " << time << std::endl;
+    see::time = atoi(value);
+    std::cout << "time: " << see::time << std::endl;
     while(input[i]!=')')
         ss_readParameter();
 }
@@ -26,10 +26,15 @@ void ParserBase::ss_readParameter()
 {
     ++i; // pass the ' '
     int j=0;
-    double distance=0, direction=0, distanceChange=0, directionChange=0, bodyFacingDir=0, HeadFacingDir=0;
+    double distance=0, direction=0, distanceChange=0, directionChange=0, bodyFacingDir=0, headFacingDir=0;
     bool goalie = false;
     char value[5];
     char teamName[50];
+    object *seeingObject;
+    objectData* data;
+    // TEST
+    playerData* test;
+    // END OF TEST
     switch(input[i])
     {
     case '(':
@@ -73,7 +78,12 @@ void ParserBase::ss_readParameter()
                         // then we can should read remaining two parameters
                         if(input[i]==')')
                         {
-                            std::cout << "seen flag (f c) "<< distance << "   " << direction << std::endl;
+                            data = new objectData(distance,direction);
+                            seeingObject = new object(&objectType::fc, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fc:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << std::endl;
                             break;
                         }
                         j=0;
@@ -96,7 +106,14 @@ void ParserBase::ss_readParameter()
                         }
                         value[j]='\0';
                         directionChange = atof(value);
-                        std::cout << "seen flag (f c) "<< distance << "   " << direction<< distanceChange << "   " << directionChange << std::endl;
+                        data = new objectData(distance,direction,distanceChange,directionChange);
+                        seeingObject = new object(&objectType::fc, data);
+                        see::seeingObjects.append(seeingObject);
+                        std::cout << "fc:"
+                                  << see::seeingObjects.last()->data->distance << " "
+                                  << see::seeingObjects.last()->data->direction << " "
+                                  << see::seeingObjects.last()->data->distChange << " "
+                                  << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                         break;
                     case ' ': // '(f c '
                         ++i;
@@ -126,7 +143,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f c t) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fct, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fct: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -149,7 +171,15 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f c t) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fct, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fct:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
+                            break;
                         case 'b': // (f c b)
                             i+=3;
                             j=0;
@@ -173,7 +203,13 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f c b) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fcb, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fcb: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
+                                //std::cout << "seen flag (f c b) "<< distance << "   " << direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -196,7 +232,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f c b) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fct, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fcb:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         }
                         break;
@@ -235,7 +278,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f r t) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::frt, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "frt: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -258,7 +306,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f r t) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::frt, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "frt:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case ' ':
                             ++i;
@@ -289,7 +344,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f r t 10) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::frt10, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "frt10: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -312,7 +372,14 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f r t 10) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::frt10, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "frt10:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                                 break;
                             case '2':
                                 i+=4;
@@ -336,7 +403,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f r t 20) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::frt20, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "frt20: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -359,7 +431,15 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f r t 20) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::frt20, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "frt20:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
+                                //std::cout << "seen flag (f r t 20) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
                                 break;
                                 //
                             case '3':
@@ -385,7 +465,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f r t 30) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::frt, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "frt: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -408,103 +493,14 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f r t 30) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-                                break;
-                            case '4':
-                                i+=4;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distance = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ' && input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                direction = atof(value);
-                                if(input[i]==')')
-                                {
-                                    std::cout << "seen flag (f r t 40) "<< distance << "   " << direction << std::endl;
-                                    break;
-                                }
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distanceChange = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                directionChange = atof(value);
-                                std::cout << "seen flag (f r t 40) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-                                break;
-                            case '5':
-                                i+=4;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distance = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ' && input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                direction = atof(value);
-                                if(input[i]==')')
-                                {
-                                    std::cout << "seen flag (f r t 50) "<< distance << "   " << direction << std::endl;
-                                    break;
-                                }
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distanceChange = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                directionChange = atof(value);
-                                std::cout << "seen flag (f r t 50) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::frt, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "frt:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                                 break;
                             }
                             break;
@@ -537,7 +533,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f r b) "<< distance << "   " << direction << "   " <<std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::frb, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "frb: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -560,7 +561,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f r b) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::frb, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "frb:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case ' ':
                             ++i;
@@ -591,7 +599,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f r b 10) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::frb10, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "frb10: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -614,7 +627,14 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f r b 10) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::frb10, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "frb10:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                                 break;
                             case '2':
                                 i+=4;
@@ -639,7 +659,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f r b 20) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::frb20, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "frb20: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -662,7 +687,15 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f r b 20) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::frb20, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "frb20:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
+                                //std::cout << "seen flag (f r b 20) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
                                 break;
                                 //
                             case '3':
@@ -688,7 +721,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f r b 30) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::frb30, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "frb30: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -711,103 +749,14 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f r b 30) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-                                break;
-                            case '4':
-                                i+=4;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distance = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ' && input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                direction = atof(value);
-                                if(input[i]==')')
-                                {
-                                    std::cout << "seen flag (f r b 40) "<< distance << "   " << direction << std::endl;
-                                    break;
-                                }
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distanceChange = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                directionChange = atof(value);
-                                std::cout << "seen flag (f r b 40) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-                                break;
-                            case '5':
-                                i+=4;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distance = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ' && input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                direction = atof(value);
-                                if(input[i]==')')
-                                {
-                                    std::cout << "seen flag (f r b 50) "<< distance << "   " << direction << std::endl;
-                                    break;
-                                }
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distanceChange = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                directionChange = atof(value);
-                                std::cout << "seen flag (f r b 50) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::frb30, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "frb30:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                                 break;
                             }
                             break;
@@ -836,7 +785,12 @@ void ParserBase::ss_readParameter()
                         direction = atof(value);
                         if(input[i]==')')
                         {
-                            std::cout << "seen flag (f r 0) "<< distance << "   " << direction << "   " <<std::endl;
+                            data = new objectData(distance,direction);
+                            seeingObject = new object(&objectType::fr0, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fr0: "
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << std::endl;
                             break;
                         }
                         ++i;
@@ -859,7 +813,14 @@ void ParserBase::ss_readParameter()
                         }
                         value[j]='\0';
                         directionChange = atof(value);
-                        std::cout << "seen flag (f r 0) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                        data = new objectData(distance,direction,distanceChange,directionChange);
+                        seeingObject = new object(&objectType::fr0, data);
+                        see::seeingObjects.append(seeingObject);
+                        std::cout << "fr0:"
+                                  << see::seeingObjects.last()->data->distance << " "
+                                  << see::seeingObjects.last()->data->direction << " "
+                                  << see::seeingObjects.last()->data->distChange << " "
+                                  << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                         break;
                     }
                     break;
@@ -896,7 +857,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f l t) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::flt, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "flt: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -919,7 +885,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f l t) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::flt, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "flt:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case ' ':
                             ++i;
@@ -950,7 +923,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f l t 10) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::flt10, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "flt10: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -973,7 +951,14 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f l t 10) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::flt10, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "flt10:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                                 break;
                             case '2':
                                 i+=4;
@@ -999,7 +984,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f l t 20) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::flt20, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "flt20: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -1022,7 +1012,14 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f l t 20) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::flt20, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "flt20:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                                 break;
                                 //
                             case '3':
@@ -1048,7 +1045,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f l t 30) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::flt30, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "flt30: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -1071,103 +1073,14 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f l t 30) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-                                break;
-                            case '4':
-                                i+=4;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distance = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ' && input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                direction = atof(value);
-                                if(input[i]==')')
-                                {
-                                    std::cout << "seen flag (f l t 40) "<< distance << "   " << direction << std::endl;
-                                    break;
-                                }
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distanceChange = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                directionChange = atof(value);
-                                std::cout << "seen flag (f l t 40) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-                                break;
-                            case '5':
-                                i+=4;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distance = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ' && input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                direction = atof(value);
-                                if(input[i]==')')
-                                {
-                                    std::cout << "seen flag (f l t 50) "<< distance << "   " << direction << std::endl;
-                                    break;
-                                }
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distanceChange = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                directionChange = atof(value);
-                                std::cout << "seen flag (f l t 50) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::flt30, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "flt30:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                                 break;
                             }
                             break;
@@ -1200,7 +1113,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f l b) "<< distance << "   " << direction << "   " <<std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::flb, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "flb: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -1223,7 +1141,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f l b) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::flb, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "flb:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case ' ':
                             ++i;
@@ -1254,7 +1179,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f l b 10) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::flb10, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "flb10: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -1277,7 +1207,14 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f l b 10) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::flb10, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "flb10:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                                 break;
                             case '2':
                                 i+=4;
@@ -1302,7 +1239,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f l b 20) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::flb20, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "flb20: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -1325,7 +1267,14 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f l b 20) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::flb20, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "flb20:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                                 break;
                                 //
                             case '3':
@@ -1351,7 +1300,12 @@ void ParserBase::ss_readParameter()
                                 direction = atof(value);
                                 if(input[i]==')')
                                 {
-                                    std::cout << "seen flag (f l b 30) "<< distance << "   " << direction << std::endl;
+                                    data = new objectData(distance,direction);
+                                    seeingObject = new object(&objectType::flb30, data);
+                                    see::seeingObjects.append(seeingObject);
+                                    std::cout << "flb30: "
+                                              << see::seeingObjects.last()->data->distance << " "
+                                              << see::seeingObjects.last()->data->direction << std::endl;
                                     break;
                                 }
                                 ++i;
@@ -1374,101 +1328,14 @@ void ParserBase::ss_readParameter()
                                 }
                                 value[j]='\0';
                                 directionChange = atof(value);
-                                std::cout << "seen flag (f l b 30) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-                                break;
-                            case '4':
-                                i+=4;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distance = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ' && input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                direction = atof(value);
-                                if(input[i]==')')
-                                {
-                                    std::cout << "seen flag (f l b 40) "<< distance << "   " << direction << std::endl;
-                                    break;
-                                }
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distanceChange = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                directionChange = atof(value);
-                                std::cout << "seen flag (f l b 40) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-                                break;
-                            case '5':
-                                i+=4;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distance = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ' && input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                direction = atof(value);
-                                if(input[i]==')')
-                                {
-                                    std::cout << "seen flag (f l b 50) "<< distance << "   " << direction << std::endl;
-                                    break;
-                                }
-                                ++i;
-                                j=0;
-                                while(input[i]!=' ')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                distanceChange = atof(value);
-                                ++i;
-                                j=0;
-                                while(input[i]!=')')
-                                {
-                                    value[j] = input[i];
-                                    ++i;
-                                    ++j;
-                                }
-                                value[j]='\0';
-                                directionChange = atof(value);
-                                std::cout << "seen flag (f l b 50) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                                data = new objectData(distance,direction,distanceChange,directionChange);
+                                seeingObject = new object(&objectType::flb30, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "flb30:"
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << " "
+                                          << see::seeingObjects.last()->data->distChange << " "
+                                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                                 break;
                             }
                             break;
@@ -1496,7 +1363,12 @@ void ParserBase::ss_readParameter()
                         direction = atof(value);
                         if(input[i]==')')
                         {
-                            std::cout << "seen flag (f l 0) "<< distance << "   " << direction << "   " <<std::endl;
+                            data = new objectData(distance,direction);
+                            seeingObject = new object(&objectType::fl0, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fl0: "
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << std::endl;
                             break;
                         }
                         ++i;
@@ -1519,7 +1391,14 @@ void ParserBase::ss_readParameter()
                         }
                         value[j]='\0';
                         directionChange = atof(value);
-                        std::cout << "seen flag (f l 0) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                        data = new objectData(distance,direction,distanceChange,directionChange);
+                        seeingObject = new object(&objectType::fl0, data);
+                        see::seeingObjects.append(seeingObject);
+                        std::cout << "fl0:"
+                                  << see::seeingObjects.last()->data->distance << " "
+                                  << see::seeingObjects.last()->data->direction << " "
+                                  << see::seeingObjects.last()->data->distChange << " "
+                                  << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                         break;
                     }
                     break;
@@ -1553,7 +1432,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f p l t) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fplt, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fplt: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -1576,7 +1460,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f p l t) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fplt, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fplt:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case 'c':
                             i+=3;
@@ -1600,7 +1491,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f p l c) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fplc, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fplc: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -1623,8 +1519,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f p l c) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fplc, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fplc:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case 'b':
                             i+=3;
@@ -1648,7 +1550,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f p l b) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fplb, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fplb: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -1671,7 +1578,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f p l b) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fplb, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fplb:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         }
                         break;
@@ -1701,7 +1615,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f p r t) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fprt, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fprt: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -1724,7 +1643,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f p r t) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fprt, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fprt:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case 'c':
                             i+=3;
@@ -1748,7 +1674,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f p r c) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fprc, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fprc: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -1771,8 +1702,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f p r c) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fprc, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fprc:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case 'b':
                             i+=3;
@@ -1796,7 +1733,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f p r b) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fprb, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fprb: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -1819,7 +1761,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f p r b) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fprb, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fprb:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         }
                         break;
@@ -1855,7 +1804,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f g l t) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fglt, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fglt: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -1878,7 +1832,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f g l t) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fglt, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fglt:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case 'b':
                             i+=3;
@@ -1902,7 +1863,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f g l b) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fglb, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fglb: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -1925,7 +1891,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f g l b) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fglb, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fglb:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         }
                         break;
@@ -1955,7 +1928,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f g r t) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fgrt, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fgrt: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -1978,7 +1956,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f g r t) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fgrt, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fgrt:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case 'b':
                             i+=3;
@@ -2002,7 +1987,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f g r b) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fgrb, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fgrb: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2025,7 +2015,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f g r b) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fgrb, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fgrb:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         }
                         break;
@@ -2063,7 +2060,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f t l 10) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::ftl10, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "ftl10: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2086,7 +2088,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f t l 10) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::ftl10, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "ftl10:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case '2':
                             i+=4;
@@ -2110,7 +2119,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f t l 20) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::ftl20, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "ftl20: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2133,9 +2147,15 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f t l 20) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::ftl20, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "ftl20:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
-                            //
                         case '3':
                             i+=4;
                             while(input[i]!=' ')
@@ -2158,7 +2178,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f t l 30) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::ftl30, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "ftl30: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2181,7 +2206,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f t l 30) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::ftl30, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "ftl30:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case '4':
                             i+=4;
@@ -2205,7 +2237,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f t l 40) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::ftl40, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "ftl40: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2228,7 +2265,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f t l 40) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::ftl40, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "ftl40:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case '5':
                             i+=4;
@@ -2252,7 +2296,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f t l 50) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::ftl50, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "ftl50: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2275,7 +2324,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f t l 50) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::ftl50, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "ftl50:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case 'b':
                             break;
@@ -2309,7 +2365,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f t r 10) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::ftr10, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "ftr10: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2332,7 +2393,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f t r 10) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::ftr10, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "ftr10:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case '2':
                             i+=4;
@@ -2356,7 +2424,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f t r 20) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::ftr20, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "ftr20: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2379,9 +2452,15 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f t r 20) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::ftr20, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "ftr20:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
-                            //
                         case '3':
                             i+=4;
                             while(input[i]!=' ')
@@ -2404,7 +2483,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f t r 30) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::ftr30, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "ftr30: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2427,7 +2511,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f t r 30) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::ftr30, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "ftr30:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case '4':
                             i+=4;
@@ -2451,7 +2542,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f t r 40) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::ftr40, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "ftr40: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2474,7 +2570,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f t r 40) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::ftr40, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "ftr40:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case '5':
                             i+=4;
@@ -2498,7 +2601,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f t r 50) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::ftr50, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "ftr50: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2521,9 +2629,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f t r 50) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-                            break;
-                        case 'b':
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::ftr50, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "ftr50:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         }
                         break;
@@ -2551,7 +2664,12 @@ void ParserBase::ss_readParameter()
                         direction = atof(value);
                         if(input[i]==')')
                         {
-                            std::cout << "seen flag (f t 0) "<< distance << "   " << direction << std::endl;
+                            data = new objectData(distance,direction);
+                            seeingObject = new object(&objectType::ft0, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "ft0: "
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << std::endl;
                             break;
                         }
                         ++i;
@@ -2574,7 +2692,14 @@ void ParserBase::ss_readParameter()
                         }
                         value[j]='\0';
                         directionChange = atof(value);
-                        std::cout << "seen flag (f t 0) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                        data = new objectData(distance,direction,distanceChange,directionChange);
+                        seeingObject = new object(&objectType::ft0, data);
+                        see::seeingObjects.append(seeingObject);
+                        std::cout << "ft0:"
+                                  << see::seeingObjects.last()->data->distance << " "
+                                  << see::seeingObjects.last()->data->direction << " "
+                                  << see::seeingObjects.last()->data->distChange << " "
+                                  << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                         break;
                     }
                     break;
@@ -2611,7 +2736,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f b l 10) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fbl10, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fbl10: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2634,7 +2764,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f b l 10) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fbl10, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fbl10:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case '2':
                             i+=4;
@@ -2654,7 +2791,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f b l 20) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fbl20, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fbl20: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2677,7 +2819,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f b l 20) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fbl20, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fbl20:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                             //
                         case '3':
@@ -2703,7 +2852,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f b l 30) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fbl30, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fbl30: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2726,7 +2880,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f b l 30) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fbl30, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fbl30:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case '4':
                             i+=4;
@@ -2751,7 +2912,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f b l 40) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fbl40, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fbl40: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2774,7 +2940,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f b l 40) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fbl40, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fbl40:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case '5':
                             i+=4;
@@ -2799,7 +2972,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f b l 50) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fbl50, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fbl50: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2822,9 +3000,12 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f b l 50) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-                            break;
-                        case 'b':
+                            data = new objectData(distance,direction);
+                            seeingObject = new object(&objectType::fbl50, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fbl50: "
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << std::endl;
                             break;
                         }
                         break;
@@ -2857,7 +3038,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f b r 10) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fbr10, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fbr10: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2880,7 +3066,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f b r 10) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fbr10, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fbr10:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case '2':
                             i+=4;
@@ -2905,7 +3098,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f b r 20) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fbr20, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fbr20: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2928,7 +3126,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f b r 20) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fbr20, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fbr20:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                             //
                         case '3':
@@ -2954,7 +3159,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f b r 30) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fbr30, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fbr30: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -2977,7 +3187,12 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f b r 30) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction);
+                            seeingObject = new object(&objectType::fbr30, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fbr30: "
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << std::endl;
                             break;
                         case '4':
                             i+=4;
@@ -3002,7 +3217,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f b r 40) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fbr40, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fbr40: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -3025,7 +3245,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f b r 40) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fbr40, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fbr40:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         case '5':
                             i+=4;
@@ -3050,7 +3277,12 @@ void ParserBase::ss_readParameter()
                             direction = atof(value);
                             if(input[i]==')')
                             {
-                                std::cout << "seen flag (f b r 50) "<< distance << "   " << direction << std::endl;
+                                data = new objectData(distance,direction);
+                                seeingObject = new object(&objectType::fbr50, data);
+                                see::seeingObjects.append(seeingObject);
+                                std::cout << "fbr50: "
+                                          << see::seeingObjects.last()->data->distance << " "
+                                          << see::seeingObjects.last()->data->direction << std::endl;
                                 break;
                             }
                             ++i;
@@ -3073,9 +3305,14 @@ void ParserBase::ss_readParameter()
                             }
                             value[j]='\0';
                             directionChange = atof(value);
-                            std::cout << "seen flag (f b r 50) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
-                            break;
-                        case 'b':
+                            data = new objectData(distance,direction,distanceChange,directionChange);
+                            seeingObject = new object(&objectType::fbr50, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fbr50:"
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << " "
+                                      << see::seeingObjects.last()->data->distChange << " "
+                                      << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                             break;
                         }
                         break;
@@ -3104,7 +3341,12 @@ void ParserBase::ss_readParameter()
                         direction = atof(value);
                         if(input[i]==')')
                         {
-                            std::cout << "seen flag (f b 0) "<< distance << "   " << direction << std::endl;
+                            data = new objectData(distance,direction);
+                            seeingObject = new object(&objectType::fb0, data);
+                            see::seeingObjects.append(seeingObject);
+                            std::cout << "fb0: "
+                                      << see::seeingObjects.last()->data->distance << " "
+                                      << see::seeingObjects.last()->data->direction << std::endl;
                             break;
                         }
                         ++i;
@@ -3127,11 +3369,16 @@ void ParserBase::ss_readParameter()
                         }
                         value[j]='\0';
                         directionChange = atof(value);
-                        std::cout << "seen flag (f b 0) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                        data = new objectData(distance,direction,distanceChange,directionChange);
+                        seeingObject = new object(&objectType::fb0, data);
+                        see::seeingObjects.append(seeingObject);
+                        std::cout << "fb0:"
+                                  << see::seeingObjects.last()->data->distance << " "
+                                  << see::seeingObjects.last()->data->direction << " "
+                                  << see::seeingObjects.last()->data->distChange << " "
+                                  << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                         break;
                     }
-                    break;
-                default:
                     break;
                 }
                 break;
@@ -3160,10 +3407,17 @@ void ParserBase::ss_readParameter()
                     }
                     value[j]='\0';
                     direction = atof(value);
-                    std::cout << "seen player "
-                              << "   " << distance
-                              << "   " << direction
-                              <<std::endl;
+                    data = new playerData(distance,direction);
+                    seeingObject = new object(&objectType::p, data);
+                    see::seeingObjects.append(seeingObject);
+                    test = ((playerData*)see::seeingObjects.last()->data);
+                    std::cout << "p: "
+                              << test->distance << " "
+                              << test->direction << std::endl;
+                    //                    std::cout << "seen player "
+                    //                              << "   " << distance
+                    //                              << "   " << direction
+                    //                              <<std::endl;
                     break;
                 case ' ': // (p "teamName"
                     i+=2;
@@ -3198,11 +3452,14 @@ void ParserBase::ss_readParameter()
                         }
                         value[j]='\0';
                         direction = atof(value);
-                        std::cout << "seen player "
-                                  << teamName
-                                  << "   " << distance
-                                  << "   " << direction
-                                  <<std::endl;
+                        data = new playerData(teamName,distance,direction);
+                        seeingObject = new object(&objectType::p, data);
+                        see::seeingObjects.append(seeingObject);
+                        test = ((playerData*)see::seeingObjects.last()->data);
+                        std::cout << "p: "
+                                  << test->teamName << " "
+                                  << test->distance << " "
+                                  << test->direction << std::endl;
                         break;
                     case ' ': // (p "teamName"
                         ++i;
@@ -3232,6 +3489,7 @@ void ParserBase::ss_readParameter()
                         }
                         i+=2;
                         j=0;
+                        // start reading pleyer parameters
                         while(input[i]!=' ')
                         {
                             value[j] = input[i];
@@ -3289,18 +3547,12 @@ void ParserBase::ss_readParameter()
                             ++j;
                         }
                         value[j]='\0';
-                        HeadFacingDir = atof(value);
-                        std::cout << "seen player "
-                                  << teamName
-                                  << "   " << unum
-                                  << "   " << distance
-                                  << "   " << direction
-                                  << "   " << distanceChange
-                                  << "   " << directionChange
-                                  << "   " << bodyFacingDir
-                                  << "   " << HeadFacingDir
-                                  << "   " << (goalie ? "goalie" : "player")
-                                  <<std::endl;
+                        headFacingDir = atof(value);
+                        data = new playerData(teamName,unum,goalie,
+                                              distance,direction,
+                                              distanceChange, directionChange,bodyFacingDir,headFacingDir);
+                        seeingObject = new object(&objectType::p, data);
+                        see::seeingObjects.append(seeingObject);
                         break;
                     }
                     break;
@@ -3333,7 +3585,10 @@ void ParserBase::ss_readParameter()
                     direction = atof(value);
                     if(input[i]==')')
                     {
-                        std::cout << "seen flag (g l) "<< distance << "   " << direction << std::endl;
+                        data = new objectData(distance,direction);
+                        seeingObject = new object(&objectType::gl, data);
+                        see::seeingObjects.append(seeingObject);
+                        std::cout << "gl: " << see::seeingObjects.last()->data->distance << " " << see::seeingObjects.last()->data->direction << std::endl;
                         break;
                     }
                     ++i;
@@ -3356,7 +3611,10 @@ void ParserBase::ss_readParameter()
                     }
                     value[j]='\0';
                     directionChange = atof(value);
-                    std::cout << "seen flag (g l) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                    data = new objectData(distance,direction,distanceChange,directionChange);
+                    seeingObject = new object(&objectType::gl, data);
+                    see::seeingObjects.append(seeingObject);
+                    std::cout << "gl:" << see::seeingObjects.last()->data->distance << " " << see::seeingObjects.last()->data->direction << " " << see::seeingObjects.last()->data->distChange << " " << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                     break;
                 case 'r': // (g r)
                     i+=3;
@@ -3381,7 +3639,10 @@ void ParserBase::ss_readParameter()
                     direction = atof(value);
                     if(input[i]==')')
                     {
-                        std::cout << "seen flag (g r) "<< distance << "   " << direction << std::endl;
+                        data = new objectData(distance,direction);
+                        seeingObject = new object(&objectType::gr, data);
+                        see::seeingObjects.append(seeingObject);
+                        std::cout << "gr: " << see::seeingObjects.last()->data->distance << " " << see::seeingObjects.last()->data->direction << std::endl;
                         break;
                     }
                     ++i;
@@ -3404,7 +3665,10 @@ void ParserBase::ss_readParameter()
                     }
                     value[j]='\0';
                     directionChange = atof(value);
-                    std::cout << "seen flag (g r) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                    data = new objectData(distance,direction,distanceChange,directionChange);
+                    seeingObject = new object(&objectType::gr, data);
+                    see::seeingObjects.append(seeingObject);
+                    std::cout << "gr:" << see::seeingObjects.last()->data->distance << " " << see::seeingObjects.last()->data->direction << " " << see::seeingObjects.last()->data->distChange << " " << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                     break;
                 }
                 break;
@@ -3434,7 +3698,10 @@ void ParserBase::ss_readParameter()
                     direction = atof(value);
                     if(input[i]==')')
                     {
-                        std::cout << "seen flag (l l) "<< distance << "   " << direction << std::endl;
+                        data = new objectData(distance,direction);
+                        seeingObject = new object(&objectType::ll, data);
+                        see::seeingObjects.append(seeingObject);
+                        std::cout << "ll: " << see::seeingObjects.last()->data->distance << " " << see::seeingObjects.last()->data->direction << std::endl;
                         break;
                     }
                     ++i;
@@ -3457,7 +3724,10 @@ void ParserBase::ss_readParameter()
                     }
                     value[j]='\0';
                     directionChange = atof(value);
-                    std::cout << "seen flag (l l) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                    data = new objectData(distance,direction,distanceChange,directionChange);
+                    seeingObject = new object(&objectType::ll, data);
+                    see::seeingObjects.append(seeingObject);
+                    std::cout << "ll:" << see::seeingObjects.last()->data->distance << " " << see::seeingObjects.last()->data->direction << " " << see::seeingObjects.last()->data->distChange << " " << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                     break;
                 case 'r':
                     j=0;
@@ -3481,7 +3751,12 @@ void ParserBase::ss_readParameter()
                     direction = atof(value);
                     if(input[i]==')')
                     {
-                        std::cout << "seen flag (l r) "<< distance << "   " << direction << std::endl;
+                        data = new objectData(distance,direction);
+                        seeingObject = new object(&objectType::lr, data);
+                        see::seeingObjects.append(seeingObject);
+                        std::cout << "lr: "
+                                  << see::seeingObjects.last()->data->distance << " "
+                                  << see::seeingObjects.last()->data->direction << std::endl;
                         break;
                     }
                     ++i;
@@ -3504,7 +3779,14 @@ void ParserBase::ss_readParameter()
                     }
                     value[j]='\0';
                     directionChange = atof(value);
-                    std::cout << "seen flag (l r) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                    data = new objectData(distance,direction,distanceChange,directionChange);
+                    seeingObject = new object(&objectType::lr, data);
+                    see::seeingObjects.append(seeingObject);
+                    std::cout << "lr:"
+                              << see::seeingObjects.last()->data->distance << " "
+                              << see::seeingObjects.last()->data->direction << " "
+                              << see::seeingObjects.last()->data->distChange << " "
+                              << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                     break;
                 case 't':
                     j=0;
@@ -3528,7 +3810,12 @@ void ParserBase::ss_readParameter()
                     direction = atof(value);
                     if(input[i]==')')
                     {
-                        std::cout << "seen flag (l t) "<< distance << "   " << direction << std::endl;
+                        data = new objectData(distance,direction);
+                        seeingObject = new object(&objectType::lt, data);
+                        see::seeingObjects.append(seeingObject);
+                        std::cout << "lt: "
+                                  << see::seeingObjects.last()->data->distance << " "
+                                  << see::seeingObjects.last()->data->direction << std::endl;
                         break;
                     }
                     ++i;
@@ -3551,7 +3838,14 @@ void ParserBase::ss_readParameter()
                     }
                     value[j]='\0';
                     directionChange = atof(value);
-                    std::cout << "seen flag (l t) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                    data = new objectData(distance,direction,distanceChange,directionChange);
+                    seeingObject = new object(&objectType::lt, data);
+                    see::seeingObjects.append(seeingObject);
+                    std::cout << "lt:"
+                              << see::seeingObjects.last()->data->distance << " "
+                              << see::seeingObjects.last()->data->direction << " "
+                              << see::seeingObjects.last()->data->distChange << " "
+                              << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                     break;
                 case 'b':
                     j=0;
@@ -3575,7 +3869,12 @@ void ParserBase::ss_readParameter()
                     direction = atof(value);
                     if(input[i]==')')
                     {
-                        std::cout << "seen flag (l b) "<< distance << "   " << direction << std::endl;
+                        data = new objectData(distance,direction);
+                        seeingObject = new object(&objectType::lb, data);
+                        see::seeingObjects.append(seeingObject);
+                        std::cout << "lb: "
+                                  << see::seeingObjects.last()->data->distance << " "
+                                  << see::seeingObjects.last()->data->direction << std::endl;
                         break;
                     }
                     ++i;
@@ -3598,7 +3897,14 @@ void ParserBase::ss_readParameter()
                     }
                     value[j]='\0';
                     directionChange = atof(value);
-                    std::cout << "seen flag (l b) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                    data = new objectData(distance,direction,distanceChange,directionChange);
+                    seeingObject = new object(&objectType::lb, data);
+                    see::seeingObjects.append(seeingObject);
+                    std::cout << "lb:"
+                              << see::seeingObjects.last()->data->distance << " "
+                              << see::seeingObjects.last()->data->direction << " "
+                              << see::seeingObjects.last()->data->distChange << " "
+                              << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                     break;
                 }
                 break;
@@ -3615,31 +3921,6 @@ void ParserBase::ss_readParameter()
                 distance = atof(value);
                 ++i;
                 j=0;
-                while(input[i]!=' ' && input[i]!=')')
-                {
-                    value[j] = input[i];
-                    ++i;
-                    ++j;
-                }
-                value[j]='\0';
-                direction = atof(value);
-                if(input[i]==')')
-                {
-                    std::cout << "seen flag (B) "<< distance << "   " << direction << std::endl;
-                    break;
-                }
-                ++i;
-                j=0;
-                while(input[i]!=' ')
-                {
-                    value[j] = input[i];
-                    ++i;
-                    ++j;
-                }
-                value[j]='\0';
-                distanceChange = atof(value);
-                ++i;
-                j=0;
                 while(input[i]!=')')
                 {
                     value[j] = input[i];
@@ -3647,8 +3928,13 @@ void ParserBase::ss_readParameter()
                     ++j;
                 }
                 value[j]='\0';
-                directionChange = atof(value);
-                std::cout << "seen flag (B) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                direction = atof(value);
+                data = new objectData(distance,direction);
+                seeingObject = new object(&objectType::B, data);
+                see::seeingObjects.append(seeingObject);
+                std::cout << "B: "
+                          << see::seeingObjects.last()->data->distance << " "
+                          << see::seeingObjects.last()->data->direction << std::endl;
                 break;
             case 'F':
                 i+=3;
@@ -3663,31 +3949,6 @@ void ParserBase::ss_readParameter()
                 distance = atof(value);
                 ++i;
                 j=0;
-                while(input[i]!=' ' && input[i]!=')')
-                {
-                    value[j] = input[i];
-                    ++i;
-                    ++j;
-                }
-                value[j]='\0';
-                direction = atof(value);
-                if(input[i]==')')
-                {
-                    std::cout << "seen flag (F) "<< distance << "   " << direction << std::endl;
-                    break;
-                }
-                ++i;
-                j=0;
-                while(input[i]!=' ')
-                {
-                    value[j] = input[i];
-                    ++i;
-                    ++j;
-                }
-                value[j]='\0';
-                distanceChange = atof(value);
-                ++i;
-                j=0;
                 while(input[i]!=')')
                 {
                     value[j] = input[i];
@@ -3695,8 +3956,13 @@ void ParserBase::ss_readParameter()
                     ++j;
                 }
                 value[j]='\0';
-                directionChange = atof(value);
-                std::cout << "seen flag (F) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                direction = atof(value);
+                data = new objectData(distance,direction);
+                seeingObject = new object(&objectType::F, data);
+                see::seeingObjects.append(seeingObject);
+                std::cout << "F: "
+                          << see::seeingObjects.last()->data->distance << " "
+                          << see::seeingObjects.last()->data->direction << std::endl;
                 break;
             case 'G':
                 i+=3;
@@ -3711,31 +3977,6 @@ void ParserBase::ss_readParameter()
                 distance = atof(value);
                 ++i;
                 j=0;
-                while(input[i]!=' ' && input[i]!=')')
-                {
-                    value[j] = input[i];
-                    ++i;
-                    ++j;
-                }
-                value[j]='\0';
-                direction = atof(value);
-                if(input[i]==')')
-                {
-                    std::cout << "seen flag (G) "<< distance << "   " << direction << std::endl;
-                    break;
-                }
-                ++i;
-                j=0;
-                while(input[i]!=' ')
-                {
-                    value[j] = input[i];
-                    ++i;
-                    ++j;
-                }
-                value[j]='\0';
-                distanceChange = atof(value);
-                ++i;
-                j=0;
                 while(input[i]!=')')
                 {
                     value[j] = input[i];
@@ -3743,8 +3984,13 @@ void ParserBase::ss_readParameter()
                     ++j;
                 }
                 value[j]='\0';
-                directionChange = atof(value);
-                std::cout << "seen flag (G) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                direction = atof(value);
+                data = new objectData(distance,direction);
+                seeingObject = new object(&objectType::G, data);
+                see::seeingObjects.append(seeingObject);
+                std::cout << "G: "
+                          << see::seeingObjects.last()->data->distance << " "
+                          << see::seeingObjects.last()->data->direction << std::endl;
                 break;
             case 'P':
                 i+=3;
@@ -3759,31 +4005,6 @@ void ParserBase::ss_readParameter()
                 distance = atof(value);
                 ++i;
                 j=0;
-                while(input[i]!=' ' && input[i]!=')')
-                {
-                    value[j] = input[i];
-                    ++i;
-                    ++j;
-                }
-                value[j]='\0';
-                direction = atof(value);
-                if(input[i]==')')
-                {
-                    std::cout << "seen flag (P) "<< distance << "   " << direction << std::endl;
-                    break;
-                }
-                ++i;
-                j=0;
-                while(input[i]!=' ')
-                {
-                    value[j] = input[i];
-                    ++i;
-                    ++j;
-                }
-                value[j]='\0';
-                distanceChange = atof(value);
-                ++i;
-                j=0;
                 while(input[i]!=')')
                 {
                     value[j] = input[i];
@@ -3791,8 +4012,13 @@ void ParserBase::ss_readParameter()
                     ++j;
                 }
                 value[j]='\0';
-                directionChange = atof(value);
-                std::cout << "seen flag (P) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                direction = atof(value);
+                data = new objectData(distance,direction);
+                seeingObject = new object(&objectType::P, data);
+                see::seeingObjects.append(seeingObject);
+                std::cout << "P: "
+                          << see::seeingObjects.last()->data->distance << " "
+                          << see::seeingObjects.last()->data->direction << std::endl;
                 break;
             case 'b':
                 i+=3;
@@ -3817,7 +4043,12 @@ void ParserBase::ss_readParameter()
                 direction = atof(value);
                 if(input[i]==')')
                 {
-                    std::cout << "seen flag (b) "<< distance << "   " << direction << std::endl;
+                    data = new objectData(distance,direction);
+                    seeingObject = new object(&objectType::ball, data);
+                    see::seeingObjects.append(seeingObject);
+                    std::cout << "ball: "
+                              << see::seeingObjects.last()->data->distance << " "
+                              << see::seeingObjects.last()->data->direction << std::endl;
                     break;
                 }
                 ++i;
@@ -3840,7 +4071,14 @@ void ParserBase::ss_readParameter()
                 }
                 value[j]='\0';
                 directionChange = atof(value);
-                std::cout << "seen flag (b) "<< distance << "   " << direction << "   " << distanceChange << "   " << directionChange <<std::endl;
+                data = new objectData(distance,direction,distanceChange,directionChange);
+                seeingObject = new object(&objectType::ball, data);
+                see::seeingObjects.append(seeingObject);
+                std::cout << "ball:"
+                          << see::seeingObjects.last()->data->distance << " "
+                          << see::seeingObjects.last()->data->direction << " "
+                          << see::seeingObjects.last()->data->distChange << " "
+                          << see::seeingObjects.last()->data->dirChange << " " << std::endl;
                 break;
             }
             ++i;
