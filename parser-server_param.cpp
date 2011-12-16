@@ -2,7 +2,7 @@
 #include <iostream>
 #include <QString>
 
-void ParserBase::sp_read()
+void ParserBase::sp_startRead()
 {
     i++;
     if(input[i]=='(')
@@ -115,7 +115,7 @@ void ParserBase::sp_au()
         i++;
         break;
     }
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_ba()
@@ -154,7 +154,7 @@ void ParserBase::sp_ba()
         // no neet to call sp_read() !
         break;
     }
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_ball_()
@@ -202,7 +202,7 @@ void ParserBase::sp_ball_()
                 i++;
             }
             std::cout << "ball_size: " << value.toDouble() << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         case 'p':
             i+=9;
@@ -254,7 +254,7 @@ void ParserBase::sp_c()
             i++;
         }
         std::cout << "ckick_margin: " << value.toDouble() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     case 'l':
         i+=4;
@@ -282,7 +282,7 @@ void ParserBase::sp_c()
                         i++;
                     }
                     std::cout << "coach_port: " << value.toInt() << std::endl;
-                    sp_read();
+                    sp_startRead();
                     break;
                 case 'w':
                     i+=10;
@@ -292,7 +292,7 @@ void ParserBase::sp_c()
                         i++;
                     }
                     std::cout << "coach_w_referee: " << value.toInt() << std::endl;
-                    sp_read();
+                    sp_startRead();
                     break;
                 }
                 break;
@@ -305,7 +305,7 @@ void ParserBase::sp_c()
                     i++;
                 }
                 std::cout << "coach: " << value.toInt()<< std::endl;
-                sp_read();
+                sp_startRead();
                 break;
             }
             break;
@@ -321,7 +321,7 @@ void ParserBase::sp_c()
                     i++;
                 }
                 std::cout << "connect_wait: " << value.toInt() << std::endl;
-                sp_read();
+                sp_startRead();
                 break;
             case 't':
                 i+=12;
@@ -331,7 +331,7 @@ void ParserBase::sp_c()
                     i++;
                 }
                 std::cout << "control_radius: " << value.toDouble() << std::endl;
-                sp_read();
+                sp_startRead();
                 break;
             }
             break;
@@ -359,7 +359,7 @@ void ParserBase::sp_catch()
                 i++;
             }
             std::cout << "catchable_area_l: " << value.toDouble() << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         case 'w':
             i+=2;
@@ -369,7 +369,7 @@ void ParserBase::sp_catch()
                 i++;
             }
             std::cout << "catchable_area_w: " << value.toInt() << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         }
         break;
@@ -385,7 +385,7 @@ void ParserBase::sp_catch()
                 i++;
             }
             std::cout << "catch_ban_cycle: " << value.toInt() << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         case 'p':
             i+=12;
@@ -395,7 +395,7 @@ void ParserBase::sp_catch()
                 i++;
             }
             std::cout << "catch_probability: " << value.toDouble() << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         }
         break;
@@ -416,7 +416,7 @@ void ParserBase::sp_clang_()
             i++;
         }
         std::cout << "clang_advice_win: " << value.toDouble() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     case 'd':
         i+=2;
@@ -441,7 +441,7 @@ void ParserBase::sp_clang_()
             std::cout << "clang_del_win: " << value.toDouble() << std::endl;
             break;
         }
-        sp_read();
+        sp_startRead();
         break;
     case 'i':
         i+=9;
@@ -451,7 +451,7 @@ void ParserBase::sp_clang_()
             i++;
         }
         std::cout << "clang_info_win: " << value.toDouble() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     case 'm':
         i+=5;
@@ -485,7 +485,7 @@ void ParserBase::sp_clang_()
             std::cout << "clang_meta_win: " << value.toDouble() << std::endl;
             break;
         }
-        sp_read();
+        sp_startRead();
         break;
     case 'r':
         i+=9;
@@ -495,7 +495,7 @@ void ParserBase::sp_clang_()
             i++;
         }
         std::cout << "clang_rule_win: " << value.toDouble() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     case 'w':
         i+=9;
@@ -505,7 +505,7 @@ void ParserBase::sp_clang_()
             i++;
         }
         std::cout << "clang_win_size: " << value.toDouble() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     }
 }
@@ -528,7 +528,7 @@ void ParserBase::sp_d()
             i++;
         }
         std::cout << "drop_ball_time: " << value.toInt() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     }
 }
@@ -547,7 +547,7 @@ void ParserBase::sp_dash_()
             i++;
         }
         std::cout << "dash_angle_step: " << value.toDouble() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     case 'p':
         i+=11;
@@ -557,7 +557,7 @@ void ParserBase::sp_dash_()
             i++;
         }
         std::cout << "dash_power_rate: " << value.toDouble() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     }
 }
@@ -579,7 +579,7 @@ void ParserBase::sp_effort_()
                 i++;
             }
             std::cout << "effort_dec: " << value.toDouble() << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         case '_':
             i+=5;
@@ -589,7 +589,7 @@ void ParserBase::sp_effort_()
                 i++;
             }
             std::cout << "effort_dec_thr: " << value.toDouble() << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         }
         break;
@@ -605,7 +605,7 @@ void ParserBase::sp_effort_()
                 i++;
             }
             std::cout << "effort_inc: " << value.toDouble() << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         case '_':
             i+=5;
@@ -615,7 +615,7 @@ void ParserBase::sp_effort_()
                 i++;
             }
             std::cout << "effort_inc_thr: " << value.toDouble() << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         case 't':
             i+=2;
@@ -625,7 +625,7 @@ void ParserBase::sp_effort_()
                 i++;
             }
             std::cout << "effort_init: " << value.toInt()/*?*/ << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         }
         break;
@@ -637,7 +637,7 @@ void ParserBase::sp_effort_()
             i++;
         }
         std::cout << "effort_min: " << value.toDouble() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     }
 }
@@ -665,7 +665,7 @@ void ParserBase::sp_extra_()
         }
         std::cout << "extra_stamina: " << value.toDouble()/*?*/ << std::endl;
     }
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_fo()
@@ -718,7 +718,7 @@ void ParserBase::sp_fo()
         }
         break;
     }
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_free()
@@ -760,7 +760,7 @@ void ParserBase::sp_free()
         }
         break;
     }
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_fullstate_()
@@ -785,7 +785,7 @@ void ParserBase::sp_fullstate_()
         std::cout << "fullstate_r: " << value.toInt() << std::endl;
         break;
     }
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_g()
@@ -822,7 +822,7 @@ void ParserBase::sp_game_()
         std::cout << "game_over_wait: " << value.toInt() << std::endl;
         break;
     }
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_game_log_()
@@ -898,7 +898,7 @@ void ParserBase::sp_game_log_()
         std::cout << "game_log_version: " << value.toInt() << std::endl;
         break;
     }
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_go()
@@ -942,7 +942,7 @@ void ParserBase::sp_go()
         std::cout << "golden_goal: " << value.toInt() << std::endl;
         break;
     }
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_half_time()
@@ -955,7 +955,7 @@ void ParserBase::sp_half_time()
         i++;
     }
     std::cout << "half_time: " << value.toInt() << std::endl;
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_hear_()
@@ -992,7 +992,7 @@ void ParserBase::sp_hear_()
         std::cout << "hear_max: " << value.toInt() << std::endl;
         break;
     }
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_inertia_moment()
@@ -1005,7 +1005,7 @@ void ParserBase::sp_inertia_moment()
         i++;
     }
     std::cout << "inertia_moment: " << value.toInt() << std::endl;
-    sp_read();
+    sp_startRead();
 }
 
 void ParserBase::sp_keepaway()
@@ -1022,7 +1022,7 @@ void ParserBase::sp_keepaway()
             i++;
         }
         std::cout << "keepaway: " << value.toDouble() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     case '_':
         i++;
@@ -1040,7 +1040,7 @@ void ParserBase::sp_keepaway()
                     i++;
                 }
                 std::cout << "keepaway_length: " << value.toDouble() <<std::endl;
-                sp_read();
+                sp_startRead();
                 break;
             case 'o':
                 i+=2;
@@ -1066,7 +1066,7 @@ void ParserBase::sp_keepaway()
                                 i++;
                             }
                             std::cout << "keepaway_log_fixed: " << value.toInt() << std::endl;
-                            sp_read();
+                            sp_startRead();
                             break;
                         case '_':
                             i+=6;
@@ -1076,7 +1076,7 @@ void ParserBase::sp_keepaway()
                                 i++;
                             }
                             std::cout << "keepaway_log_fixed_name: " << value.toAscii().data() << std::endl;
-                            sp_read();
+                            sp_startRead();
                             break;
                         }
                         break;
@@ -1089,7 +1089,7 @@ void ParserBase::sp_keepaway()
                         i++;
                     }
                     std::cout << "keepaway_logging: " << value.toAscii().data() << std::endl;
-                    sp_read();
+                    sp_startRead();
                     break;
                 }
                 break;
@@ -1103,7 +1103,7 @@ void ParserBase::sp_keepaway()
                 i++;
             }
             std::cout << "keepaway_start: " << value.toInt() << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         case 'w':
             i+=6;
@@ -1113,7 +1113,7 @@ void ParserBase::sp_keepaway()
                 i++;
             }
             std::cout << "keepaway_width: " << value.toInt() << std::endl;
-            sp_read();
+            sp_startRead();
             break;
         }
         break;
@@ -1135,7 +1135,7 @@ void ParserBase::sp_keepaway_log_d()
             i++;
         }
         std::cout << "keepaway_log_dir: " << value.toAscii().data() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     case 'a': // keepaway_log_d[a]ted
         i+=5;
@@ -1145,7 +1145,7 @@ void ParserBase::sp_keepaway_log_d()
             i++;
         }
         std::cout << "keepaway_log_dated: " << value.toInt() << std::endl;
-        sp_read();
+        sp_startRead();
         break;
     }
 }
@@ -1231,5 +1231,5 @@ void ParserBase::sp_kick()
         std::cout << "kickable_margin: " << value.toDouble() << std::endl;
         break;
     }
-    sp_read();
+    sp_startRead();
 }

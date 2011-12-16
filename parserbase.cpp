@@ -27,7 +27,7 @@ void ParserBase::readSensorName()
         // init
 //        std::cout << "seen init at "<< i << std::endl;
         i+=4;
-        readTeamSide();
+        i_startRead();
         break;
     case 's':
 //        std::cout << "seen s at "<< i << std::endl;
@@ -49,7 +49,7 @@ void ParserBase::readSensorName()
             case 'r':
 //                std::cout << "seen server_param at "<< i << std::endl;
                 i+=10;
-                sp_read();
+                sp_startRead();
                 break;
             }
             break;

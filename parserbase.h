@@ -18,11 +18,10 @@ public:
     void start();
     void readSensorName();
     // init
-    void readTeamSide();
-    void readFormNumber();
+    void i_startRead();
     void readPlayMode();
     // server_param:
-    void sp_read();
+    void sp_startRead();
     void sp_readParameterName();
     void sp_au();
     void sp_ba();
