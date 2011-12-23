@@ -33,7 +33,9 @@ SOURCES += main.cpp \
     parser-player_param.cpp \
     parser-player_type.cpp \
     parser-see.cpp \
-    init.cpp
+    init.cpp \
+    player_type.cpp \
+    player_param.cpp
 
 
 HEADERS += \
@@ -45,8 +47,18 @@ HEADERS += \
     parserbase.h \
     server_param.h \
     see.h \
-    init.h
+    init.h \
+    player_type.h \
+    player_param.h
 #    parser.h
+
+
+
+
+
+
+
+
 
 
 
