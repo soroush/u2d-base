@@ -24,13 +24,10 @@ void ParserBase::readSensorName()
     switch(input[i])
     {
     case 'i':
-        // init
-//        std::cout << "seen init at "<< i << std::endl;
         i+=4;
         i_startRead();
         break;
     case 's':
-//        std::cout << "seen s at "<< i << std::endl;
         i++;
         switch(input[i])
         {
@@ -39,7 +36,6 @@ void ParserBase::readSensorName()
             switch(input[i])
             {
             case 'e': // see
-//                std::cout << "seen see at "<< i << std::endl;
                 ss_startRead();
                 break;
             case 'n': // sense_body
@@ -47,7 +43,6 @@ void ParserBase::readSensorName()
                 sb_startRead();
                 break;
             case 'r':
-//                std::cout << "seen server_param at "<< i << std::endl;
                 i+=10;
                 sp_startRead();
                 break;
@@ -57,17 +52,25 @@ void ParserBase::readSensorName()
             break;
         }
         break;
-    case 'p': // player_type
-//        std::cout << "seen player_type at "<< i << std::endl;
+    case 'p': // player_
+        i+=7;
+        switch(input[i])
+        {
+        case 't':
+            i+=6;
+            pt_startRead();
+            break;
+        case 'p':
+            i+=6;
+            pp_startRead();
+            break;
+        }
         break;
     case 'h': // hear
-//        std::cout << "seen hear at "<< i << std::endl;
         break;
     case 'e': // error
-//        std::cout << "seen error at "<< i << std::endl;
         break;
     case 'o': // ok_say
-//        std::cout << "seen ok_say at "<< i << std::endl;
         break;
     }
 }

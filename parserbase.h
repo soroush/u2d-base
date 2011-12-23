@@ -22,32 +22,12 @@ public:
     void readPlayMode();
     // server_param:
     void sp_startRead();
-    void sp_readParameterName();
-    void sp_au();
-    void sp_ba();
-    void sp_ball_();
-    void sp_c();
-    void sp_catch();
-    void sp_clang_();
-    void sp_d();
-    void sp_e();
-    void sp_effort_();
-    void sp_extra_();
-    void sp_dash_();
-    void sp_fo();
-    void sp_free();
-    void sp_fullstate_();
-    void sp_g();
-    void sp_game_();
-    void sp_game_log_();
-    void sp_go();
-    void sp_golden_goal();
-    void sp_half_time();
-    void sp_hear_();
-    void sp_inertia_moment();
-    void sp_keepaway();
-    void sp_keepaway_log_d();
-    void sp_kick();
+    // player_type:
+    void pt_startRead();
+    void pt_readParameter();
+    // player_param:
+    void pp_startRead();
+    void pp_readParameter();
     // sense_body:
     void sb_startRead();
     void sb_readParameter(); // deprecated
