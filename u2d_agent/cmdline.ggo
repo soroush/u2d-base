@@ -1,0 +1,12 @@
+package "u2d_agent"
+version "1.0"
+purpose "This is an intelligent agent based on the u2d soccer \
+server simulation base. \
+This program is designed to connect to\
+rcssserver with protocol version 15.0.1 or above. \
+\nAlso it's probably possible to run this program via version ~14 of rcssserver.\n\
+version 13 and below are not supported."
+option  "team"                  t "Name of the team that the agent should play in"          string      required
+option  "host"                  h "IPv4 address of the host running rcssserver"             string      optional
+option  "port"                  p "Port number of connection"                               short       optional
+option  "configuration"         c "Absolute or relative address of configuration file"      string      optional

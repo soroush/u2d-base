@@ -1,0 +1,43 @@
+The u2d_base
+----------------------
+      u2d_base is a Robocup Soccer Server Simulation base
+
+      u2d_base is hosted at http://u2d_base.sf.net
+
+Installation
+------------
+      
+      Read INSTALL how to build and install u2d_base.
+
+License
+-------
+
+This program is licensed under LGPL, license version 3.0.
+See the license files for more information.
+
+Date: 17 July 2011
+
+Project Maintainers:
+  Soroush Rabiei
+  soroush.rabiei@gmail.com
+
+  http://www.marva.ir/
+
+How you can help
+----------------
+
+  Comments, patches, bug reports are welcome.
+
+Copyright
+---------
+
+    u2d_base 
+    Copyright (C) 2011  Soroush Rabiei
+
+    u2d_base is published under the LGPL License, Version 3.0.
+    You should have received a copy of this licence in the file
+    COPYING.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   
