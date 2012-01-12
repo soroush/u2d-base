@@ -30,34 +30,6 @@ public:
     void pp_readParameter();
     // sense_body:
     void sb_startRead();
-    void sb_readParameter(); // deprecated
-    void sb_view_mode();
-    void sb_stamina();
-    void sb_speed();
-    void sb_head_angle();
-    void sb_kick();
-    void sb_dash();
-    void sb_turn();
-    void sb_say();
-    void sb_turn_neck();
-    void sb_catch();
-    void sb_move();
-    void sb_change_view();
-    void sb_arm();
-    void sb_arm_movable();
-    void sb_arm_expires();
-    void sb_arm_target();
-    void sb_arm_count();
-    void sb_focus();
-    void sb_focus_target();
-    void sb_focus_count();
-    void sb_tackle();
-    void sb_tackle_expires();
-    void sb_tackle_count();
-    void sb_collision();
-    void sb_foul();
-    void sb_foul_charged();
-    void sb_foul_card();
     // see
     void ss_startRead();
     void ss_readParameter();
