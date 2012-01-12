@@ -4,7 +4,8 @@
 #include <QCoreApplication>
 #include "connection.h"
 #include "parserbase.h"
-#include "sensor.h"
+#include "see.h"
+#include "sense_body.h"
 
 class Connection;
 class ParserBase;
@@ -17,8 +18,9 @@ public:
     QString teamName;
     Connection connection;
     ParserBase parser;
-    Sensor sensors;
     bool goalie;
+    sense_body body;
+    see visual;
     QString configurationFile;
 signals:
 

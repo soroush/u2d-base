@@ -21,7 +21,6 @@ TEMPLATE = app
 SOURCES += main.cpp \
     agent.cpp \
     sense_body.cpp \
-    sensor.cpp \
     connection.cpp \
     parserbase.cpp \
     parser-init.cpp \

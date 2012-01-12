@@ -15,7 +15,7 @@ void ParserBase::ss_startRead()
         ++j;
     }
     value[j]='\0';
-    see::time = atoi(value);
+    agent->visual.time = atoi(value);
     while(input[i]!=')')
         ss_readParameter();
 }
@@ -74,7 +74,7 @@ void ParserBase::ss_readParameter()
                         {
                             data = new objectData(distance,direction);
                             seeingObject = new object(&objectType::fc, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         j=0;
@@ -99,7 +99,7 @@ void ParserBase::ss_readParameter()
                         directionChange = atof(value);
                         data = new objectData(distance,direction,distanceChange,directionChange);
                         seeingObject = new object(&objectType::fc, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     case ' ': // '(f c '
                         ++i;
@@ -131,7 +131,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fct, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -156,7 +156,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fct, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case 'b': // (f c b)
                             i+=3;
@@ -183,7 +183,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fcb, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 //
                                 break;
                             }
@@ -209,7 +209,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fct, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         break;
@@ -250,7 +250,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::frt, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -275,7 +275,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::frt, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case ' ':
                             ++i;
@@ -308,7 +308,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::frt10, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -333,7 +333,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::frt10, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             case '2':
                                 i+=4;
@@ -359,7 +359,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::frt20, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -384,7 +384,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::frt20, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 //
                                 break;
                                 //
@@ -413,7 +413,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::frt, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -438,7 +438,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::frt, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             break;
@@ -473,7 +473,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::frb, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -498,7 +498,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::frb, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case ' ':
                             ++i;
@@ -531,7 +531,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::frb10, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -556,7 +556,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::frb10, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             case '2':
                                 i+=4;
@@ -583,7 +583,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::frb20, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -608,7 +608,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::frb20, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             case '3':
                                 i+=4;
@@ -635,7 +635,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::frb30, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -660,7 +660,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::frb30, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             break;
@@ -691,7 +691,7 @@ void ParserBase::ss_readParameter()
                         {
                             data = new objectData(distance,direction);
                             seeingObject = new object(&objectType::fr0, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         ++i;
@@ -716,7 +716,7 @@ void ParserBase::ss_readParameter()
                         directionChange = atof(value);
                         data = new objectData(distance,direction,distanceChange,directionChange);
                         seeingObject = new object(&objectType::fr0, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     }
                     break;
@@ -755,7 +755,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::flt, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -780,7 +780,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::flt, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case ' ':
                             ++i;
@@ -813,7 +813,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::flt10, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -838,7 +838,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::flt10, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             case '2':
                                 i+=4;
@@ -866,7 +866,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::flt20, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -891,7 +891,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::flt20, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                                 //
                             case '3':
@@ -919,7 +919,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::flt30, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -944,7 +944,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::flt30, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             break;
@@ -979,7 +979,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::flb, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1004,7 +1004,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::flb, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case ' ':
                             ++i;
@@ -1037,7 +1037,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::flb10, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -1062,7 +1062,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::flb10, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             case '2':
                                 i+=4;
@@ -1089,7 +1089,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::flb20, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -1114,7 +1114,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::flb20, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                                 //
                             case '3':
@@ -1142,7 +1142,7 @@ void ParserBase::ss_readParameter()
                                 {
                                     data = new objectData(distance,direction);
                                     seeingObject = new object(&objectType::flb30, data);
-                                    see::seeingObjects.append(seeingObject);
+                                    agent->visual.seeingObjects.append(seeingObject);
                                     break;
                                 }
                                 ++i;
@@ -1167,7 +1167,7 @@ void ParserBase::ss_readParameter()
                                 directionChange = atof(value);
                                 data = new objectData(distance,direction,distanceChange,directionChange);
                                 seeingObject = new object(&objectType::flb30, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             break;
@@ -1197,7 +1197,7 @@ void ParserBase::ss_readParameter()
                         {
                             data = new objectData(distance,direction);
                             seeingObject = new object(&objectType::fl0, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         ++i;
@@ -1222,7 +1222,7 @@ void ParserBase::ss_readParameter()
                         directionChange = atof(value);
                         data = new objectData(distance,direction,distanceChange,directionChange);
                         seeingObject = new object(&objectType::fl0, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     }
                     break;
@@ -1258,7 +1258,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fplt, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1283,7 +1283,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fplt, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case 'c':
                             i+=3;
@@ -1309,7 +1309,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fplc, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1334,7 +1334,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fplc, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case 'b':
                             i+=3;
@@ -1360,7 +1360,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fplb, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1385,7 +1385,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fplb, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         break;
@@ -1417,7 +1417,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fprt, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1442,7 +1442,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fprt, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case 'c':
                             i+=3;
@@ -1468,7 +1468,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fprc, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1493,7 +1493,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fprc, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case 'b':
                             i+=3;
@@ -1519,7 +1519,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fprb, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1544,7 +1544,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fprb, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         break;
@@ -1582,7 +1582,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fglt, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1607,7 +1607,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fglt, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case 'b':
                             i+=3;
@@ -1633,7 +1633,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fglb, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1658,7 +1658,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fglb, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         break;
@@ -1690,7 +1690,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fgrt, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1715,7 +1715,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fgrt, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case 'b':
                             i+=3;
@@ -1741,7 +1741,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fgrb, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1766,7 +1766,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fgrb, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         break;
@@ -1806,7 +1806,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::ftl10, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1831,7 +1831,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::ftl10, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '2':
                             i+=4;
@@ -1857,7 +1857,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::ftl20, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1882,7 +1882,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::ftl20, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '3':
                             i+=4;
@@ -1908,7 +1908,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::ftl30, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1933,7 +1933,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::ftl30, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '4':
                             i+=4;
@@ -1959,7 +1959,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::ftl40, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -1984,7 +1984,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::ftl40, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '5':
                             i+=4;
@@ -2010,7 +2010,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::ftl50, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2035,7 +2035,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::ftl50, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case 'b':
                             break;
@@ -2071,7 +2071,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::ftr10, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2096,7 +2096,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::ftr10, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '2':
                             i+=4;
@@ -2122,7 +2122,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::ftr20, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2147,7 +2147,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::ftr20, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '3':
                             i+=4;
@@ -2173,7 +2173,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::ftr30, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2198,7 +2198,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::ftr30, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '4':
                             i+=4;
@@ -2224,7 +2224,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::ftr40, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2249,7 +2249,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::ftr40, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '5':
                             i+=4;
@@ -2275,7 +2275,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::ftr50, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2300,7 +2300,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::ftr50, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         break;
@@ -2330,7 +2330,7 @@ void ParserBase::ss_readParameter()
                         {
                             data = new objectData(distance,direction);
                             seeingObject = new object(&objectType::ft0, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         ++i;
@@ -2355,7 +2355,7 @@ void ParserBase::ss_readParameter()
                         directionChange = atof(value);
                         data = new objectData(distance,direction,distanceChange,directionChange);
                         seeingObject = new object(&objectType::ft0, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     }
                     break;
@@ -2394,7 +2394,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fbl10, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2419,7 +2419,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fbl10, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '2':
                             i+=4;
@@ -2441,7 +2441,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fbl20, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2466,7 +2466,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fbl20, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                             //
                         case '3':
@@ -2494,7 +2494,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fbl30, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2519,7 +2519,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fbl30, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '4':
                             i+=4;
@@ -2546,7 +2546,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fbl40, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2571,7 +2571,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fbl40, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '5':
                             i+=4;
@@ -2598,7 +2598,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fbl50, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2623,7 +2623,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction);
                             seeingObject = new object(&objectType::fbl50, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         break;
@@ -2658,7 +2658,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fbr10, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2683,7 +2683,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fbr10, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '2':
                             i+=4;
@@ -2710,7 +2710,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fbr20, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2735,7 +2735,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fbr20, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                             //
                         case '3':
@@ -2763,7 +2763,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fbr30, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2788,7 +2788,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction);
                             seeingObject = new object(&objectType::fbr30, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '4':
                             i+=4;
@@ -2815,7 +2815,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fbr40, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2840,7 +2840,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fbr40, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         case '5':
                             i+=4;
@@ -2867,7 +2867,7 @@ void ParserBase::ss_readParameter()
                             {
                                 data = new objectData(distance,direction);
                                 seeingObject = new object(&objectType::fbr50, data);
-                                see::seeingObjects.append(seeingObject);
+                                agent->visual.seeingObjects.append(seeingObject);
                                 break;
                             }
                             ++i;
@@ -2892,7 +2892,7 @@ void ParserBase::ss_readParameter()
                             directionChange = atof(value);
                             data = new objectData(distance,direction,distanceChange,directionChange);
                             seeingObject = new object(&objectType::fbr50, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         break;
@@ -2923,7 +2923,7 @@ void ParserBase::ss_readParameter()
                         {
                             data = new objectData(distance,direction);
                             seeingObject = new object(&objectType::fb0, data);
-                            see::seeingObjects.append(seeingObject);
+                            agent->visual.seeingObjects.append(seeingObject);
                             break;
                         }
                         ++i;
@@ -2948,7 +2948,7 @@ void ParserBase::ss_readParameter()
                         directionChange = atof(value);
                         data = new objectData(distance,direction,distanceChange,directionChange);
                         seeingObject = new object(&objectType::fb0, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     }
                     break;
@@ -2981,7 +2981,7 @@ void ParserBase::ss_readParameter()
                     direction = atof(value);
                     data = new playerData(distance,direction);
                     seeingObject = new object(&objectType::p, data);
-                    see::seeingObjects.append(seeingObject);
+                    agent->visual.seeingObjects.append(seeingObject);
                     break;
                 case ' ': // (p "teamName"
                     i+=2;
@@ -3018,7 +3018,7 @@ void ParserBase::ss_readParameter()
                         direction = atof(value);
                         data = new playerData(teamName,distance,direction);
                         seeingObject = new object(&objectType::p, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     case ' ': // (p "teamName"
                         ++i;
@@ -3111,7 +3111,7 @@ void ParserBase::ss_readParameter()
                                               distance,direction,
                                               distanceChange, directionChange,bodyFacingDir,headFacingDir);
                         seeingObject = new object(&objectType::p, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     }
                     break;
@@ -3146,7 +3146,7 @@ void ParserBase::ss_readParameter()
                     {
                         data = new objectData(distance,direction);
                         seeingObject = new object(&objectType::gl, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     }
                     ++i;
@@ -3171,7 +3171,7 @@ void ParserBase::ss_readParameter()
                     directionChange = atof(value);
                     data = new objectData(distance,direction,distanceChange,directionChange);
                     seeingObject = new object(&objectType::gl, data);
-                    see::seeingObjects.append(seeingObject);
+                    agent->visual.seeingObjects.append(seeingObject);
                     break;
                 case 'r': // (g r)
                     i+=3;
@@ -3198,7 +3198,7 @@ void ParserBase::ss_readParameter()
                     {
                         data = new objectData(distance,direction);
                         seeingObject = new object(&objectType::gr, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     }
                     ++i;
@@ -3223,7 +3223,7 @@ void ParserBase::ss_readParameter()
                     directionChange = atof(value);
                     data = new objectData(distance,direction,distanceChange,directionChange);
                     seeingObject = new object(&objectType::gr, data);
-                    see::seeingObjects.append(seeingObject);
+                    agent->visual.seeingObjects.append(seeingObject);
                     break;
                 }
                 break;
@@ -3255,7 +3255,7 @@ void ParserBase::ss_readParameter()
                     {
                         data = new objectData(distance,direction);
                         seeingObject = new object(&objectType::ll, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     }
                     ++i;
@@ -3280,7 +3280,7 @@ void ParserBase::ss_readParameter()
                     directionChange = atof(value);
                     data = new objectData(distance,direction,distanceChange,directionChange);
                     seeingObject = new object(&objectType::ll, data);
-                    see::seeingObjects.append(seeingObject);
+                    agent->visual.seeingObjects.append(seeingObject);
                     break;
                 case 'r':
                     j=0;
@@ -3306,7 +3306,7 @@ void ParserBase::ss_readParameter()
                     {
                         data = new objectData(distance,direction);
                         seeingObject = new object(&objectType::lr, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     }
                     ++i;
@@ -3331,7 +3331,7 @@ void ParserBase::ss_readParameter()
                     directionChange = atof(value);
                     data = new objectData(distance,direction,distanceChange,directionChange);
                     seeingObject = new object(&objectType::lr, data);
-                    see::seeingObjects.append(seeingObject);
+                    agent->visual.seeingObjects.append(seeingObject);
                     break;
                 case 't':
                     j=0;
@@ -3357,7 +3357,7 @@ void ParserBase::ss_readParameter()
                     {
                         data = new objectData(distance,direction);
                         seeingObject = new object(&objectType::lt, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     }
                     ++i;
@@ -3382,7 +3382,7 @@ void ParserBase::ss_readParameter()
                     directionChange = atof(value);
                     data = new objectData(distance,direction,distanceChange,directionChange);
                     seeingObject = new object(&objectType::lt, data);
-                    see::seeingObjects.append(seeingObject);
+                    agent->visual.seeingObjects.append(seeingObject);
                     break;
                 case 'b':
                     j=0;
@@ -3408,7 +3408,7 @@ void ParserBase::ss_readParameter()
                     {
                         data = new objectData(distance,direction);
                         seeingObject = new object(&objectType::lb, data);
-                        see::seeingObjects.append(seeingObject);
+                        agent->visual.seeingObjects.append(seeingObject);
                         break;
                     }
                     ++i;
@@ -3433,7 +3433,7 @@ void ParserBase::ss_readParameter()
                     directionChange = atof(value);
                     data = new objectData(distance,direction,distanceChange,directionChange);
                     seeingObject = new object(&objectType::lb, data);
-                    see::seeingObjects.append(seeingObject);
+                    agent->visual.seeingObjects.append(seeingObject);
                     break;
                 }
                 break;
@@ -3460,7 +3460,7 @@ void ParserBase::ss_readParameter()
                 direction = atof(value);
                 data = new objectData(distance,direction);
                 seeingObject = new object(&objectType::B, data);
-                see::seeingObjects.append(seeingObject);
+                agent->visual.seeingObjects.append(seeingObject);
                 break;
             case 'F':
                 i+=3;
@@ -3485,7 +3485,7 @@ void ParserBase::ss_readParameter()
                 direction = atof(value);
                 data = new objectData(distance,direction);
                 seeingObject = new object(&objectType::F, data);
-                see::seeingObjects.append(seeingObject);
+                agent->visual.seeingObjects.append(seeingObject);
                 break;
             case 'G':
                 i+=3;
@@ -3510,7 +3510,7 @@ void ParserBase::ss_readParameter()
                 direction = atof(value);
                 data = new objectData(distance,direction);
                 seeingObject = new object(&objectType::G, data);
-                see::seeingObjects.append(seeingObject);
+                agent->visual.seeingObjects.append(seeingObject);
                 break;
             case 'P':
                 i+=3;
@@ -3535,7 +3535,7 @@ void ParserBase::ss_readParameter()
                 direction = atof(value);
                 data = new objectData(distance,direction);
                 seeingObject = new object(&objectType::P, data);
-                see::seeingObjects.append(seeingObject);
+                agent->visual.seeingObjects.append(seeingObject);
                 break;
             case 'b':
                 i+=3;
@@ -3562,7 +3562,7 @@ void ParserBase::ss_readParameter()
                 {
                     data = new objectData(distance,direction);
                     seeingObject = new object(&objectType::ball, data);
-                    see::seeingObjects.append(seeingObject);
+                    agent->visual.seeingObjects.append(seeingObject);
                     break;
                 }
                 ++i;
@@ -3587,7 +3587,7 @@ void ParserBase::ss_readParameter()
                 directionChange = atof(value);
                 data = new objectData(distance,direction,distanceChange,directionChange);
                 seeingObject = new object(&objectType::ball, data);
-                see::seeingObjects.append(seeingObject);
+                agent->visual.seeingObjects.append(seeingObject);
                 break;
             }
             ++i;

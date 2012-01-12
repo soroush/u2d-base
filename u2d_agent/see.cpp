@@ -1,7 +1,7 @@
 #include "see.h"
 
-QList<object*> see::seeingObjects;
-int see::time;
+//QList<object*> see::seeingObjects;
+//int see::time;
 
 objectType objectType::gl   ={-52.50,+00.00};
 objectType objectType::gr   ={+52.50,+00.00};

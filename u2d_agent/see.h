@@ -128,8 +128,8 @@ public:
 struct see
 {
 public:
-    static QList<object*> seeingObjects;
-    static int time;
+    QList<object*> seeingObjects;
+    int time;
 };
 
 #endif // SEE_H
