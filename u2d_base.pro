@@ -22,7 +22,6 @@ SOURCES += main.cpp \
     agent.cpp \
     sense_body.cpp \
     sensor.cpp \
-    visualsensor.cpp \
     connection.cpp \
     parserbase.cpp \
     parser-init.cpp \
@@ -42,7 +41,6 @@ HEADERS += \
     agent.h \
     sense_body.h \
     sensor.h \
-    visualsensor.h \
     connection.h \
     parserbase.h \
     server_param.h \
