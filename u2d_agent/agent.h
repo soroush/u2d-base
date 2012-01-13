@@ -25,7 +25,8 @@ public:
 signals:
 
 public slots:
-
+    void play();
+    void init();
 };
 
 #endif // AGENT_H

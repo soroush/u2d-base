@@ -1,10 +1,10 @@
 #include "init.h"
 
-char* init::teamName;
-int init::formNumber;
-init::t_side init::side;
-init::t_playMode init::playMode;
+char* Init::teamName;
+int Init::formNumber;
+Init::t_side Init::side;
+Init::t_playMode Init::playMode;
 
-init::init()
+Init::Init()
 {    
 }

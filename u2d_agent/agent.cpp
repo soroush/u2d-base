@@ -30,4 +30,3 @@ Agent::Agent(int argc, char *argv[]) :
     cmdline_parser_free(&args_info);
     connection.initialize();
 }
-// add a comment here

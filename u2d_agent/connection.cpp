@@ -70,6 +70,7 @@ void Connection::processData()
             this->agent()->parser.input = buffer;
             this->agent()->parser.i = 0;
             this->agent()->parser.start();
+            this->agent()->play();
         }
         waitForReadyRead();
     }

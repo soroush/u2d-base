@@ -13,10 +13,10 @@ void ParserBase::i_startRead()
     switch(input[i])
     {
     case'l':
-        init::side = init::Left;
+        Init::side = Init::Left;
         break;
     case'r':
-        init::side = init::Right;
+        Init::side = Init::Right;
         break;
     }
     i+=2;
@@ -28,7 +28,7 @@ void ParserBase::i_startRead()
     }
     value[j]='\0';
     j=0;
-    init::formNumber = atoi(value);
+    Init::formNumber = atoi(value);
     ++i;
     switch(input[i])
     {
@@ -41,16 +41,16 @@ void ParserBase::i_startRead()
             switch(input[i])
             {
             case 'l':
-                init::playMode = init::back_pass_l;
+                Init::playMode = Init::back_pass_l;
                 break;
             case 'r':
-                init::playMode = init::back_pass_r;
+                Init::playMode = Init::back_pass_r;
                 break;
             }
             break;
         case 'e':
             i+=13;
-            init::playMode = init::before_kick_off;
+            Init::playMode = Init::before_kick_off;
             break;
         }
         break;
@@ -59,10 +59,10 @@ void ParserBase::i_startRead()
         switch(input[i])
         {
         case 'l':
-            init::playMode = init::corner_kick_l;
+            Init::playMode = Init::corner_kick_l;
             break;
         case 'r':
-            init::playMode = init::corner_kick_r;
+            Init::playMode = Init::corner_kick_r;
             break;
         }
         break;
@@ -79,18 +79,18 @@ void ParserBase::i_startRead()
                 switch(input[i])
                 {
                 case 'l':
-                    init::playMode = init::foul_charge_l;
+                    Init::playMode = Init::foul_charge_l;
                     break;
                 case 'r':
-                    init::playMode = init::foul_charge_r;
+                    Init::playMode = Init::foul_charge_r;
                     break;
                 }
                 break;
             case 'l':
-                init::playMode = init::foul_l;
+                Init::playMode = Init::foul_l;
                 break;
             case 'r':
-                init::playMode = init::foul_r;
+                Init::playMode = Init::foul_r;
                 break;
             }
             break;
@@ -99,10 +99,10 @@ void ParserBase::i_startRead()
             switch(input[i])
             {
             case 'l':
-                init::playMode = init::free_kick_l;
+                Init::playMode = Init::free_kick_l;
                 break;
             case 'r':
-                init::playMode = init::free_kick_r;
+                Init::playMode = Init::free_kick_r;
                 break;
             }
             break;
@@ -113,10 +113,10 @@ void ParserBase::i_startRead()
         switch(input[i])
         {
         case 'l':
-            init::playMode = init::goal_kick_l;
+            Init::playMode = Init::goal_kick_l;
             break;
         case 'r':
-            init::playMode = init::goal_kick_r;
+            Init::playMode = Init::goal_kick_r;
             break;
         }
         break;
@@ -125,10 +125,10 @@ void ParserBase::i_startRead()
         switch(input[i])
         {
         case 'l':
-            init::playMode = init::indirect_free_kick_l;
+            Init::playMode = Init::indirect_free_kick_l;
             break;
         case 'r':
-            init::playMode = init::indirect_free_kick_r;
+            Init::playMode = Init::indirect_free_kick_r;
             break;
         }
         break;
@@ -137,16 +137,16 @@ void ParserBase::i_startRead()
         switch(input[i])
         {
         case 'l':
-            init::playMode = init::kick_in_l;
+            Init::playMode = Init::kick_in_l;
             break;
         case 'r':
-            init::playMode = init::kick_in_r;
+            Init::playMode = Init::kick_in_r;
             break;
         }
         break;
     case 'p':
         i+=6;
-        init::playMode = init::play_on;
+        Init::playMode = Init::play_on;
         break;
     }
     i+=2;

@@ -34,7 +34,8 @@ SOURCES += main.cpp \
     init.cpp \
     player_type.cpp \
     player_param.cpp \
-    cmdline.c
+    cmdline.c \
+    play.cpp
 
 
 HEADERS += \
@@ -52,33 +53,3 @@ HEADERS += \
 
 OTHER_FILES += \
     cmdline.ggo
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

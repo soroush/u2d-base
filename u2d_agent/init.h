@@ -1,10 +1,10 @@
 #ifndef INIT_H
 #define INIT_H
 
-class init
+class Init
 {
 public:
-    init();
+    Init();
     enum t_side{Left,Right};
     enum t_playMode{back_pass_l,            // 0
                     back_pass_r,            // 1
