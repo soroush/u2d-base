@@ -3,6 +3,7 @@
 
 %union{
 double		d;
+int		i;
 std::string*	s;
 }
 
@@ -25,208 +26,69 @@ RMIN RS RCP SCCM SCMS SMS SM SS SVS SBS SDR SIMS SDF SOTFLT SOTFRT SC SIM SMAX
 SGL SGR SBV SMICS SMOD  SO SSO TBD TC TD TE TPR TRF TW TAN TLS TRS TLC TLD
 TLDIR TLF TLFN TL UO V VA VD WA WD WF WN WR WRA
 
+%token SIDE PLM
+
+%token PP AMDT CALSMAX CALSMIN DPRDMAX DPRDMIN EMAXDF EMINDF ESDMAX ESDMIN FDPDF IMDF
+KPRDMAX KPRDMIN KPRDF KMDMAX KMDMIN NDPRDMAX NDPRDMIN NSIMAXDF PDDMAX PDDMIN
+PSDF PSMAXDMAX PSMAXDMIN PT PTM RANS SIMAXDF SUBMAX
+
+
+%token PM_BKO PM_PO PM_TO PM_KOL PM_KOR PM_KIL PM_KIR PM_FKL PM_FKR
+PM_CKL PM_CKR PM_GKL PM_GKR PM_GOALL PM_GOALR PM_DB PM_OL PM_OR
+
 %%
 
-start:
-    init | server ;
+start: init | server_param | player_param;
 
 double:	DOUBLE {$$.d = atof(d_scanner->matched().c_str());} ;
 string:	STRING {$$.s = new std::string(d_scanner->matched().c_str());} ;
 
-server:	LP SERVER r1 RP {cout << "end of server_param" << endl;};
+init:   LP INIT SIDE double play_mode RP {parent->model.play_mode = (Model::play_mode_type)$5.i; cout << "init Response received " << parent->model.play_mode << endl;};
+play_mode:  PM_BKO   {$$.i = Model::before_kick_off ;}|
+            PM_PO    {$$.i = Model::play_on ;}|
+            PM_TO    {$$.i = Model::time_over ;}|
+            PM_KOL   {$$.i = Model::kick_off_l ;}|
+            PM_KOR   {$$.i = Model::kick_off_r ;}|
+            PM_KIL   {$$.i = Model::kick_in_l ;}|
+            PM_KIR   {$$.i = Model::kick_in_r ;}|
+            PM_FKL   {$$.i = Model::free_kick_l ;}|
+            PM_FKR   {$$.i = Model::free_kick_r ;}|
+            PM_CKL   {$$.i = Model::corner_kick_l ;}|
+            PM_CKR   {$$.i = Model::corner_kick_r ;}|
+            PM_GKL   {$$.i = Model::goal_kick_l ;}|
+            PM_GKR   {$$.i = Model::goal_kick_r ;}|
+            PM_GOALL {$$.i = Model::goal_l ;}|
+            PM_GOALR {$$.i = Model::goal_r ;}|
+            PM_DB    {$$.i = Model::drop_ball ;}|
+            PM_OL    {$$.i = Model::offside_l ;}|
+            PM_OR    {$$.i = Model::offside_r ;};
 
-r1: acd r2 | r2;
-r2: am  r3 | r3;
-r3: bdr r4 | r4;
-r4: bp  r5 | r5;
-r5: bam r6 | r6;
-r6: bd  r7 | r7;
-r7: br  r8 | r8;
-r8: bs  r9 | r9;
-r9: bsm r10| r10;
-r10: bsa r11 | r11;
-r11: bw  r12 | r12;
-r12: cbc r13 | r13;
-r13: cp  r14 | r14;
-r14: cal r15 | r15;
-r15: caw r16 | r16;
-r16: cm  r17 | r17;
-r17: cadw r18 | r18;
-r18: cdefw r19 | r19;
-r19: cdelw r20 | r20;
-r20: ciw r21 | r21;
-r21: cmd r22 | r22;
-r22: cmpc r23 | r23;
-r23: cmw r24 | r24;
-r24: crw r25 | r25;
-r25: cws r26 | r26;
-r26: co r27 | r27;
-r27: cop r28 | r28;
-r28: cwr r29 | r29;
-r29: cw r30 | r30;
-r30: cr r31 | r31;
-r31: das r32 | r32;
-r32: dpr r33 | r33;
-r33: dbt r34 | r34;
-r34: ed r35 | r35;
-r35: edt r36 | r36;
-r36: ein r37 | r37;
-r37: eit r38 | r38;
-r38: ei r39 | r39;
-r39: em r40 | r40;
-r40: eht r41 | r41;
-r41: es r42 | r42;
-r42: fko r43 | r43;
-r43: fc r44 | r44;
-r44: fdp r45 | r45;
-r45: fe r46 | r46;
-r46: fkf r47 | r47;
-r47: fsp r48 | r48;
-r48: fwp r49 | r49;
-r49: fl r50 | r50;
-r50: fr r51 | r51;
-r51: glc r52 | r52;
-r52: gld r53 | r53;
-r53: gldir r54 | r54;
-r54: glf r55 | r55;
-r55: glfn r56 | r56;
-r56: glv r57 | r57;
-r57: gl r58 | r58;
-r58: gow r59 | r59;
-r59: gw r60 | r60;
-r60: gmm r61 | r61;
-r61: gg r62 | r62;
-r62: ht r63 | r63;
-r63: hd r64 | r64;
-r64: hi r65 | r65;
-r65: hm r66 | r66;
-r66: im r67| r67;
-r67: k r68 | r68;
-r68: kl r69 | r69;
-r69: kld r70 | r70;
-r70: kldir r71 | r71;
-r71: lkf r72 | r72 ;
-r72: klfn r73 | r73;
-r73: klg r74 | r74;
-r74: ks r75 | r75;
-r75: kw r76 | r76;
-r76: kow r77 | r77;
-r77: kpr r78 | r78;
-r78: kr r79 | r79;
-r79: krfl r80 | r80;
-r80: krfr r81 | r81;
-r81: km r82 | r82;
-r82: lf r83 | r83;
-r83: ldf r84 | r84;
-r84: lt r85 | r85;
-r85: mbtp r86 | r86;
-r86: maxda r87 | r87;
-r87: mdp r88 | r88;
-r88: mgk r89 | r89;
-r89: mtp r90 | r90;
-r90: maxm r91 | r91;
-r91: maxna r92 | r92;
-r92: maxnm r93 | r93;
-r93: maxp r94 | r94;
-r94: minda r95 | r95;
-r95: mindp r96 | r96;
-r96: minm r97 | r97;
-r97: minna r98 | r98;
-r98: minnm r99 | r99;
-r99: minp r100 | r100;
-r100: neh r101 | r101;
-r101: nnh r102 | r102;
-r102: oaas r103 | r103;
-r103: okm r104 | r104;
-r104: op r105 | r105;
-r105: och r106 | r106;
-r106: pamk r107 | r107;
-r107: pbsw r108 | r108;
-r108: pcmp r109 | r109;
-r109: pdx r110 | r110;
-r110: pmet r111 | r111;
-r111: pmgdx r112 | r112;
-r112: pnk r113 | r113;
-r113: prw r114 | r114;
-r114: prwa r115 | r115;
-r115: psw r116 | r116;
-r116: ptw r117 | r117;
-r117: pso r118 | r118;
-r118: pam r119 | r119;
-r119: pd r120 | r120;
-r120: pr r121 | r121;
-r121: ps r122 | r122;
-r122: psm r123 | r123;
-r123: psmm r124 | r124;
-r124: pw r125 | r125;
-r125: ptb r126 | r126;
-r126: ptd r127 | r127;
-r127: p r128 | r128;
-r128: pfl r129 | r129;
-r129: pfr r130 | r130;
-r130: prof r131 | r131;
-r131: pgk r132 | r132;
-r132: qs r133 | r133;
-r133: qsl r134 | r134;
-r134: rm r135 | r135;
-r135: rd r136 | r136;
-r136: rdt r137 | r137;
-r137: ri r138 | r138;
-r138: rmin r139 | r139;
-r139: rs r140 | r140;
-r140: rcp r141 | r141;
-r141: sccm r142 | r142;
-r142: scms r143 | r143;
-r143: sms r144 | r144;
-r144: sm r145 | r145;
-r145: ss r146 | r146;
-r146: svs r147 | r147;
-r147: sbs r148 | r148;
-r148: sdr r149 | r149;
-r149: sims r150 | r150;
-r150: sdf r151 | r151;
-r151: sotflt r152 | r152;
-r152: sotfrt r153 | r153;
-r153: sc r154 | r154;
-r154: sim r155 | r155;
-r155: smax r156 | r156;
-r156: sgl r157 | r157;
-r157: sgr r158 | r158;
-r158: sbv r159 | r159;
-r159: smics r160 | r160;
-r160: smod r161 | r161;
-r161: so r162 | r162;
-r162: sso r163 | r163;
-r163: tbd r164 | r164;
-r164: tc r165 | r165;
-r165: td r166 | r166;
-r166: te r167 | r167;
-r167: tpr r168 | r168;
-r168: trf r169 | r169;
-r169: tw r170 | r170;
-r170: tan r171 | r171;
-r171: tls r172 | r172;
-r172: trs r173 | r173;
-r173: tlc r174 | r174;
-r174: tld r175 | r175;
-r175: tldir r176 | r176;
-r176: tlf r177 | r177;
-r177: tlfn r178 | r178;
-r178: tl r179 | r179;
-r179: uo r180 | r180;
-r180: v r181 | r181;
-r181: va r182 | r182;
-r182: vd r183 | r183;
-r183: wa r184 | r184;
-r184: wd r185 | r185;
-r185: wf r186 | r186;
-r186: wn r187 | r187;
-r187: wr r188 | r188;
-r188: wra | ;
-
+server_param:	LP SERVER
+acd am bdr bp bam bd br bs bsm bsa bw cbc cp cal caw cm cadw cdefw cdelw ciw
+cmd cmpc cmw crw cws co cop cwr cw cr das dpr dbt ed edt ein eit ei em eht es
+fko fc fdp fe fkf fsp fwp fl fr glc gld gldir glf glfn glv gl gow gw gmm gg
+ht hd hi hm im k kl kld kldir lkf klfn klg ks kw kow kpr kr krfl krfr km lf ldf
+lt mbtp maxda mdp mgk mtp maxm maxna maxnm maxp minda mindp minm minna minnm
+minp neh nnh oaas okm op och pamk pbsw pcmp pdx pmet pmgdx pnk prw prwa psw ptw
+pso pam pd pr ps psm psmm pw ptb ptd p pfl pfr prof pgk qs qsl rm rd rdt ri
+rmin rs rcp sccm scms sms sm ss svs sbs sdr sims sdf sotflt sotfrt sc sim smax
+sgl sgr sbv smics smod so sso tbd tc td te tpr trf tw tan tls trs tlc tld tldir
+tlf tlfn tl uo v va vd wa wd wf wn wr wra RP {cout << "end of server_param version 15" << endl;};
+/*|
+LP SERVER
+acd bdr bp bam bd br bs bsm bsa bw cbc cp cal caw cm cadw cdefw cdelw ciw
+cmd cmpc cmw crw cws co cop cwr cw cr das dpr dbt ed edt ein eit ei em eht es
+fko fc fdp fe fkf fsp fwp fl fr glc gld gldir glf glfn glv gl gow gw gmm gg
+ht hd hi hm im k kl kld kldir lkf klfn klg ks kw kow kpr kr krfl krfr km lf ldf
+lt mbtp maxda mdp mgk mtp maxm maxna maxnm maxp minda mindp minm minna minnm
+minp neh nnh oaas okm op och pamk pbsw pcmp pdx pmet pmgdx pnk prw prwa psw ptw
+pso pam pd pr ps psm psmm pw ptb ptd p pfl pfr prof pgk qs qsl rm rd rdt ri
+rmin rs rcp sccm scms sms sm ss svs sbs sdr sims sdf sotflt sotfrt sc sim smax
+sgl sgr sbv smics smod so sso tbd tc td te tpr trf tw tan tls trs tlc tld tldir
+tlf tlfn tl uo v va vd wa wd wf wn wr wra RP {cout << "end of server_param version x" << endl;}*/
 
 acd:	LP ACD double RP {parent->model.server.audio_cut_dist = $3.d;} ;
-am:	LP AM double RP {parent->model.server.auto_mode = ($3.d==0?false:true);} ;
+am:	LP AM double RP {parent->model.server.auto_mode = ($3.d==0?false:true);}; // not in 8
 bdr:	LP BDR double RP {parent->model.server.back_dash_rate = $3.d;} ;
 bp:	LP BP double RP {parent->model.server.back_passes = static_cast<bool>($3.d);} ;
 bam:	LP BAM double RP {parent->model.server.ball_accel_max = $3.d;} ;
@@ -253,7 +115,7 @@ cws:	LP CWS double RP {parent->model.server.clang_win_size = static_cast<int>($3
 co:	LP CO double RP {parent->model.server.coach = ($3.d==0?false:true);} ;
 cop:	LP COP double RP {parent->model.server.coach_port = static_cast<int>($3.d);} ;
 cwr:	LP CWR double RP {parent->model.server.coach_w_referee = ($3.d==0?false:true);} ;
-cw:	LP CW double RP {parent->model.server.connect_wait = static_cast<int>($3.d);} ;
+cw:	LP CW double RP {parent->model.server.connect_wait = static_cast<int>($3.d);}; // not in version 8
 cr:	LP CR double RP {parent->model.server.control_radius = $3.d;} ;
 das:	LP DAS double RP {parent->model.server.dash_angle_step = $3.d;} ;
 dpr:	LP DPR double RP {parent->model.server.dash_power_rate = $3.d;} ;
@@ -282,7 +144,7 @@ glf:	LP GLF double RP {parent->model.server.game_log_fixed= static_cast<bool>($3
 glfn:	LP GLFN string RP {parent->model.server.game_log_fixed_name = *($3.s);} ;
 glv:	LP GLV double RP {parent->model.server.game_log_version = static_cast<int>($3.d);} ;
 gl:	LP GL double RP {parent->model.server.game_logging = static_cast<bool>($3.d);} ;
-gow:	LP GOW double RP {parent->model.server.game_over_wait = static_cast<int>($3.d);} ;
+gow:	LP GOW double RP {parent->model.server.game_over_wait = static_cast<int>($3.d);}; // not in version 8
 gw:	LP GW double RP {parent->model.server.goal_width = ($3.d);} ;
 gmm:	LP GMM double RP {parent->model.server.goalie_max_moves = static_cast<int>($3.d);} ;
 gg:	LP GG double RP {parent->model.server.golden_goal = static_cast<bool>($3.d);} ;
@@ -414,4 +276,36 @@ wn:	LP WN double RP {parent->model.server.wind_none = static_cast<bool>($3.d);} 
 wr:	LP WR double RP {parent->model.server.wind_rand = ($3.d);} ;
 wra:	LP WRA double RP {parent->model.server.wind_random = ($3.d);} ;
 
-init:	LP INIT RP {cout << "I can see an init!" << endl;};
+player_param: LP PP amdt calsmax calsmin dprdmax dprdmin emaxdf emindf esdmax esdmin fdpdf imdf
+kprdmax kprdmin kprdf kmdmax kmdmin ndprdmax ndprdmin nsimaxdf pddmax pddmin
+psdf psmaxdmax psmaxdmin pt ptm rans simaxdf submax RP {cout << "player parameters received" << endl;};
+
+amdt:		LP AMDT double RP {parent->model.player.allow_mult_default_type = static_cast<double>($3.d);};
+calsmax:	LP CALSMAX double RP {parent->model.player.catchable_area_l_stretch_max = ($3.d);};
+calsmin:	LP CALSMIN double RP {parent->model.player.catchable_area_l_stretch_min = ($3.d);};
+dprdmax:	LP DPRDMAX double RP {parent->model.player.dash_power_rate_delta_max = ($3.d);};
+dprdmin:	LP DPRDMIN double RP {parent->model.player.dash_power_rate_delta_min = ($3.d);};
+emaxdf:		LP EMAXDF double RP {parent->model.player.effort_max_delta_factor = ($3.d);};
+emindf:		LP EMINDF double RP {parent->model.player.effort_min_delta_factor = ($3.d);};
+esdmax:		LP ESDMAX double RP {parent->model.player.extra_stamina_delta_max = ($3.d);};
+esdmin:		LP ESDMIN double RP {parent->model.player.extra_stamina_delta_min = ($3.d);};
+fdpdf:		LP FDPDF double RP {parent->model.player.foul_detect_probability_delta_factor = ($3.d);};
+imdf:		LP IMDF double RP {parent->model.player.inertia_moment_delta_factor = ($3.d);};
+kprdmax:	LP KPRDMAX double RP {parent->model.player.kick_power_rate_delta_max = ($3.d);};
+kprdmin:	LP KPRDMIN double RP {parent->model.player.kick_power_rate_delta_min = ($3.d);};
+kprdf:		LP KPRDF double RP {parent->model.player.kick_rand_delta_factor = ($3.d);};
+kmdmax:		LP KMDMAX double RP {parent->model.player.kickable_margin_delta_max = ($3.d);};
+kmdmin:		LP KMDMIN double RP {parent->model.player.kickable_margin_delta_min = ($3.d);};
+ndprdmax:	LP NDPRDMAX double RP {parent->model.player.new_dash_power_rate_delta_max = ($3.d);};
+ndprdmin:	LP NDPRDMIN double RP {parent->model.player.new_dash_power_rate_delta_min = ($3.d);};
+nsimaxdf:	LP NSIMAXDF double RP {parent->model.player.new_stamina_inc_max_delta_factor = ($3.d);};
+pddmax:		LP PDDMAX double RP {parent->model.player.player_decay_delta_max = ($3.d);};
+pddmin:		LP PDDMIN double RP {parent->model.player.player_decay_delta_min = ($3.d);};
+psdf:		LP PSDF double RP {parent->model.player.player_size_delta_factor = ($3.d);};
+psmaxdmax:	LP PSMAXDMAX double RP {parent->model.player.player_speed_max_delta_max = ($3.d);};
+psmaxdmin:	LP PSMAXDMIN double RP {parent->model.player.player_speed_max_delta_min = ($3.d);};
+pt:		LP PT double RP {parent->model.player.player_types = static_cast<int>($3.d);};
+ptm:		LP PTM double RP {parent->model.player.pt_max = static_cast<int>($3.d);};
+rans:		LP RANS double RP {parent->model.player.random_seed = static_cast<int>($3.d);};
+simaxdf:	LP SIMAXDF double RP {parent->model.player.stamina_inc_max_delta_factor = ($3.d);};
+submax: 	LP SUBMAX double RP {parent->model.player.subs_max = static_cast<int>($3.d);};
