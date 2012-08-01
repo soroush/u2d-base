@@ -16,7 +16,8 @@ HEADERS +=  parser/Parser.h \
             # model files
             model/server_param.h \
     src/agent.h \
-    src/model/model.h
+    src/model/model.h \
+    src/model/player_param.h
 
 SOURCES +=  main.cpp \
             parser/lex.cc \
