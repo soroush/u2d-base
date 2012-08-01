@@ -5,6 +5,7 @@
 // $insert class.h
 #include "Parser.h"
 #include "../agent.h"
+#include "../model/model.h"
 
 
 inline void Parser::error(char const *msg)

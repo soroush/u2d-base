@@ -3,4 +3,4 @@
 // $insert class_h
 #include "Scanner.h"
 #include "Parser.h"
-
+#include "../model/model.h"

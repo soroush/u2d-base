@@ -11,6 +11,7 @@
 #include <sstream>
 
 class Agent;
+class Model;
 
 #undef Parser
 class Parser: public ParserBase
