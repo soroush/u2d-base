@@ -1,8 +1,11 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include <vector>
+
 #include "server_param.h"
 #include "player_param.h"
+#include "player_type.h"
 
 class Model
 {
@@ -30,9 +33,11 @@ public:
         offside_r
     };
 
-    server_param server;
-    player_param player;
+    t_server_param server;
+    t_player_param player;
     play_mode_type play_mode;
+    std::vector<t_player_type> player_types;
+
     void testServer();
 };
 
