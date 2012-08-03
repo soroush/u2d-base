@@ -7,8 +7,11 @@
 #include "Parserbase.h"
 // $insert scanner.h
 #include "./Scanner.h"
+#include "../model/player_type.h"
 
 #include <sstream>
+
+using namespace std;
 
 class Agent;
 class Model;
@@ -18,24 +21,24 @@ class Parser: public ParserBase
 {
     // $insert scannerobject
     Scanner* d_scanner;
-        
-    public:
-        int parse();
-        void setParent(Agent* _parent){this->parent = _parent;}
-        void setIstream(std::istream& ss){this->d_scanner = new Scanner(ss,std::cout);}
-    private:
-        void error(char const *msg);    // called on (syntax) errors
-        int lex();                      // returns the next token from the
-                                        // lexical scanner. 
-        void print();                   // use, e.g., d_token, d_loc
+public:
+    int parse();
+    void setParent(Agent* _parent){this->parent = _parent;}
+    void setIstream(std::istream& ss){this->d_scanner = new Scanner(ss,std::cout);}
+private:
+    void error(char const *msg);    // called on (syntax) errors
+    int lex();                      // returns the next token from the
+    // lexical scanner.
+    void print();                   // use, e.g., d_token, d_loc
 
     // support functions for parse():
-        void executeAction(int ruleNr);
-        void errorRecovery();
-        int lookup(bool recovery);
-        void nextToken();
-        void print__();
-        Agent* parent;
+    void executeAction(int ruleNr);
+    void errorRecovery();
+    int lookup(bool recovery);
+    void nextToken();
+    void print__();
+    Agent* parent;
+    vector<t_player_type>::reverse_iterator currentType;
 };
 
 

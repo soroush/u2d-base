@@ -15,6 +15,10 @@ std::string*	s;
 %token LP
 %token RP
 
+//init tokens:
+%token SIDE
+
+// server_param:
 %token ACD AM BDR BP BAM BD BR BS BSM BSA BW CBC CP CAL CAW CM CADW CDEFW CDELW
 CIW CMD CMPC CMW CRW CWS CO COP CWR CW CR DAS DPR DBT ED EDT EIN EIT EI EM EHT
 ES FKO FC FDP FE FKF FSP FWP FL FR GLC GLD GLDIR GLF GLFN GLV GL GOW GW GMM GG
@@ -26,19 +30,21 @@ RMIN RS RCP SCCM SCMS SMS SM SS SVS SBS SDR SIMS SDF SOTFLT SOTFRT SC SIM SMAX
 SGL SGR SBV SMICS SMOD  SO SSO TBD TC TD TE TPR TRF TW TAN TLS TRS TLC TLD
 TLDIR TLF TLFN TL UO V VA VD WA WD WF WN WR WRA
 
-%token SIDE PLM
-
+// player_param:
 %token PP AMDT CALSMAX CALSMIN DPRDMAX DPRDMIN EMAXDF EMINDF ESDMAX ESDMIN FDPDF IMDF
 KPRDMAX KPRDMIN KPRDF KMDMAX KMDMIN NDPRDMAX NDPRDMIN NSIMAXDF PDDMAX PDDMIN
 PSDF PSMAXDMAX PSMAXDMIN PT PTM RANS SIMAXDF SUBMAX
 
+// player_type:
+%token PTY ID EMAX CALS
 
+// play_mode:
 %token PM_BKO PM_PO PM_TO PM_KOL PM_KOR PM_KIL PM_KIR PM_FKL PM_FKR
 PM_CKL PM_CKR PM_GKL PM_GKR PM_GOALL PM_GOALR PM_DB PM_OL PM_OR
 
 %%
 
-start: init | server_param | player_param;
+start: init | server_param | player_param | player_type;
 
 double:	DOUBLE {$$.d = atof(d_scanner->matched().c_str());} ;
 string:	STRING {$$.s = new std::string(d_scanner->matched().c_str());} ;
@@ -119,6 +125,7 @@ cw:	LP CW double RP {parent->model.server.connect_wait = static_cast<int>($3.d);
 cr:	LP CR double RP {parent->model.server.control_radius = $3.d;} ;
 das:	LP DAS double RP {parent->model.server.dash_angle_step = $3.d;} ;
 dpr:	LP DPR double RP {parent->model.server.dash_power_rate = $3.d;} ;
+pt_dpr:	LP DPR double RP {currentType->dash_power_rate = ($3.d);} ;
 dbt:	LP DBT double RP {parent->model.server.drop_ball_time = static_cast<int>($3.d);} ;
 ed:	LP ED double RP {parent->model.server.effort_dec = ($3.d);} ;
 edt:	LP EDT double RP {parent->model.server.effort_dec_thr = ($3.d);} ;
@@ -126,11 +133,15 @@ ein:	LP EIN double RP {parent->model.server.effort_inc = ($3.d);} ;
 eit:	LP EIT double RP {parent->model.server.effort_inc_thr = ($3.d);} ;
 ei:	LP EI double RP {parent->model.server.effort_init = ($3.d);} ;
 em:	LP EM double RP {parent->model.server.effort_min = ($3.d);} ;
+pt_emx:	LP EMAX double RP {currentType->effort_max = ($3.d);} ;
+pt_emi:	LP EM double RP {currentType->effort_min = ($3.d);} ;
 eht:	LP EHT double RP {parent->model.server.extra_half_time = static_cast<int>($3.d);} ;
 es:	LP ES double RP {parent->model.server.extra_stamina = ($3.d);} ;
+pt_es:	LP ES double RP {currentType->extra_stamina = ($3.d);} ;
 fko:	LP FKO double RP {parent->model.server.forbid_kick_off_offside = static_cast<bool>($3.d);} ;
 fc:	LP FC double RP {parent->model.server.foul_cycles = static_cast<int>($3.d);} ;
 fdp:	LP FDP double RP {parent->model.server.foul_detect_probability = $3.d;} ;
+pt_fdp:	LP FDP double RP {currentType->foul_detect_probability = $3.d;} ;
 fe:	LP FE double RP {parent->model.server.foul_exponent = $3.d;} ;
 fkf:	LP FKF double RP {parent->model.server.free_kick_faults = static_cast<bool>($3.d);} ;
 fsp:	LP FSP double RP {parent->model.server.freeform_send_period = static_cast<unsigned int>($3.d);} ;
@@ -153,6 +164,7 @@ hd:	LP HD double RP {parent->model.server.hear_decay = static_cast<unsigned int>
 hi:	LP HI double RP {parent->model.server.hear_inc = static_cast<unsigned int>($3.d);} ;
 hm:	LP HM double RP {parent->model.server.hear_max = static_cast<unsigned int>($3.d);} ;
 im:	LP IM double RP {parent->model.server.inertia_moment = ($3.d);} ;
+pt_im:	LP IM double RP {currentType->inertia_moment = ($3.d);} ;
 k:	LP K double RP {parent->model.server.keepaway = static_cast<bool>($3.d);} ;
 kl:	LP KL double RP {parent->model.server.keepaway_length = ($3.d);} ;
 kld:	LP KLD double RP {parent->model.server.keepaway_log_dated = static_cast<bool>($3.d);} ;
@@ -164,10 +176,13 @@ ks:	LP KS double RP {parent->model.server.keepaway_start = static_cast<int>($3.d
 kw:	LP KW double RP {parent->model.server.keepaway_width = ($3.d);} ;
 kow:	LP KOW double RP {parent->model.server.kick_off_wait = static_cast<int>($3.d);} ;
 kpr:	LP KPR double RP {parent->model.server.kick_power_rate = ($3.d);} ;
+pt_kpr:	LP KPR double RP {currentType->kick_power_rate= ($3.d);} ;
 kr:	LP KR double RP {parent->model.server.kick_rand = ($3.d);} ;
+pt_kr:	LP KR double RP {currentType->kick_rand = ($3.d);} ;
 krfl:	LP KRFL double RP {parent->model.server.kick_rand_factor_l = ($3.d);} ;
 krfr:	LP KRFR double RP {parent->model.server.kick_rand_factor_r = ($3.d);} ;
 km:	LP KM double RP {parent->model.server.kickable_margin = ($3.d);} ;
+pt_km:	LP KM double RP {currentType->kickable_margin = ($3.d);} ;
 lf:	LP LF string RP {parent->model.server.landmark_file = *($3.s);} ;
 ldf:	LP LDF string RP {parent->model.server.log_date_format = *($3.s);} ;
 lt:	LP LT double RP {parent->model.server.log_times = static_cast<int>($3.d);} ;
@@ -206,9 +221,12 @@ ptw:	LP PTW double RP {parent->model.server.pen_taken_wait = static_cast<int>($3
 pso:	LP PSO double RP {parent->model.server.penalty_shoot_outs = static_cast<bool>($3.d);} ;
 pam:	LP PAM double RP {parent->model.server.player_accel_max = ($3.d);} ;
 pd:	LP PD double RP {parent->model.server.player_decay = ($3.d);} ;
+pt_pd:	LP PD double RP {currentType->player_decay= ($3.d);} ;
 pr:	LP PR double RP {parent->model.server.player_rand = ($3.d);} ;
 ps:	LP PS double RP {parent->model.server.player_size = ($3.d);} ;
+pt_ps:	LP PS double RP {currentType->player_size = ($3.d);} ;
 psm:	LP PSM double RP {parent->model.server.player_speed_max = ($3.d);} ;
+pt_psm:	LP PSM double RP {currentType->player_speed_max = ($3.d);} ;
 psmm:	LP PSMM double RP {parent->model.server.player_speed_max_min = ($3.d);} ;
 pw:	LP PW double RP {parent->model.server.player_weight = ($3.d);} ;
 ptb:	LP PTB double RP {parent->model.server.point_to_ban = static_cast<int>($3.d);} ;
@@ -241,6 +259,7 @@ sotflt:	LP SOTFLT double RP {parent->model.server.slowness_on_top_for_left_team 
 sotfrt:	LP SOTFRT double RP {parent->model.server.slowness_on_top_for_right_team = ($3.d);} ;
 sc:	LP SC double RP {parent->model.server.stamina_capacity = ($3.d);} ;
 sim:	LP SIM double RP {parent->model.server.stamina_inc_max = ($3.d);} ;
+pt_sim:	LP SIM double RP {currentType->stamina_inc_max = ($3.d);} ;
 smax:	LP SMAX double RP {parent->model.server.stamina_max = ($3.d);} ;
 sgl:	LP SGL double RP {parent->model.server.start_goal_l = static_cast<int>($3.d);} ;
 sgr:	LP SGR double RP {parent->model.server.start_goal_r = static_cast<int>($3.d);} ;
@@ -280,8 +299,12 @@ player_param: LP PP amdt calsmax calsmin dprdmax dprdmin emaxdf emindf esdmax es
 kprdmax kprdmin kprdf kmdmax kmdmin ndprdmax ndprdmin nsimaxdf pddmax pddmin
 psdf psmaxdmax psmaxdmin pt ptm rans simaxdf submax RP {cout << "player parameters received" << endl;};
 
-amdt:		LP AMDT double RP {parent->model.player.allow_mult_default_type = static_cast<double>($3.d);};
+player_type: LP PTY id pt_psm pt_sim pt_pd pt_im pt_dpr pt_ps pt_km pt_kr pt_es
+pt_emx pt_emi pt_kpr pt_fdp pt_cals RP {cout << "seen player_type " << currentType->id << endl;};
+
+amdt:		LP AMDT double RP {parent->model.player.allow_mult_default_type = ($3.d);};
 calsmax:	LP CALSMAX double RP {parent->model.player.catchable_area_l_stretch_max = ($3.d);};
+pt_cals:	LP CALS double RP {currentType->catchable_area_l_stretch = ($3.d);};
 calsmin:	LP CALSMIN double RP {parent->model.player.catchable_area_l_stretch_min = ($3.d);};
 dprdmax:	LP DPRDMAX double RP {parent->model.player.dash_power_rate_delta_max = ($3.d);};
 dprdmin:	LP DPRDMIN double RP {parent->model.player.dash_power_rate_delta_min = ($3.d);};
@@ -309,3 +332,10 @@ ptm:		LP PTM double RP {parent->model.player.pt_max = static_cast<int>($3.d);};
 rans:		LP RANS double RP {parent->model.player.random_seed = static_cast<int>($3.d);};
 simaxdf:	LP SIMAXDF double RP {parent->model.player.stamina_inc_max_delta_factor = ($3.d);};
 submax: 	LP SUBMAX double RP {parent->model.player.subs_max = static_cast<int>($3.d);};
+
+id:		LP ID double RP {
+    t_player_type x;
+    parent->model.player_types.push_back(x);
+    currentType = parent->model.player_types.rbegin();
+    currentType->id = static_cast<unsigned short int>($3.d);
+};

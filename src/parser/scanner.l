@@ -20,6 +20,7 @@
 "catchable_area_l_stretch_min"      return Parser::CALSMIN;
 "catchable_area_l"                  return Parser::CAL;
 "catchable_area_w"                  return Parser::CAW;
+"catchable_area_l_stretch"          return Parser::CALS;
 "ckick_margin"                      return Parser::CM;
 "clang_advice_win"                  return Parser::CADW;
 "clang_define_win"                  return Parser::CDEFW;
@@ -53,6 +54,7 @@
 "effort_inc_thr"                    return Parser::EIT;
 "effort_init"                       return Parser::EI;
 "effort_min"                        return Parser::EM;
+"effort_max"                        return Parser::EMAX;
 "extra_stamina_delta_max"           return Parser::ESDMAX;
 "extra_stamina_delta_min"           return Parser::ESDMIN;
 "extra_half_time"                   return Parser::EHT;
@@ -90,6 +92,7 @@
 "hear_max"                          return Parser::HM;
 "inertia_moment_delta_factor"       return Parser::IMDF;
 "inertia_moment"                    return Parser::IM;
+"id"                                return Parser::ID;
 "keepaway"                          return Parser::K;
 "keepaway_length"                   return Parser::KL;
 "keepaway_log_dated"                return Parser::KLD;
@@ -165,6 +168,7 @@
 "player_speed_max_delta_max"        return Parser::PSMAXDMAX;
 "player_speed_max_delta_min"        return Parser::PSMAXDMIN;
 "player_types"                      return Parser::PT;
+"player_type"                       return Parser::PTY;
 "pt_max"                            return Parser::PTM;
 "player_weight"                     return Parser::PW;
 "point_to_ban"                      return Parser::PTB;
