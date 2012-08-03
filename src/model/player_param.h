@@ -1,9 +1,9 @@
 #ifndef PLAYER_PARAM_H
 #define PLAYER_PARAM_H
 
-struct player_param
+struct t_player_param
 {
-    bool allow_mult_default_type;
+    bool   allow_mult_default_type;
     double catchable_area_l_stretch_max;
     double catchable_area_l_stretch_min;
     double dash_power_rate_delta_max;
@@ -27,11 +27,11 @@ struct player_param
     double player_size_delta_factor;
     double player_speed_max_delta_max;
     double player_speed_max_delta_min;
-    int player_types;
-    int pt_max;
+    int    player_types;
+    int    pt_max;
     double random_seed;
     double stamina_inc_max_delta_factor;
-    int subs_max;
+    int    subs_max;
 };
 
 #endif // PLAYER_PARAM_H

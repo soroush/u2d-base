@@ -3,7 +3,7 @@
 
 #include <string>
 
-struct server_param
+struct t_server_param
 {
     double audio_cut_dist;
     bool auto_mode;
