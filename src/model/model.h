@@ -6,6 +6,7 @@
 #include "server_param.h"
 #include "player_param.h"
 #include "player_type.h"
+#include "sense_body.h"
 
 class Model
 {
@@ -37,6 +38,7 @@ public:
     t_player_param player;
     play_mode_type play_mode;
     std::vector<t_player_type> player_types;
+    t_sense_body body;
 
     void testServer();
 };

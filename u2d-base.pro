@@ -18,14 +18,19 @@ HEADERS +=  parser/Parser.h \
     src/agent.h \
     src/model/model.h \
     src/model/player_param.h \
-    src/model/player_type.h
+    src/model/player_type.h \
+    src/model/sense_body.h \
+    src/geometry/types.h \
+    src/network/connection.h
 
 SOURCES +=  main.cpp \
             parser/lex.cc \
             parser/parse.cc \
             # model files:
     src/model/model.cpp \
-    src/agent.cpp
+    src/agent.cpp \
+    src/geometry/types.cpp \
+    src/network/connection.cpp
 
 OTHER_FILES +=  parser/scanner.l \
                 parser/parser.y \

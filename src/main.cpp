@@ -1,18 +1,19 @@
 #include <iostream>
-
-using namespace std;
+#include <string>
 
 #include "agent.h"
-#include <sstream>
+#include "model/sense_body.h"
 
-void foo (istream& i)
-{
-
-}
+using namespace std;
 
 int main()
 {
     Agent x;
+    x.setTeamName("FC_Urmia");
+    x.setAddress("127.0.0.1");
+    x.setPort(6000);
+    x.setVersion(15);
+    x.setGoalie(false);
     x.start();
     return 0;
 }
