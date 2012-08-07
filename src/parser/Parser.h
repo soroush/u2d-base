@@ -21,10 +21,20 @@ class Parser: public ParserBase
 {
     // $insert scannerobject
     Scanner* d_scanner;
+    std::istream* inputStream;
 public:
     int parse();
     void setParent(Agent* _parent){this->parent = _parent;}
-    void setIstream(std::istream& ss){this->d_scanner = new Scanner(ss,std::cout);}
+    void setIstream(std::istream& ss)
+    {
+        this->d_scanner = new Scanner(ss,std::cout);
+        this->inputStream = &ss;
+    }
+    void reset()
+    {
+        this->d_scanner = new Scanner(*inputStream,std::cout);
+    }
+
 private:
     void error(char const *msg);    // called on (syntax) errors
     int lex();                      // returns the next token from the

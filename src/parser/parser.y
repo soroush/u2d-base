@@ -10,7 +10,6 @@ std::string*	s;
 
 %token <d> 	DOUBLE
 %token <i> 	INTEGER
-%token <b> 	BOOL
 %token <s> 	STRING
 
 %token INIT
@@ -18,8 +17,8 @@ std::string*	s;
 %token LP
 %token RP
 
-//init tokens:
-%token SIDE
+//global tokens:
+_0 _1
 
 // server_param:
 %token ACD AM BDR BP BAM BD BR BS BSM BSA BW CBC CP CAL CAW CM CADW CDEFW CDELW
@@ -50,18 +49,23 @@ PM_CKL PM_CKR PM_GKL PM_GKR PM_GOALL PM_GOALR PM_DB PM_OL PM_OR
 CATCH MOVE CHVIEW ARM MOVABLE EXP TAR COUNT FOCUS NONE TACKLE COLL BALL PLAYER
 POST FOUL CHARGED CARD YELLOW
 
+// see:
+%token SEE _C _B _F _P _G _L _R _T _BB _FF _GG _PP
+
 %%
 
-start: init | server_param | player_param | player_type | sense_body;
+start: init  | server_param  | player_param | player_type | sense_body | see;
 
-bool:	BOOL {$$.b = (d_scanner->matched()=="0")?false:true;} ;
+bool:	_0 {$$.b = false;} | _1 {$$.b=true;};
 int:	INTEGER {$$.i = atoi(d_scanner->matched().c_str());} |
 	bool {$$.i = $1.b? 1 : 0;};
 double:	DOUBLE {$$.d = atof(d_scanner->matched().c_str());} |
 	int {$$.d = static_cast<double>($1.i);} ;
 string:	STRING {$$.s = new std::string(d_scanner->matched().c_str());} ;
 
-init:   LP INIT SIDE double play_mode RP {parent->model.play_mode = (Model::play_mode_type)$5.i; cout << "init Response received " << parent->model.play_mode << endl;};
+init:   LP INIT side double play_mode RP {parent->model.play_mode = (Model::play_mode_type)$5.i;
+                               cout << "seen init" << parent->model.play_mode << endl;
+                               this->ACCEPT();};
 play_mode:  PM_BKO   {$$.i = Model::before_kick_off ;}|
             PM_PO    {$$.i = Model::play_on ;}|
             PM_TO    {$$.i = Model::time_over ;}|
@@ -91,7 +95,8 @@ minp neh nnh oaas okm op och pamk pbsw pcmp pdx pmet pmgdx pnk prw prwa psw ptw
 pso pam pd pr ps psm psmm pw ptb ptd p pfl pfr prof pgk qs qsl rm rd rdt ri
 rmin rs rcp sccm scms sms sm ss svs sbs sdr sims sdf sotflt sotfrt sc sim smax
 sgl sgr sbv smics smod so sso tbd tc td te tpr trf tw tan tls trs tlc tld tldir
-tlf tlfn tl uo v va vd wa wd wf wn wr wra RP {cout << "end of server_param version 15" << endl;};
+tlf tlfn tl uo v va vd wa wd wf wn wr wra RP {cout << "seen server_param" << endl;
+                                              this->ACCEPT();};
 /*|
 LP SERVER
 acd bdr bp bam bd br bs bsm bsa bw cbc cp cal caw cm cadw cdefw cdelw ciw
@@ -105,7 +110,7 @@ rmin rs rcp sccm scms sms sm ss svs sbs sdr sims sdf sotflt sotfrt sc sim smax
 sgl sgr sbv smics smod so sso tbd tc td te tpr trf tw tan tls trs tlc tld tldir
 tlf tlfn tl uo v va vd wa wd wf wn wr wra RP {cout << "end of server_param version x" << endl;}*/
 
-acd:	LP ACD double RP {parent->model.server.audio_cut_dist = $3.d;} ;
+acd:	LP ACD double RP {parent->model.server.audio_cut_dist = $3.d; } ;
 am:	LP AM bool RP {parent->model.server.auto_mode = $3.b;}; // not in 8
 bdr:	LP BDR double RP {parent->model.server.back_dash_rate = $3.d;} ;
 bp:	LP BP double RP {parent->model.server.back_passes = static_cast<bool>($3.d);} ;
@@ -272,7 +277,7 @@ sotfrt:	LP SOTFRT double RP {parent->model.server.slowness_on_top_for_right_team
 sc:	LP SC double RP {parent->model.server.stamina_capacity = ($3.d);} ;
 sim:	LP SIM double RP {parent->model.server.stamina_inc_max = ($3.d);} ;
 pt_sim:	LP SIM double RP {currentType->stamina_inc_max = ($3.d);} ;
-smax:	LP SMAX double RP {parent->model.server.stamina_max = ($3.d);} ;
+smax:	LP SMAX double RP {parent->model.server.stamina_max = ($3.d);};
 sgl:	LP SGL int RP {parent->model.server.start_goal_l = $3.i; } ;
 sgr:	LP SGR int RP {parent->model.server.start_goal_r = $3.i; } ;
 sbv:	LP SBV double RP {parent->model.server.stopped_ball_vel = ($3.d);} ;
@@ -309,10 +314,10 @@ wra:	LP WRA double RP {parent->model.server.wind_random = ($3.d);} ;
 
 player_param: LP PP amdt calsmax calsmin dprdmax dprdmin emaxdf emindf esdmax esdmin fdpdf imdf
 kprdmax kprdmin kprdf kmdmax kmdmin ndprdmax ndprdmin nsimaxdf pddmax pddmin
-psdf psmaxdmax psmaxdmin pt ptm rans simaxdf submax RP {cout << "player parameters received" << endl;};
+psdf psmaxdmax psmaxdmin pt ptm rans simaxdf submax RP {cout << "seen player_param" << endl; this->ACCEPT();};
 
 player_type: LP PTY id pt_psm pt_sim pt_pd pt_im pt_dpr pt_ps pt_km pt_kr pt_es
-pt_emx pt_emi pt_kpr pt_fdp pt_cals RP {cout << "seen player_type " << currentType->id << endl;};
+pt_emx pt_emi pt_kpr pt_fdp pt_cals RP {cout << "seen player_type " << currentType->id << endl; this->ACCEPT();};
 
 amdt:		LP AMDT double RP {parent->model.player.allow_mult_default_type = ($3.d);};
 calsmax:	LP CALSMAX double RP {parent->model.player.catchable_area_l_stretch_max = ($3.d);};
@@ -386,7 +391,7 @@ count:		LP COUNT int RP {};
 focus:		LP FOCUS f_target f_count RP {};
 f_count:	LP COUNT int RP {};
 f_target:	LP TAR target_type RP {};
-target_type:	SIDE | NONE {};
+target_type:	side | NONE {};
 
 tackle:		LP TACKLE t_expires t_count RP {};
 t_expires:	LP EXP int RP {};
@@ -402,3 +407,39 @@ foul:		LP FOUL charged card RP {};
 charged:	LP CHARGED int RP {};
 card:		LP CARD card_type RP {};
 card_type:	NONE {} | YELLOW {};
+
+see:		LP SEE int objects RP {cout << "seen see" << endl;};
+objects:	object objects {} |
+		object {};
+object:		o_ball |
+		o_player |
+		o_goal |
+		o_flag ;
+
+o_ball:		LP LP _B RP double double RP {} |
+		LP LP _B RP double double double double RP {};
+o_player:	LP LP _P string int RP double double double double double double RP {} |
+		LP LP _P string RP double double RP {} |
+		LP LP _P RP double double RP {};
+o_goal:		LP LP _G side RP double double RP {} |
+		LP LP _G side RP double double double double RP {};
+o_flag:		LP LP flag_name RP double double RP {}|
+		LP LP flag_name RP double double double double RP {};
+flag_name:	_F _C |
+		_F side tb {} |
+		_F _C tb {} |
+		_F _P side tcb |
+		_F _G side tb |
+		_F lrtb _0 |
+		_F tb side int |
+		_F side tb int |
+		_L lrtb |
+		_BB |
+		_FF |
+		_GG |
+		_PP
+		;
+tb:		_T | _B;
+side:		_L {$$.i=0;} | _R {$$.i=1;};
+tcb:		_T | _C | _B ;
+lrtb:		_L | _R | _T | _B;

@@ -15,6 +15,8 @@
 "ball_stuck_area"                   return Parser::BSA;
 "ball_weight"                       return Parser::BW;
 "ball"                              return Parser::BALL;
+"b"                                 return Parser::_B;
+"B"                                 return Parser::_BB;
 "before_kick_off"                   return Parser::PM_BKO;
 "card"                              return Parser::CARD;
 "catch_ban_cycle"                   return Parser::CBC;
@@ -46,6 +48,7 @@
 "connect_wait"                      return Parser::CW;
 "control_radius"                    return Parser::CR;
 "count"                             return Parser::COUNT;
+"c"                                 return Parser::_C;
 "dash_angle_step"                   return Parser::DAS;
 "dash_power_rate"                   return Parser::DPR;
 "new_dash_power_rate_delta_max"     return Parser::NDPRDMAX;
@@ -83,6 +86,8 @@
 "freeform_wait_period"              return Parser::FWP;
 "fullstate_l"                       return Parser::FL;
 "fullstate_r"                       return Parser::FR;
+"f"                                 return Parser::_F;
+"F"                                 return Parser::_FF;
 "game_log_compression"              return Parser::GLC;
 "game_log_dated"                    return Parser::GLD;
 "game_log_dir"                      return Parser::GLDIR;
@@ -98,6 +103,8 @@
 "goal_width"                        return Parser::GW;
 "goalie_max_moves"                  return Parser::GMM;
 "golden_goal"                       return Parser::GG;
+"g"                                 return Parser::_G;
+"G"                                 return Parser::_GG;
 "half_time"                         return Parser::HT;
 "head_angle"                        return Parser::HA;
 "hear_decay"                        return Parser::HD;
@@ -134,6 +141,7 @@
 "landmark_file"                     return Parser::LF;
 "log_date_format"                   return Parser::LDF;
 "log_times"                         return Parser::LT;
+"l"                                 return Parser::_L;
 "max_back_tackle_power"             return Parser::MBTP;
 "max_dash_angle"                    return Parser::MAXDA;
 "max_dash_power"                    return Parser::MDP;
@@ -195,6 +203,8 @@
 "prand_factor_l"                    return Parser::PFL;
 "prand_factor_r"                    return Parser::PFR;
 "profile"                           return Parser::PROF;
+"p"                                 return Parser::_P;
+"P"                                 return Parser::_PP;
 "proper_goal_kicks"                 return Parser::PGK;
 "quantize_step"                     return Parser::QS;
 "quantize_step_l"                   return Parser::QSL;
@@ -206,10 +216,12 @@
 "recover_min"                       return Parser::RMIN;
 "recv_step"                         return Parser::RS;
 "red_card_probability"              return Parser::RCP;
+"r"                                 return Parser::_R;
 "say_coach_cnt_max"                 return Parser::SCCM;
 "say_coach_msg_size"                return Parser::SCMS;
 "say_msg_size"                      return Parser::SMS;
 "say"                               return Parser::SAY;
+"see"                               return Parser::SEE; // Should be SC in fact!
 "send_comms"                        return Parser::SM; // Should be SC in fact!
 "send_step"                         return Parser::SS;
 "send_vi_step"                      return Parser::SVS;
@@ -256,6 +268,7 @@
 "time_over"                         return Parser::PM_TO;
 "turn_neck"                         return Parser::TNECK;
 "turn"                              return Parser::TURN;
+"t"                                 return Parser::_T;
 "use_offside"                       return Parser::UO;
 "verbose"                           return Parser::V;
 "visible_angle"                     return Parser::VA;
@@ -277,8 +290,8 @@
 "init"                              return Parser::INIT;
 "player_param"                      return Parser::PP;
 "allow_mult_default_type"           return Parser::AMDT;
-[lr]                                return Parser::SIDE;
-"0"|"1"                             return Parser::BOOL;
+"0"                                 return Parser::_0;
+"1"                                 return Parser::_1;
 "-"?[[:digit:]]+                    return Parser::INTEGER;
 "-"?[[:digit:]]+("."[[:digit:]]+)?  return Parser::DOUBLE;
 "\""[^\"]*"\""                      return Parser::STRING;
