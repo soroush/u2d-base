@@ -50,7 +50,7 @@ struct t_tackle
 struct t_collition
 {
     enum collition_type{none=0,ball=1,player=2,post=4};
-    int type;
+    collition_type type;
     t_collition():type(none){}
 };
 
