@@ -50,7 +50,7 @@ CATCH MOVE CHVIEW ARM MOVABLE EXP TAR COUNT FOCUS NONE TACKLE COLL BALL PLAYER
 POST FOUL CHARGED CARD YELLOW
 
 // see:
-%token SEE _C _B _F _P _G _L _R _T _BB _FF _GG _PP
+%token SEE _C _B _F _P _G _L _R _T _BB _FF _GG _PP GOALIE
 
 %%
 
@@ -382,35 +382,38 @@ catch:		LP CATCH int RP {parent->model.body.catch_ = $3.i;};
 move:		LP MOVE int RP {parent->model.body.move = $3.i;};
 chview:		LP CHVIEW int RP {parent->model.body.change_view = $3.i;};
 
-arm:		LP ARM movable expires target count RP {};
-movable:	LP MOVABLE int RP {};
-expires:	LP EXP int RP {};
-target:		LP TAR int int RP {};
-count:		LP COUNT int RP {};
+arm:		LP ARM movable expires target count RP;
+movable:	LP MOVABLE int RP {parent->model.body.arm.movable = $3.i;};
+expires:	LP EXP int RP {parent->model.body.arm.expires = $3.i;};
+target:		LP TAR double double RP {parent->model.body.arm.target = Point($3.d,$4.d);};
+count:		LP COUNT int RP {parent->model.body.arm.count = $3.i;};
 
-focus:		LP FOCUS f_target f_count RP {};
+focus:		LP FOCUS f_target f_count RP;
+f_target:	LP TAR target_type RP {parent->model.body.focus.type = static_cast<t_focus::focus_type>($3.i);};
 f_count:	LP COUNT int RP {};
-f_target:	LP TAR target_type RP {};
-target_type:	side | NONE {};
+target_type:	_L {$$.i = t_focus::l;} |
+		_R {$$.i = t_focus::r;} |
+		NONE {$$.i = t_focus::none;};
 
-tackle:		LP TACKLE t_expires t_count RP {};
-t_expires:	LP EXP int RP {};
-t_count:	LP COUNT int RP {};
+tackle:		LP TACKLE t_expires t_count RP;
+t_expires:	LP EXP int RP {parent->model.body.tackle.expires = $3.i;};
+t_count:	LP COUNT int RP {parent->model.body.tackle.count = $3.i;};
 
-collision:	LP COLL col_type RP {};
-col_type:	NONE {} |
-		BALL {} |
-		PLAYER {} |
-		POST {};
+collision:	LP COLL col_type RP {parent->model.body.collition.type = static_cast<t_collition::collition_type>($3.i);};
+col_type:	NONE {$$.i = t_collition::none;} |
+		BALL {$$.i = t_collition::ball;} |
+		PLAYER {$$.i = t_collition::player;} |
+		POST {$$.i = t_collition::post;};
 
-foul:		LP FOUL charged card RP {};
-charged:	LP CHARGED int RP {};
-card:		LP CARD card_type RP {};
-card_type:	NONE {} | YELLOW {};
+foul:		LP FOUL charged card RP;
+charged:	LP CHARGED int RP {parent->model.body.foul.charged = $3.i;};
+card:		LP CARD card_type RP {parent->model.body.foul.card = static_cast<t_foul::card_type>($3.i);};
+card_type:	NONE {$$.i = t_foul::none;} |
+		YELLOW {$$.i = t_foul::yellow;};
 
 see:		LP SEE int objects RP {cout << "seen see" << endl;};
-objects:	object objects {} |
-		object {};
+objects:	object objects |
+		object ;
 object:		o_ball |
 		o_player |
 		o_goal |
@@ -419,6 +422,7 @@ object:		o_ball |
 o_ball:		LP LP _B RP double double RP {} |
 		LP LP _B RP double double double double RP {};
 o_player:	LP LP _P string int RP double double double double double double RP {} |
+		LP LP _P string int GOALIE RP double double double double double double RP {} |
 		LP LP _P string RP double double RP {} |
 		LP LP _P RP double double RP {};
 o_goal:		LP LP _G side RP double double RP {} |

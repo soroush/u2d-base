@@ -102,6 +102,7 @@
 "goal_kick_r"                       return Parser::PM_GKR;
 "goal_width"                        return Parser::GW;
 "goalie_max_moves"                  return Parser::GMM;
+"goalie"                            return Parser::GOALIE;
 "golden_goal"                       return Parser::GG;
 "g"                                 return Parser::_G;
 "G"                                 return Parser::_GG;
