@@ -35,16 +35,15 @@ void Connection::initialize(const string &ip, const unsigned int &portNumber, Ag
 
 void Connection::loop()
 {
-    cout << "Initialization: " << initializeCommand << endl;
+    //cout << "Initialization: " << initializeCommand << endl;
     char* buffer = new char[8192];
     sendto(sockfd,initializeCommand.c_str(),initializeCommand.length(),0, (struct sockaddr *) &address,sizeof(address));
     int n;
     int i=0;
-    while(i<3)
+    while(true)
     {
         n = recvfrom(sockfd, buffer, 8192, 0, NULL,NULL);
         buffer[n] = 0;
-        cout << buffer << endl;
         parant->parse(buffer);
         i++;
     }

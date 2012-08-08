@@ -36,8 +36,9 @@ void Agent::start()
 {
     this->parser.setIstream(this->inputStream);
     connection.initialize(this->address, this->portNumber,this);
-    char buffer[37];
-    sprintf(buffer, "(init %s (version %d) %s)", this->teamName.c_str(), this->rcssVersion,
+    char buffer[50];
+    sprintf(buffer, "(init %s (version %d) %s)",
+            this->teamName.c_str(), this->rcssVersion,
             (this->goalie ? "(goalie)" : ""));
     connection.setInitializationCommand(buffer);
     connection.loop();
@@ -47,5 +48,28 @@ void Agent::parse(const char *input)
 {
     inputStream.str(std::string());
     inputStream << input;
-    this->parser.parse();
+//    cout << "parsing result: " << endl;
+    this->parser.reset();
+    int r = this->parser.parse() ;
+//    cout << r << endl;
+//    if(r)
+//        exit(r);
+}
+
+// Testing proposed
+void Agent::test()
+{
+    parser.setIstream(std::cin);
+    while(true)
+    parser.parse();
+//    string value;
+//    this->parser.setIstream(inputStream);
+//    while(true)
+//    {
+//        getline(cin,value);
+//        inputStream.str("");
+//        inputStream << value;
+//        this->parser.reset();
+//        this->parser.parse();
+//    }
 }

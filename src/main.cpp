@@ -15,6 +15,7 @@ int main()
     x.setVersion(15);
     x.setGoalie(false);
     x.start();
+//    x.test();
     return 0;
 }
 

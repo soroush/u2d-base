@@ -20,6 +20,8 @@ public:
     void start();
     void parse(const char* input);
     Model model;
+    // Testing proposed
+    void test();
 private:
     Parser parser;
     Connection connection;
