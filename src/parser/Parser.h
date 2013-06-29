@@ -8,8 +8,10 @@
 // $insert scanner.h
 #include "./Scanner.h"
 #include "../model/player_type.h"
+#include "../geometry/types.h"
 
 #include <sstream>
+#include <stack>
 
 using namespace std;
 
@@ -17,39 +19,39 @@ class Agent;
 class Model;
 
 #undef Parser
-class Parser: public ParserBase
-{
-    // $insert scannerobject
-    Scanner* d_scanner;
-    std::istream* inputStream;
+class Parser: public ParserBase {
+	// $insert scannerobject
+	Scanner* d_scanner;
+	std::istream* inputStream;
 public:
-    int parse();
-    void setParent(Agent* _parent){this->parent = _parent;}
-    void setIstream(std::istream& ss)
-    {
-        this->d_scanner = new Scanner(ss,std::cout);
-        this->inputStream = &ss;
-    }
-    void reset()
-    {
-        this->d_scanner = new Scanner(*inputStream,std::cout);
-    }
+	int parse();
+	void setParent(Agent* _parent) {
+		this->parent = _parent;
+	}
+	void setIstream(std::istream& ss) {
+		this->d_scanner = new Scanner(ss, std::cout);
+		this->inputStream = &ss;
+	}
+	void reset() {
+		delete this->d_scanner;
+		this->d_scanner = new Scanner(*inputStream, std::cout);
+	}
 
 private:
-    void error(char const *msg);    // called on (syntax) errors
-    int lex();                      // returns the next token from the
-    // lexical scanner.
-    void print();                   // use, e.g., d_token, d_loc
+	void error(char const *msg);    // called on (syntax) errors
+	int lex();                      // returns the next token from the
+	// lexical scanner.
+	void print();                   // use, e.g., d_token, d_loc
 
-    // support functions for parse():
-    void executeAction(int ruleNr);
-    void errorRecovery();
-    int lookup(bool recovery);
-    void nextToken();
-    void print__();
-    Agent* parent;
-    vector<t_player_type>::reverse_iterator currentType;
+	// support functions for parse():
+	void executeAction(int ruleNr);
+	void errorRecovery();
+	int lookup(bool recovery);
+	void nextToken();
+	void print__();
+	std::stack<double> dstack;
+	Agent* parent;
+	vector<t_player_type>::reverse_iterator currentType;
 };
-
 
 #endif

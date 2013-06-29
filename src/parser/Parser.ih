@@ -6,6 +6,7 @@
 #include "Parser.h"
 #include "../agent.h"
 #include "../model/model.h"
+#include "../model/visual-objects/flag.h"
 
 
 inline void Parser::error(char const *msg)
@@ -21,7 +22,7 @@ inline int Parser::lex()
 
 inline void Parser::print()         
 {
-    print__();           // displays tokens if --print was specified
+    //print__();           // displays tokens if --print was specified
 }
 
 

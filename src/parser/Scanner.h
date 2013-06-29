@@ -6,55 +6,45 @@
 // $insert baseclass_h
 #include "Scannerbase.h"
 
-
 // $insert classHead
-class Scanner: public ScannerBase
-{
-    public:
-        explicit Scanner(std::istream &in,
-                                std::ostream &out);
+class Scanner: public ScannerBase {
+public:
+	explicit Scanner(std::istream &in, std::ostream &out);
 
-        Scanner(std::string const &infile, std::string const &outfile);
-        
-        // $insert lexFunctionDecl
-        int lex();
+	Scanner(std::string const &infile, std::string const &outfile);
 
-    private:
-        int lex__();
-        int executeAction__(size_t ruleNr);
+	// $insert lexFunctionDecl
+	int lex();
 
-        void print();
-        void preCode();     // re-implement this function for code that must 
-                            // be exec'ed before the patternmatching starts
+private:
+	int lex__();
+	int executeAction__(size_t ruleNr);
+
+	void print();
+	void preCode();     // re-implement this function for code that must 
+						// be exec'ed before the patternmatching starts
 };
 
 // $insert scannerConstructors
-inline Scanner::Scanner(std::istream &in, std::ostream &out)
-:
-    ScannerBase(in, out)
-{}
+inline Scanner::Scanner(std::istream &in, std::ostream &out) :
+		ScannerBase(in, out) {
+}
 
-inline Scanner::Scanner(std::string const &infile, std::string const &outfile)
-:
-    ScannerBase(infile, outfile)
-{}
+inline Scanner::Scanner(std::string const &infile, std::string const &outfile) :
+		ScannerBase(infile, outfile) {
+}
 
 // $insert inlineLexFunction
-inline int Scanner::lex()
-{
-    return lex__();
+inline int Scanner::lex() {
+	return lex__();
 }
 
-inline void Scanner::preCode() 
-{
-    // optionally replace by your own code
+inline void Scanner::preCode() {
+	// optionally replace by your own code
 }
 
-inline void Scanner::print() 
-{
-    print__();
+inline void Scanner::print() {
+	print__();
 }
-
 
 #endif // Scanner_H_INCLUDED_
-

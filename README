@@ -1,42 +1,5 @@
-The u2d-base
-----------------------
-      u2d-base is a Robocup Soccer Server Simulation base
+AIT
+---
 
-      u2d-base is hosted at https://sourceforge.net/projects/u2d-base/
+Artificial Intelligence Toolkit
 
-Installation
-------------
-      
-      Read INSTALL how to build and install u2d-base.
-
-License
--------
-
-This program is licensed under LGPL, license version 3.0.
-See the license files for more information.
-
-Date: Friday, August 03, 2012
-
-Project Maintainers:
-  Soroush Rabiei
-  soroush-r@users.sourceforge.net
-  http://www.uurt.ir/2d
-
-How you can help
-----------------
-
-  Comments, patches, bug reports are welcome.
-
-Copyright
----------
-
-    u2d-base 
-    Copyright (C) 2011, 2012 Soroush Rabiei
-
-    u2d-base is published under the LGPL License, Version 3.0.
-    You should have received a copy of this licence in the file
-    COPYING.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.   
