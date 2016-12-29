@@ -1,7 +1,7 @@
 /*
  libU2D, Robocup 2D Soccer Server Simulation base of U2D Team.
 
- Copyright (c) 2011, 2012, 2013 Soroush Rabiei <soroush-r@users.sf.net>
+ Copyright (c) 2016 Soroush Rabiei <rabiei@tidm.net>
 
  U2D is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -20,55 +20,38 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "connection.h"
-#include "../agent.h"
+#include "connection.hpp"
 #include <iostream>
 #include <arpa/inet.h>
+#include <sys/types.h>
+#include <errno.h>
+#include <string.h>
 
-using namespace std;
-
-Connection::Connection() {
+u2d::connection::connection(const std::string& ip, const unsigned int& portNumber) {
+    m_sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+    m_address.sin_family = AF_INET;
+    m_address.sin_addr.s_addr = inet_addr(ip.c_str());
+    m_address.sin_port = htons(portNumber);
 }
 
-Connection::Connection(const char *ip, const unsigned int &portNumber,
-		Agent* _parant) :
-		parant(_parant) {
-	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = inet_addr(ip);
-	address.sin_port = htons(portNumber);
+std::string u2d::connection::read() {
+    char* buffer = new char[8192];
+    ssize_t data_size = recvfrom(m_sockfd, buffer, 8192, 0, NULL, NULL);
+    buffer[data_size] = '\n';
+    std::string data {buffer, static_cast<size_t>(data_size)};
+    delete[] buffer;
+    std::cout << "read : " << data << std::endl;
+    return data;
 }
 
-Connection::Connection(const std::string &ip, const unsigned int &portNumber,
-		Agent *_parent) :
-		parant(_parent) {
-	Connection(ip.c_str(), portNumber);
+void u2d::connection::write(const std::string& data) {
+    ssize_t size = sendto(this->m_sockfd, data.c_str(), data.length(), 0,(struct sockaddr*) &m_address, sizeof(m_address));
+    if(size < 0) {
+        std::cerr << "write error." << std::endl;
+        std::cerr << strerror(errno) << std::endl;
+        // do something
+    } else{
+        std::cout << "write: " << data << std::endl;
+    }
 }
 
-void Connection::initialize(const string &ip, const unsigned int &portNumber,
-		Agent *_parent) {
-	this->parant = _parent;
-	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
-	address.sin_family = AF_INET;
-	address.sin_addr.s_addr = inet_addr(ip.c_str());
-	address.sin_port = htons(portNumber);
-}
-
-void Connection::loop() {
-	//cout << "Initialization: " << initializeCommand << endl;
-	char* buffer = new char[8192];
-	sendto(sockfd, initializeCommand.c_str(), initializeCommand.length(), 0,
-			(struct sockaddr *) &address, sizeof(address));
-	int n;
-	int i = 0;
-	while (true) {
-		n = recvfrom(sockfd, buffer, 8192, 0, NULL, NULL);
-		buffer[n] = 0;
-		parant->parse(buffer);
-		i++;
-	}
-}
-
-void Connection::setInitializationCommand(const string &command) {
-	this->initializeCommand = command;
-}

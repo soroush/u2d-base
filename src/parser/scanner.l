@@ -1,7 +1,7 @@
 /*
  libU2D, Robocup 2D Soccer Server Simulation base of U2D Team.
 
- Copyright (c) 2011, 2012, 2013 Soroush Rabiei <soroush-r@users.sf.net>
+ Copyright (c) 2016 Soroush Rabiei <rabiei@tidm.net>
 
  U2D is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
- 
+
  %%
 "("                                 return Parser::LP;
 ")"                                 return Parser::RP;
@@ -313,6 +313,11 @@
 "init"                              return Parser::INIT;
 "player_param"                      return Parser::PP;
 "allow_mult_default_type"           return Parser::AMDT;
+"hear"                              return Parser::HEAR;
+"online_coach_left"                 return Parser::OCL;
+"online_coach_right"                return Parser::OCR;
+"referee"                           return Parser::REFEREE;
+"self"                              return Parser::SELF;
 "0"                                 return Parser::_0;
 "1"                                 return Parser::_1;
 "10"                                return Parser::_10;
