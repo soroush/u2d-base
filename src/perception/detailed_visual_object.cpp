@@ -44,10 +44,3 @@ void u2d::detailed_visual_object::set_distance_change(float distance_change) {
 void u2d::detailed_visual_object::set_direction_change(float direction_change) {
     this->m_direction_change = direction_change;
 }
-
-
-
-
-
-
-

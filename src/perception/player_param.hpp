@@ -20,11 +20,15 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef PLAYER_PARAM_HPP
-#define PLAYER_PARAM_HPP
+#ifndef U2D_PLAYER_PARAM_HPP
+#define U2D_PLAYER_PARAM_HPP
+
+#include <ostream>
+
+namespace u2d {
 
 struct player_param_t {
-	bool allow_mult_default_type;
+    bool allow_mult_default_type;
     float catchable_area_l_stretch_max;
     float catchable_area_l_stretch_min;
     float dash_power_rate_delta_max;
@@ -54,5 +58,9 @@ struct player_param_t {
     float stamina_inc_max_delta_factor;
     uint8_t subs_max;
 };
+
+}
+
+std::ostream& operator<<(std::ostream&, const u2d::player_param_t&);
 
 #endif // PLAYER_PARAM_HPP

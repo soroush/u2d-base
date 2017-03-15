@@ -19,3 +19,34 @@
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
+#ifndef U2D_FLAG_HPP
+#define U2D_FLAG_HPP
+
+#include "marks.hpp"
+#include <ostream>
+
+namespace u2d {
+
+struct flag_t {
+    flag_t(const u2d::mark_t& mark,
+           float distance, float direction,
+           float distance_change, float direction_change);
+    flag_t(const u2d::mark_t& mark, float distance, float direction);
+    flag_t(const u2d::mark_t& mark, float distance);
+    flag_t(const u2d::mark_t& mark);
+    const u2d::mark_t& m_mark;
+    float m_distance;
+    float m_direction;
+    float m_distance_change;
+    float m_direction_change;
+    bool m_distance_valid;
+    bool m_direction_valid;
+    bool m_distance_change_valid;
+    bool m_direction_change_valid;
+};
+}
+
+std::ostream& operator<<(std::ostream&, const u2d::flag_t&);
+
+#endif // U2D_FLAG_HPP

@@ -20,8 +20,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef AGENT_HPP_
-#define AGENT_HPP_
+#ifndef U2D_AGENT_HPP
+#define U2D_AGENT_HPP
 
 #include <network/connection.hpp>
 #include <perception/model.hpp>
@@ -29,29 +29,30 @@
 #include <sstream>
 
 namespace u2d {
+
 class agent {
-    public:
-        agent(const std::string& team,
-              const std::string& host,
-              uint16_t port);
-        void set_team_name(const std::string&);
-        void connect(const std::string&, uint16_t);
-        void run();
-    protected:
-        std::istringstream _istream;
-        std::ostringstream _ostream;
+public:
+    agent(const std::string& team,
+          const std::string& host,
+          uint16_t port);
+    void set_team_name(const std::string&);
+    void connect(const std::string&, uint16_t);
+    virtual void run();
+    // inference engine
+    void estimate_position();
+protected:
+    std::istringstream _istream;
+    std::ostringstream _ostream;
 
-        std::string _team;
-        connection _connection;
-        Parser _parser;
-        model_t _model;
+    std::string _team;
+    connection _connection;
+    Parser _parser;
+    model_t _model;
 
-        void print_server_param();
-        void print_player_param();
-        void print_sense_body();
+    // infered perception
+    bool m_position_valid;
+    u2d::point m_position;
 };
 }
-#endif // AGENT_HPP_
 
-
-
+#endif // U2D_AGENT_HPP

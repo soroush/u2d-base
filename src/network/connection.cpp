@@ -21,7 +21,6 @@
  */
 
 #include "connection.hpp"
-#include <iostream>
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <errno.h>
@@ -40,18 +39,18 @@ std::string u2d::connection::read() {
     buffer[data_size] = '\n';
     std::string data {buffer, static_cast<size_t>(data_size)};
     delete[] buffer;
-    std::cout << "read : " << data << std::endl;
+    // std::cout << "read : " << data << std::endl;
     return data;
 }
 
 void u2d::connection::write(const std::string& data) {
     ssize_t size = sendto(this->m_sockfd, data.c_str(), data.length(), 0,(struct sockaddr*) &m_address, sizeof(m_address));
     if(size < 0) {
-        std::cerr << "write error." << std::endl;
-        std::cerr << strerror(errno) << std::endl;
+        // std::cerr << "write error." << std::endl;
+        // std::cerr << strerror(errno) << std::endl;
         // do something
-    } else{
-        std::cout << "write: " << data << std::endl;
+    } else {
+        // std::cout << "write: " << data << std::endl;
     }
 }
 

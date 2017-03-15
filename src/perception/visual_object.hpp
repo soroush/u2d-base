@@ -20,8 +20,8 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef VISUAL_OBJECT_HPP_
-#define VISUAL_OBJECT_HPP_
+#ifndef U2D_VISUAL_OBJECT_HPP
+#define U2D_VISUAL_OBJECT_HPP
 
 namespace u2d {
 class visual_object {
@@ -37,4 +37,4 @@ class visual_object {
 };
 }
 
-#endif // VISUAL_OBJECT_HPP_
+#endif // U2D_VISUAL_OBJECT_HPP

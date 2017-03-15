@@ -105,8 +105,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libu2d_perception_la_LIBADD =
-am_libu2d_perception_la_OBJECTS = model.lo visual_object.lo \
-	detailed_visual_object.lo
+am_libu2d_perception_la_OBJECTS = model.lo server_param.lo \
+	player_param.lo marks.lo flags.lo visual_object.lo \
+	detailed_visual_object.lo body.lo player.lo
 libu2d_perception_la_OBJECTS = $(am_libu2d_perception_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -247,6 +248,7 @@ LIBTOOL = @LIBTOOL@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
+LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MKDIR_P = @MKDIR_P@
@@ -317,6 +319,7 @@ pdfdir = @pdfdir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
 psdir = @psdir@
+runstatedir = @runstatedir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
@@ -329,8 +332,14 @@ AM_CPPFLAGS = -pipe -Wall -Werror --pedantic
 noinst_LTLIBRARIES = libu2d_perception.la
 libu2d_perception_la_SOURCES = \
 	model.cpp \
+	server_param.cpp \
+	player_param.cpp \
+	marks.cpp \
+	flags.cpp \
 	visual_object.cpp \
-	detailed_visual_object.cpp
+	detailed_visual_object.cpp \
+	body.cpp \
+	player.cpp
 
 u2d_includedir = $(includedir)/u2d/perception
 u2d_libincludedir = $(libdir)/u2d/include
@@ -338,9 +347,12 @@ u2d_include_HEADERS = \
 	model.hpp \
 	server_param.hpp \
 	player_param.hpp \
+	marks.hpp \
+	flags.hpp \
 	visual_object.hpp \
 	detailed_visual_object.hpp \
-	body.hpp
+	body.hpp \
+	player.hpp
 
 all: all-am
 
@@ -396,8 +408,14 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/body.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/detailed_visual_object.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/flags.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/marks.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/model.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/player.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/player_param.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/server_param.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/visual_object.Plo@am__quote@
 
 .cpp.o:

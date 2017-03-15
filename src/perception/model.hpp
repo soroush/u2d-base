@@ -20,12 +20,16 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef MODEL_HPP
-#define MODEL_HPP
+#ifndef U2D_MODEL_HPP
+#define U2D_MODEL_HPP
 
 #include "server_param.hpp"
 #include "player_param.hpp"
+#include "player.hpp"
+#include "flags.hpp"
 #include "body.hpp"
+#include <ostream>
+#include <vector>
 
 namespace u2d {
 struct model_t {
@@ -64,13 +68,14 @@ struct model_t {
     player_param_t player;
     play_mode_t play_mode;
     body_t body;
+    std::vector<player_t> players;
+    std::vector<flag_t> flags;
+    // operations
+    void reset();
     std::string play_mode_str();
 };
 }
-#endif // MODEL_HPP
 
+std::ostream& operator<<(std::ostream&, const u2d::model_t&);
 
-
-
-
-
+#endif // U2D_MODEL_HPP

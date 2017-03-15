@@ -23,24 +23,39 @@
 #ifndef GEOMETRY_HPP
 #define GEOMETRY_HPP
 
+#include <ostream>
+#include <array>
+
 namespace u2d {
 
-template <typename T>
-struct vector2d  {
-	vector2d();
-	vector2d(const T&, const T&);
-    T x;
-    T y;
-	T length() const;
+struct point  {
+    point();
+    point(float x, float y);
+    float x;
+    float y;
 };
 
-//template <typename T>
-//vector2d<T> operator+(const vector2d<T>& lhs, const vector2d<T>& rhs);
+struct vector2df : point  {
+    vector2df();
+    vector2df(float x, float y);
+    float length() const;
+    vector2df unit() const;
+};
+
+struct circle {
+    circle(const point& center, float radius);
+    circle(float x, float y, float radius);
+    point center;
+    float radius;
+};
+
+const point midpoint(const point& a, const point& b);
+const float distance(const point& a, const point& b);
+const float squared_distance(const point& a, const point& b);
+const std::array<u2d::point,2> intersect(const circle& a, const circle& b);
 
 }
 
-#include "geometry.tpp"
+std::ostream& operator<<(std::ostream& os, const u2d::vector2df& v);
 
 #endif // GEOMETRY_HPP
-
-

@@ -20,10 +20,11 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef BODY_HPP
-#define BODY_HPP
+#ifndef U2D_BODY_HPP
+#define U2D_BODY_HPP
 
 #include <stdint.h>
+#include <ostream>
 #include "../geometry/geometry.hpp"
 
 namespace u2d {
@@ -102,19 +103,6 @@ struct body_t {
 };
 }
 
-#endif // BODY_HPP
+std::ostream& operator<<(std::ostream&, const u2d::body_t&);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif // U2D_BODY_HPP
