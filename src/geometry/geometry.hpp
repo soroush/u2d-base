@@ -35,11 +35,11 @@ struct point  {
     float y;
 };
 
-struct vector2df : point  {
-    vector2df();
-    vector2df(float x, float y);
+struct vector : point  {
+    vector();
+    vector(float x, float y);
     float length() const;
-    vector2df unit() const;
+    vector unit() const;
 };
 
 struct circle {
@@ -52,10 +52,21 @@ struct circle {
 const point midpoint(const point& a, const point& b);
 const float distance(const point& a, const point& b);
 const float squared_distance(const point& a, const point& b);
-const std::array<u2d::point,2> intersect(const circle& a, const circle& b);
+std::array<u2d::point,2> intersect(const circle& a, const circle& b, bool& i);
 
 }
 
-std::ostream& operator<<(std::ostream& os, const u2d::vector2df& v);
+u2d::vector operator+(const u2d::point& a, const u2d::point& b);
+u2d::vector operator-(const u2d::point& a, const u2d::point& b);
+u2d::vector operator+(const u2d::vector& a, const u2d::vector& b);
+u2d::vector operator-(const u2d::vector& a, const u2d::vector& b);
+u2d::vector operator*(const u2d::vector& v, float s);
+u2d::vector operator*(float s, const u2d::vector& v);
+u2d::vector operator/(const u2d::vector& v, float s);
+u2d::point operator+(const u2d::point& a, const u2d::vector& b);
+u2d::point operator-(const u2d::point& a, const u2d::vector& b);
+
+std::ostream& operator<<(std::ostream& os, const u2d::vector& v);
+std::ostream& operator<<(std::ostream& os, const u2d::point& v);
 
 #endif // GEOMETRY_HPP

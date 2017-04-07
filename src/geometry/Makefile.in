@@ -105,7 +105,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 LTLIBRARIES = $(noinst_LTLIBRARIES)
 libu2d_geometry_la_LIBADD =
-am_libu2d_geometry_la_OBJECTS = geometry.lo
+am_libu2d_geometry_la_OBJECTS = algebra.lo geometry.lo
 libu2d_geometry_la_OBJECTS = $(am_libu2d_geometry_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -145,24 +145,6 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) \
-	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
-	$(AM_CFLAGS) $(CFLAGS)
-AM_V_CC = $(am__v_CC_@AM_V@)
-am__v_CC_ = $(am__v_CC_@AM_DEFAULT_V@)
-am__v_CC_0 = @echo "  CC      " $@;
-am__v_CC_1 = 
-CCLD = $(CC)
-LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-AM_V_CCLD = $(am__v_CCLD_@AM_V@)
-am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
-am__v_CCLD_0 = @echo "  CCLD    " $@;
-am__v_CCLD_1 = 
 SOURCES = $(libu2d_geometry_la_SOURCES)
 DIST_SOURCES = $(libu2d_geometry_la_SOURCES)
 am__can_run_installinfo = \
@@ -347,7 +329,7 @@ top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -pipe -Wall -Werror --pedantic
 noinst_LTLIBRARIES = libu2d_geometry.la
 libu2d_geometry_la_SOURCES = \
-	geometry.hpp \
+	algebra.cpp \
 	geometry.tpp \
 	geometry.cpp
 
@@ -355,6 +337,7 @@ u2d_includedir = $(includedir)/u2d/geometry
 u2d_libincludedir = $(libdir)/u2d/include
 u2d_include_HEADERS = \
 	geometry.hpp \
+	algebra.hpp \
 	geometry.tpp
 
 all: all-am
@@ -411,6 +394,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/algebra.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/geometry.Plo@am__quote@
 
 .cpp.o:
