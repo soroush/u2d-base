@@ -29,7 +29,8 @@ u2d::agent::agent(const std::string& team,
                   uint16_t port):
     _team(team),
     _connection(host,port),
-    _parser(_istream,_ostream,_model) {
+    _parser(_istream,_ostream,_model),
+	m_position_valid(false) {
 }
 
 void u2d::agent::set_team_name(const std::string& team) {
@@ -55,50 +56,37 @@ void u2d::agent::run() {
 void u2d::agent::estimate_position() {
     std::vector<u2d::flag_t> visuals;
     for(const u2d::flag_t& f : _model.flags) {
-        if(f.m_distance_valid) {
+        if(f.m_distance_valid && f.m_direction_valid) {
             visuals.push_back(f);
         }
     }
-    if(visuals.size() <3) {
-        //TODO: estimation failed;
+    if(visuals.size() < 2) {
         m_position_valid=false;
+        return;
     }
     // pick up two flags
     const u2d::flag_t& f1 = visuals.at(0);
     const u2d::flag_t& f2 = visuals.at(1);
-    const u2d::flag_t& f3 = visuals.at(2);
-    auto points1 = intersect(circle(f1.m_mark.position, f1.m_distance),
-                             circle(f2.m_mark.position, f2.m_distance));
-
-    auto points2 = intersect(circle(f3.m_mark.position, f3.m_distance),
-                             circle(f2.m_mark.position, f2.m_distance));
-
-    float distances[4] = {
-        u2d::distance(points1[0], points2[0]),
-        u2d::distance(points1[0], points2[1]),
-        u2d::distance(points1[1], points2[0]),
-        u2d::distance(points1[1], points2[1]),
-    };
-
-    std::size_t min_index = 0;
-    float min_value = distances[0];
-    for(std::size_t i=0; i<4; ++i) {
-        if(distances[i] < min_value) {
-            min_index = i;
-            min_value = distances[i];
-        }
-    }
-    switch(min_index) {
-        case 0:
-            m_position = midpoint(points1[0], points2[0]);
-        case 1:
-            m_position = midpoint(points1[0], points2[1]);
-        case 2:
-            m_position = midpoint(points1[1], points2[0]);
-        case 3:
-            m_position = midpoint(points1[1], points2[1]);
+    bool found;
+    auto intersections = intersect(
+                circle(f1.m_mark.position, f1.m_distance),
+                circle(f2.m_mark.position, f2.m_distance), found);
+    if(!found) {
+        m_position_valid = false;
+        return;
     }
     m_position_valid = true;
+    if(f1.m_direction < f2.m_direction) {
+        m_position = intersections[1];
+        m_position_valid = true;
+    }
+    else if(f1.m_direction > f2.m_direction) {
+        m_position = intersections[0];
+        m_position_valid = true;
+    }
+    else {
+        m_position_valid = false;
+    }
 }
 
 // void u2d::agent::print_player_param() {
