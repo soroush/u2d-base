@@ -135,7 +135,7 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 libu2d_la_DEPENDENCIES = network/libu2d_network.la \
 	geometry/libu2d_geometry.la parser/libu2d_parser.la \
 	perception/libu2d_perception.la
-am_libu2d_la_OBJECTS = agent.lo
+am_libu2d_la_OBJECTS = agent.lo command.lo
 libu2d_la_OBJECTS = $(am_libu2d_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -378,7 +378,8 @@ SUBDIRS = network geometry perception parser
 AM_CPPFLAGS = -pipe -Wall -Werror --pedantic
 lib_LTLIBRARIES = libu2d.la
 libu2d_la_SOURCES = \
-	agent.cpp
+	agent.cpp \
+	command.cpp
 
 libu2d_la_LDFLAGS = -version-info $(U2D_SO_VERSION)
 libu2d_la_LIBADD = \
@@ -390,7 +391,8 @@ libu2d_la_LIBADD = \
 u2d_includedir = $(includedir)/u2d
 u2d_libincludedir = $(libdir)/u2d/include
 u2d_include_HEADERS = \
-	agent.hpp
+	agent.hpp \
+	command.hpp
 
 all: all-recursive
 
@@ -471,6 +473,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/agent.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/command.Plo@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\

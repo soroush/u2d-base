@@ -4,7 +4,8 @@ AM_CPPFLAGS = -pipe -Wall -Werror --pedantic
 lib_LTLIBRARIES = libu2d.la
 
 libu2d_la_SOURCES = \
-	agent.cpp
+	agent.cpp \
+	command.cpp
 libu2d_la_LDFLAGS = -version-info $(U2D_SO_VERSION)
 libu2d_la_LIBADD = \
 	network/libu2d_network.la \
@@ -15,4 +16,5 @@ libu2d_la_LIBADD = \
 u2d_includedir = $(includedir)/u2d
 u2d_libincludedir = $(libdir)/u2d/include
 u2d_include_HEADERS =  \
-	agent.hpp
+	agent.hpp \
+	command.hpp
