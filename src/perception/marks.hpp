@@ -28,10 +28,10 @@
 
 namespace u2d {
 struct mark_t {
-    mark_t(const std::string& name, const vector2df& position);
+    mark_t(const std::string& name, const vector& position);
     mark_t(const std::string& name, float x, float y);
     std::string name;
-    vector2df position;
+    u2d::vector position;
     static mark_t c;
     static mark_t cb;
     static mark_t b0;

@@ -78,7 +78,7 @@ u2d::mark_t u2d::mark_t::lt10("lt10", -57.5, +10);
 u2d::mark_t u2d::mark_t::lt20("lt20", -57.5, +20);
 u2d::mark_t u2d::mark_t::lt30("lt30", -57.5, +30);
 
-u2d::mark_t::mark_t(const std::string& _name, const vector2df& _position):
+u2d::mark_t::mark_t(const std::string& _name, const vector& _position):
     name(_name),
     position(_position) {
 }

@@ -52,7 +52,7 @@ struct body_t {
     struct arm_t {
         bool movable;
         uint32_t expires;
-        vector2df target;
+        vector target;
         uint32_t count;
     };
     struct focus_t {
@@ -85,7 +85,7 @@ struct body_t {
     uint16_t sequence;
     view_mode_t view_mode;
     stamina_t stamina;
-    u2d::vector2df speed;
+    u2d::vector speed;
     float head_angle;
     uint32_t kick;
     uint32_t dash;

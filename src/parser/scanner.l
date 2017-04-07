@@ -318,6 +318,8 @@
 "online_coach_right"                return Parser::OCR;
 "referee"                           return Parser::REFEREE;
 "self"                              return Parser::SELF;
+"error"                             return Parser::ERROR_;
+"warning"                           return Parser::WARNING_;
 "0"                                 return Parser::_0;
 "1"                                 return Parser::_1;
 "10"                                return Parser::_10;
@@ -328,4 +330,5 @@
 "-"?[[:digit:]]+                    return Parser::INTEGER;
 "-"?[[:digit:]]+("."[[:digit:]]+)?  return Parser::DOUBLE;
 "\""[^\"]*"\""                      return Parser::STRING;
+[[:alpha:]]+[[:alpha:][:digit:]_]*  return Parser::ERROR_DESC;
 [ \t\n]+                            ;

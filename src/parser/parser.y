@@ -82,6 +82,10 @@ POST FOUL CHARGED CARD YELLOW
  // hear
 %token HEAR OCL OCR REFEREE SELF
 
+// error and warning (TODO: Add all error and warning strings)
+// Note: we need to append an extra _ at the end to prevent collisions
+%token ERROR_ WARNING_ ERROR_DESC
+
 // primitive types
 %type <i> int
 %type <d> double
@@ -102,7 +106,9 @@ start: init {this->_model.last_input = u2d::model_t::input_t::init; this->ACCEPT
        player_type {this->_model.last_input = u2d::model_t::input_t::player_type; this->ACCEPT();}|
        sense_body {this->_model.last_input = u2d::model_t::input_t::sense_body; this->ACCEPT();} |
        see {this->_model.last_input = u2d::model_t::input_t::see; this->ACCEPT();} |
-       hear {this->_model.last_input = u2d::model_t::input_t::hear; this->ACCEPT();};
+       hear {this->_model.last_input = u2d::model_t::input_t::hear; this->ACCEPT();} |
+       error_ {this->ACCEPT();} |
+       warning_ {this->ACCEPT();} ;
 
 bool:	_0 {$$ = false;} | _1 {$$=true;};
 int:	INTEGER {$$ = std::atoi(d_scanner.matched().c_str());} |
@@ -422,7 +428,7 @@ chview:		LP CHVIEW int RP {this->_model.body.change_view = $3;};
 arm:		LP ARM movable expires target count RP;
 movable:	LP MOVABLE int RP {this->_model.body.arm.movable = $3;};
 expires:	LP EXP int RP {this->_model.body.arm.expires = $3;};
-target:		LP TAR double double RP {this->_model.body.arm.target = u2d::vector2df($3,$4);};
+target:		LP TAR double double RP {this->_model.body.arm.target = u2d::vector($3,$4);};
 count:		LP COUNT int RP {this->_model.body.arm.count = $3;};
 focus:		LP FOCUS f_target f_count RP;
 f_target:	LP TAR target_type RP;
@@ -567,3 +573,7 @@ sender: OCL {} |
         REFEREE {} |
         SELF {} |
         double {};
+
+error_: LP ERROR_ ERROR_DESC RP {};
+
+warning_: LP WARNING_ ERROR_DESC RP {};
