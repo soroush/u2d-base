@@ -20,25 +20,36 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#ifndef CONNECTION_HPP_
-#define CONNECTION_HPP_
+#ifndef U2D_CONNECTION_HPP
+#define U2D_CONNECTION_HPP
 
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <string>
+#include <iostream>
 
 namespace u2d {
 class connection {
-    public:
-        connection(const std::string& ip, const unsigned int& portNumber);
-        std::string read();
-        void write(const std::string&);
-    private:
-        int m_sockfd;
-        struct sockaddr_in m_address;
+public:
+    enum class message_type {
+        initial,
+        communication,
+    };
+    connection(const std::string& ip, const unsigned int& portNumber,
+               bool logging=false, const std::ostream& logger=std::cerr);
+    std::string read(message_type type=message_type::communication);
+    void write(const std::string& msg, message_type type=message_type::communication);
+    void set_logger(std::ostream& out, bool enable_logging=false);
+    const std::ostream& get_logger() const;
+    void set_logging_enabled(bool);
+    bool is_logging_enabled() const;
+private:
+    int m_init_sockfd;
+    struct sockaddr_in m_init_address;
+    struct sockaddr_in m_data_address;
+    bool m_logging_enabled;
+    std::ostream m_logger;
 };
 }
 
 #endif // CONNECTION_HPP_
-
-
