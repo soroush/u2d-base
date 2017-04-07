@@ -22,19 +22,8 @@ AM_CPPFLAGS = -I$(srcdir)/../src
 LDADD = \
     ../src/libu2d.la
 check_PROGRAMS = \
-    agent_test
-#    parser_test
-#    perception_test
-#    geometry_test
-#   connection_test \
-# connection_test_SOURCES = \
-#    connection.cpp
-# geometry_test_SOURCES = \
-#    geometry.cpp
-#perception_test_SOURCES = \
-#    perception.cpp
-agent_test_SOURCES = \
-    agent.cpp
-#parser_test_SOURCES = \
-#    parser.cpp
+    geometry-perception
+geometry_perception_SOURCES = \
+    geometry-perception.cpp \
+    cc-intersect.h
 TESTS = $(check_PROGRAMS)
