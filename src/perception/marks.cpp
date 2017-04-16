@@ -89,6 +89,6 @@ u2d::mark_t::mark_t(const std::string& _name, float x, float y):
 }
 
 std::ostream& operator<<(std::ostream& os, const u2d::mark_t& f) {
-    os << f.name << '(' << f.position.x << ',' << f.position.y << ')';
+    os << f.name << ' ' << f.position ;
     return os;
 }

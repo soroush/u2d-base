@@ -41,6 +41,7 @@ struct model_t {
         sense_body,
         see,
         hear,
+        warning,
         error,
     };
     enum class play_mode_t : uint8_t {

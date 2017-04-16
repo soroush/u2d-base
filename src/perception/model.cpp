@@ -111,6 +111,8 @@ std::ostream& operator<<(std::ostream& os, const u2d::model_t& model) {
             break;
         case u2d::model_t::input_t::error:
             break;
+        case u2d::model_t::input_t::warning:
+            break;
     }
     return os;
 }

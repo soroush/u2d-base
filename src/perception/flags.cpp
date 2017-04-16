@@ -63,14 +63,12 @@ u2d::flag_t::flag_t(const u2d::mark_t& mark):
 }
 
 std::ostream& operator<<(std::ostream& os, const u2d::flag_t& p) {
-    os << "Flag:\n";
-    os << "    mark: " << p.m_mark.name << '\n';
+    os << p.m_mark ;
     if(p.m_distance_valid) {
-        os << "    distance: " <<  p.m_distance << "m\n" ;
+        os << ' ' <<  p.m_distance << "m" ;
     }
     if(p.m_direction_valid) {
-        os << "    direction: " <<  p.m_direction <<  "\xC2\xB0\n" ;
+        os << ' ' <<  p.m_direction <<  "\xC2\xB0" ;
     }
-    os << std::endl;
     return os;
 }
