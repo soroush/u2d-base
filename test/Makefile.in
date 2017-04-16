@@ -33,6 +33,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -107,7 +108,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-check_PROGRAMS = geometry-perception$(EXEEXT)
+check_PROGRAMS = geometry$(EXEEXT) positioning$(EXEEXT)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx_11.m4 \
@@ -116,19 +117,24 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/ax_cxx_compile_stdcxx_11.m4 \
 	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
+DIST_COMMON = $(srcdir)/Makefile.am $(dist_data_DATA) \
+	$(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am_geometry_perception_OBJECTS = geometry-perception.$(OBJEXT)
-geometry_perception_OBJECTS = $(am_geometry_perception_OBJECTS)
-geometry_perception_LDADD = $(LDADD)
-geometry_perception_DEPENDENCIES = ../src/libu2d.la
+am_geometry_OBJECTS = geometry.$(OBJEXT)
+geometry_OBJECTS = $(am_geometry_OBJECTS)
+geometry_LDADD = $(LDADD)
+geometry_DEPENDENCIES = ../src/libu2d.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+am_positioning_OBJECTS = positioning.$(OBJEXT)
+positioning_OBJECTS = $(am_positioning_OBJECTS)
+positioning_LDADD = $(LDADD)
+positioning_DEPENDENCIES = ../src/libu2d.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -181,13 +187,42 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(geometry_perception_SOURCES)
-DIST_SOURCES = $(geometry_perception_SOURCES)
+SOURCES = $(geometry_SOURCES) $(positioning_SOURCES)
+DIST_SOURCES = $(geometry_SOURCES) $(positioning_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__uninstall_files_from_dir = { \
+  test -z "$$files" \
+    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
+    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
+         $(am__cd) "$$dir" && rm -f $$files; }; \
+  }
+am__installdirs = "$(DESTDIR)$(datadir)"
+DATA = $(dist_data_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -229,33 +264,6 @@ am__tty_colors = { \
     std='[m'; \
   fi; \
 }
-am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-am__vpath_adj = case $$p in \
-    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-    *) f=$$p;; \
-  esac;
-am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
-am__install_max = 40
-am__nobase_strip_setup = \
-  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
-am__nobase_strip = \
-  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
-am__nobase_list = $(am__nobase_strip_setup); \
-  for p in $$list; do echo "$$p $$p"; done | \
-  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
-  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
-    if (++n[$$2] == $(am__install_max)) \
-      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
-    END { for (dir in files) print dir, files[dir] }'
-am__base_list = \
-  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
-  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__uninstall_files_from_dir = { \
-  test -z "$$files" \
-    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
-    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
-         $(am__cd) "$$dir" && rm -f $$files; }; \
-  }
 am__recheck_rx = ^[ 	]*:recheck:[ 	]*
 am__global_test_result_rx = ^[ 	]*:global-test-result:[ 	]*
 am__copy_in_global_log_rx = ^[ 	]*:copy-in-global-log:[ 	]*
@@ -539,12 +547,20 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(srcdir)/../src
-LDADD = \
-    ../src/libu2d.la
-
-geometry_perception_SOURCES = \
-    geometry-perception.cpp \
+geometry_SOURCES = \
+    geometry.cpp \
     cc-intersect.h
+
+positioning_SOURCES = \
+    positioning.cpp
+
+LDADD = \
+    ../src/libu2d.la \
+    -lpthread
+
+dist_data_DATA = \
+    circle_intersection.m \
+    positioning_error_model.m
 
 TESTS = $(check_PROGRAMS)
 all: all-am
@@ -590,9 +606,13 @@ clean-checkPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
-geometry-perception$(EXEEXT): $(geometry_perception_OBJECTS) $(geometry_perception_DEPENDENCIES) $(EXTRA_geometry_perception_DEPENDENCIES) 
-	@rm -f geometry-perception$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(geometry_perception_OBJECTS) $(geometry_perception_LDADD) $(LIBS)
+geometry$(EXEEXT): $(geometry_OBJECTS) $(geometry_DEPENDENCIES) $(EXTRA_geometry_DEPENDENCIES) 
+	@rm -f geometry$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(geometry_OBJECTS) $(geometry_LDADD) $(LIBS)
+
+positioning$(EXEEXT): $(positioning_OBJECTS) $(positioning_DEPENDENCIES) $(EXTRA_positioning_DEPENDENCIES) 
+	@rm -f positioning$(EXEEXT)
+	$(AM_V_CXXLD)$(CXXLINK) $(positioning_OBJECTS) $(positioning_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -600,7 +620,8 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/geometry-perception.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/geometry.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/positioning.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -628,6 +649,27 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-dist_dataDATA: $(dist_data_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(dist_data_DATA)'; test -n "$(datadir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(datadir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(datadir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(datadir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(datadir)" || exit $$?; \
+	done
+
+uninstall-dist_dataDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_data_DATA)'; test -n "$(datadir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(datadir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -822,9 +864,16 @@ recheck: all $(check_PROGRAMS)
 	        am__force_recheck=am--force-recheck \
 	        TEST_LOGS="$$log_list"; \
 	exit $$?
-geometry-perception.log: geometry-perception$(EXEEXT)
-	@p='geometry-perception$(EXEEXT)'; \
-	b='geometry-perception'; \
+geometry.log: geometry$(EXEEXT)
+	@p='geometry$(EXEEXT)'; \
+	b='geometry'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+positioning.log: positioning$(EXEEXT)
+	@p='positioning$(EXEEXT)'; \
+	b='positioning'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
@@ -878,8 +927,11 @@ check-am: all-am
 	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
 	$(MAKE) $(AM_MAKEFLAGS) check-TESTS
 check: check-am
-all-am: Makefile
+all-am: Makefile $(DATA)
 installdirs:
+	for dir in "$(DESTDIR)$(datadir)"; do \
+	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
+	done
 install: install-am
 install-exec: install-exec-am
 install-data: install-data-am
@@ -936,7 +988,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-dist_dataDATA
 
 install-dvi: install-dvi-am
 
@@ -982,7 +1034,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am:
+uninstall-am: uninstall-dist_dataDATA
 
 .MAKE: check-am install-am install-strip
 
@@ -991,14 +1043,15 @@ uninstall-am:
 	ctags ctags-am distclean distclean-compile distclean-generic \
 	distclean-libtool distclean-tags distdir dvi dvi-am html \
 	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	recheck tags tags-am uninstall uninstall-am
+	install-data-am install-dist_dataDATA install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am install-man \
+	install-pdf install-pdf-am install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
+	pdf pdf-am ps ps-am recheck tags tags-am uninstall \
+	uninstall-am uninstall-dist_dataDATA
 
 .PRECIOUS: Makefile
 

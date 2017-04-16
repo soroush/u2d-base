@@ -19,11 +19,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 AM_CPPFLAGS = -I$(srcdir)/../src
-LDADD = \
-    ../src/libu2d.la
 check_PROGRAMS = \
-    geometry-perception
-geometry_perception_SOURCES = \
-    geometry-perception.cpp \
+    geometry \
+    positioning
+geometry_SOURCES = \
+    geometry.cpp \
     cc-intersect.h
+positioning_SOURCES = \
+    positioning.cpp
+LDADD = \
+    ../src/libu2d.la \
+    -lpthread
+dist_data_DATA = \
+    circle_intersection.m \
+    positioning_error_model.m
 TESTS = $(check_PROGRAMS)
