@@ -23,6 +23,10 @@
 #include "agent.hpp"
 #include <cmath>
 #include <cstddef>
+#include <algorithm>
+#include <mutex>
+
+std::mutex mtx;
 
 u2d::agent::agent(const std::string& team,
                   const std::string& host,
@@ -30,7 +34,7 @@ u2d::agent::agent(const std::string& team,
     _team(team),
     _connection(host,port),
     _parser(_istream,_ostream,_model),
-	m_position_valid(false) {
+    m_position_valid(false) {
 }
 
 void u2d::agent::set_team_name(const std::string& team) {
@@ -54,38 +58,59 @@ void u2d::agent::run() {
 }
 
 void u2d::agent::estimate_position() {
-    std::vector<u2d::flag_t> visuals;
-    for(const u2d::flag_t& f : _model.flags) {
-        if(f.m_distance_valid && f.m_direction_valid) {
-            visuals.push_back(f);
+    std::vector<u2d::flag_t*> visuals;
+    for(u2d::flag_t& f : _model.flags) {
+        if(f.m_distance_valid and f.m_direction_valid) {
+            visuals.push_back(&f);
         }
     }
     if(visuals.size() < 2) {
         m_position_valid=false;
         return;
     }
+    // sort visual items by they distance (ascending)
+    auto comparer = [](u2d::flag_t* a, u2d::flag_t* b) -> bool {
+        return a->m_distance < b->m_distance;
+    };
+    std::sort(visuals.begin(), visuals.end(), comparer);
     // pick up two flags
-    const u2d::flag_t& f1 = visuals.at(0);
-    const u2d::flag_t& f2 = visuals.at(1);
+    const u2d::flag_t* f1 = visuals.at(0);
+    const u2d::flag_t* f2 = visuals.at(1);
+    if(f1->m_direction > f2->m_direction) {
+        std::swap(f1, f2);
+    }
+    /*
+    if(f1->m_distance + f2->m_distance > 30) {
+        m_position_valid = false;
+        return;
+    }
+    */
     bool found;
     auto intersections = intersect(
-                circle(f1.m_mark.position, f1.m_distance),
-                circle(f2.m_mark.position, f2.m_distance), found);
+                             circle(f1->m_mark.position, f1->m_distance),
+                             circle(f2->m_mark.position, f2->m_distance), found);
     if(!found) {
         m_position_valid = false;
         return;
     }
     m_position_valid = true;
-    if(f1.m_direction < f2.m_direction) {
-        m_position = intersections[1];
-        m_position_valid = true;
+    // Find out which intersection point is suitable to be assigned as current position
+    // transmit axis system
+    const u2d::vector v = u2d::point{0,0} - intersections[1];
+    const u2d::point f1_p = f1->m_mark.position + v;
+    const u2d::point f2_p = f2->m_mark.position + v;
+    float alpha = std::atan2(f1_p.y, f1_p.x);
+    float betha = std::atan2(f2_p.y, f2_p.x);
+    if(alpha < 0) {
+        alpha += M_2_PI;
     }
-    else if(f1.m_direction > f2.m_direction) {
+    if(betha < 0) {
+        betha += M_2_PI;
+    }
+    if(alpha > betha) {
         m_position = intersections[0];
-        m_position_valid = true;
-    }
-    else {
-        m_position_valid = false;
+    } else {
+         m_position = intersections[1];
     }
 }
 
