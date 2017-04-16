@@ -107,8 +107,8 @@ start: init {this->_model.last_input = u2d::model_t::input_t::init; this->ACCEPT
        sense_body {this->_model.last_input = u2d::model_t::input_t::sense_body; this->ACCEPT();} |
        see {this->_model.last_input = u2d::model_t::input_t::see; this->ACCEPT();} |
        hear {this->_model.last_input = u2d::model_t::input_t::hear; this->ACCEPT();} |
-       error_ {this->ACCEPT();} |
-       warning_ {this->ACCEPT();} ;
+       error_ {this->_model.last_input = u2d::model_t::input_t::error; this->ACCEPT();} |
+       warning_ {this->_model.last_input = u2d::model_t::input_t::warning; this->ACCEPT();} ;
 
 bool:	_0 {$$ = false;} | _1 {$$=true;};
 int:	INTEGER {$$ = std::atoi(d_scanner.matched().c_str());} |
@@ -566,7 +566,7 @@ unknown:	_BB {/* */} |
                 _GG {/**/} |
                 _PP {/* */} ;
 
-hear: LP HEAR int sender string RP { std::cerr << "seen hear" << std::endl;};
+hear: LP HEAR int sender string RP {};
 sender: OCL {} |
         OCR {} |
         CO {} |

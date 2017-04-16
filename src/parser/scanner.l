@@ -331,4 +331,4 @@
 "-"?[[:digit:]]+("."[[:digit:]]+)?  return Parser::DOUBLE;
 "\""[^\"]*"\""                      return Parser::STRING;
 [[:alpha:]]+[[:alpha:][:digit:]_]*  return Parser::ERROR_DESC;
-[ \t\n]+                            ;
+[ \t\n\0]+                            ;
