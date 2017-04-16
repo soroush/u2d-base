@@ -15,7 +15,7 @@ std::string string_format(const std::string& format, Args ... args) {
 	size_t size = snprintf(nullptr, 0, format.c_str(), args ...) + 1; // Extra space for '\0'
 	std::unique_ptr<char[]> buf(new char[size]);
 	snprintf(buf.get(), size, format.c_str(), args ...);
-	return std::string(buf.get(), buf.get() + size); // We  want the '\0' inside
+	return std::string(buf.get(), buf.get() + size -1);
 }
 
 std::string u2d::command::init(const std::string& team_name, uint version,
@@ -23,12 +23,12 @@ std::string u2d::command::init(const std::string& team_name, uint version,
 	std::string version_str = "";
 	std::string goalie_str = "";
 	if (version != 0) {
-		version_str = string_format("(version %d)", version);
+		version_str = string_format(" (version %d)", version);
 	}
 	if (goalie) {
-		goalie_str = "(goalie)";
+		goalie_str = " (goalie)";
 	}
-	return string_format("(init %s %s)", version_str, goalie_str);
+	return "(init " + team_name + version_str + goalie_str + ")";
 }
 
 std::string u2d::command::turn(float moment) {
