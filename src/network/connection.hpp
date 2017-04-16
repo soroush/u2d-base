@@ -37,7 +37,7 @@ public:
     };
     connection(const std::string& ip, const unsigned int& portNumber,
                bool logging=false, const std::ostream& logger=std::cerr);
-    std::string read(message_type type=message_type::communication);
+    std::string read();
     void write(const std::string& msg, message_type type=message_type::communication);
     void set_logger(std::ostream& out, bool enable_logging=false);
     const std::ostream& get_logger() const;

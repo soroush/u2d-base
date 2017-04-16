@@ -40,13 +40,13 @@ u2d::connection::connection(const std::string& ip, const unsigned int& portNumbe
     m_data_address.sin_addr.s_addr = inet_addr(ip.c_str());
 }
 
-std::string u2d::connection::read(u2d::connection::message_type type) {
+std::string u2d::connection::read() {
     char* buffer = new char[8192];
     socklen_t from_len = sizeof(m_data_address);
     ssize_t data_size = recvfrom(m_init_sockfd, buffer, 8192, 0, (struct sockaddr*) &m_data_address, &from_len);
     auto t = std::time(nullptr);
     auto tm = *std::localtime(&t);
-    buffer[data_size] = '\0';
+    //buffer[data_size] = '\0';
     std::string data {buffer, static_cast<size_t>(data_size)};
     delete[] buffer;
     if(m_logging_enabled) {
@@ -59,10 +59,10 @@ void u2d::connection::write(const std::string& data, u2d::connection::message_ty
     ssize_t size = -1;
     switch(type) {
         case u2d::connection::message_type::initial:
-            size = sendto(m_init_sockfd, data.c_str(), data.length(), 0, (struct sockaddr*) &m_init_address, sizeof(m_init_address));
+            size = sendto(m_init_sockfd, data.c_str(), data.size()+1, 0, (struct sockaddr*) &m_init_address, sizeof(m_init_address));
             break;
         case u2d::connection::message_type::communication:
-            size = sendto(m_init_sockfd, data.c_str(), data.length(), 0, (struct sockaddr*) &m_data_address, sizeof(m_data_address));
+            size = sendto(m_init_sockfd, data.c_str(), data.size()+1, 0, (struct sockaddr*) &m_data_address, sizeof(m_data_address));
             break;
     }
     auto t = std::time(nullptr);
