@@ -66,22 +66,23 @@ const float u2d::squared_distance(const u2d::point& a, const u2d::point& b) {
 }
 
 std::array<u2d::point, 2> u2d::intersect(const u2d::circle& c0,
-        const u2d::circle& c1, bool& i) {
+        const u2d::circle& c1, bool& found) {
 	std::array<u2d::point, 2> intersect_points;
 	const float d = u2d::distance(c0.center, c1.center);
 	const float& r0 = c0.radius;
 	const float& r1 = c1.radius;
-	if (d >= abs(r0 - r1) && d <= r0 + r1) {
-        i = true;
+	if (d >= abs(r0 - r1) && d <= r0 + r1 && d != 0) {
+	        found = true;
 		const float a = (r0 * r0 - r1 * r1 + d * d) / (2 * d);
 		const float h = std::sqrt(r0 * r0 - a * a);
 		const u2d::point p2 = c0.center + (a / d) * (c1.center - c0.center);
-		intersect_points[0].x = p2.x + h * (c1.center.y - c0.center.y) / d;
-		intersect_points[0].y = p2.y - h * (c1.center.x - c0.center.x) / d;
-		intersect_points[1].x = p2.x - h * (c1.center.y - c0.center.y) / d;
-		intersect_points[1].y = p2.y + h * (c1.center.x - c0.center.x) / d;
+		const float c = h / d;
+		intersect_points[0].x = p2.x + c * (c1.center.y - c0.center.y);
+		intersect_points[0].y = p2.y - c * (c1.center.x - c0.center.x);
+		intersect_points[1].x = p2.x - c * (c1.center.y - c0.center.y);
+		intersect_points[1].y = p2.y + c * (c1.center.x - c0.center.x);
 	} else {
-        i = false;
+                found = false;
 	}
 	return intersect_points;
 }
