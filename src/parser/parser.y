@@ -1,7 +1,7 @@
 /*
  libU2D, Robocup 2D Soccer Server Simulation base of U2D Team.
 
- Copyright (c) 2016 Soroush Rabiei <rabiei@tidm.net>
+ Copyright (c) 2016-2022 Soroush Rabiei <soroush.rabiei@gmail.com>
 
  U2D is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -20,18 +20,22 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-%scanner                ./Scanner.h
-%baseclass-preinclude   "../perception/model.hpp"
-/* %baseclass-preinclude   "../model/visual-objects/flag.h" */
-/* %baseclass-preinclude   "../model/visual-objects/line.h" */
-%scanner-token-function d_scanner.lex()
+%namespace               u2d
+%class-name              parser
+%baseclass-header        parser-base.hpp
+%class-header            parser.hpp
+%implementation-header   parser-impl.hpp
+%parsefun-source         parser.cpp
+%scanner                 scanner.hpp
+%scanner-token-function  d_scanner.lex()
+%scanner-class-name  	 scanner
 
 %union{
 double		d;
 int		i;
 bool		b;
 std::string*	s;
-u2d::mark_t*	m;
+//flag_data*	f;
 //line_data*	l;
 }
 
@@ -82,10 +86,6 @@ POST FOUL CHARGED CARD YELLOW
  // hear
 %token HEAR OCL OCR REFEREE SELF
 
-// error and warning (TODO: Add all error and warning strings)
-// Note: we need to append an extra _ at the end to prevent collisions
-%token ERROR_ WARNING_ ERROR_DESC
-
 // primitive types
 %type <i> int
 %type <d> double
@@ -93,10 +93,9 @@ POST FOUL CHARGED CARD YELLOW
 %type <b> bool
 %type <i> play_mode
 %type <i> side
-%type <m> flag_name
 
 // complex types
-// %type <m> mark_t
+// %type <f> flag_name
 // %type <l> line_name
 %%
 
@@ -106,9 +105,7 @@ start: init {this->_model.last_input = u2d::model_t::input_t::init; this->ACCEPT
        player_type {this->_model.last_input = u2d::model_t::input_t::player_type; this->ACCEPT();}|
        sense_body {this->_model.last_input = u2d::model_t::input_t::sense_body; this->ACCEPT();} |
        see {this->_model.last_input = u2d::model_t::input_t::see; this->ACCEPT();} |
-       hear {this->_model.last_input = u2d::model_t::input_t::hear; this->ACCEPT();} |
-       error_ {this->_model.last_input = u2d::model_t::input_t::error; this->ACCEPT();} |
-       warning_ {this->_model.last_input = u2d::model_t::input_t::warning; this->ACCEPT();} ;
+       hear {this->_model.last_input = u2d::model_t::input_t::hear; this->ACCEPT();};
 
 bool:	_0 {$$ = false;} | _1 {$$=true;};
 int:	INTEGER {$$ = std::atoi(d_scanner.matched().c_str());} |
@@ -469,32 +466,25 @@ o_ball:		LP LP _B RP double double RP
 		    //parent->model.visual.add(new Flag2($5, $6, $7, $8, "(b)"));
         */};
 o_player:	LP LP _P string int RP double double double double double double RP
-        {
-                _model.players.emplace_back($7, $8, $9, $10, $11, $12,
-                                            false, // goalie seen
-                                            true, // number seen
-                                            true, // team seen
-                                            false, // goalie
-                                            $5, // number
-                                            *$4 // team
-                                            );
-        } |
+        {/*
+		    //parent->model.visual.add(new Player1($7, $8, $9, $10.d, $11.d, $12.d, *$4, $5));
+        */} |
 		LP LP _P string int GOALIE RP double double double double double double RP
         {/*
-            //parent->model.visual.add(new Player1($7, $8, $9, $10.d, $11.d, $12.d, *$4, $5, true));
+		    //parent->model.visual.add(new Player1($7, $8, $9, $10.d, $11.d, $12.d, *$4, $5, true));
         */} |
         LP LP _P string RP double double RP {/**/} |
         LP LP _P RP double double RP {/**/};
 o_goal:		LP LP _G side RP double double RP {/**/} |
         LP LP _G side RP double double double double RP {/**/};
 o_flag:		LP LP flag_name RP double double RP
-        {
-                _model.flags.emplace_back(*($3.m), $5, $6);
-        }|
-        LP LP flag_name RP double double double double RP
-        {
-                _model.flags.emplace_back(*($3.m), $5, $6, $7, $8);
-        };
+        {/*
+                    parent->model.visual.add(new Flag($3->s, $3->x, $3->y, $5, $6));
+        */}|
+		LP LP flag_name RP double double double double RP 
+                {/*
+                    parent->model.visual.add(new Flag2($3->s, $3->x, $3->y, $5, $6, $7, $8));
+                */};
 o_unknown:	LP LP unknown RP double double RP
                 {/*
                 */}|
@@ -502,59 +492,59 @@ o_unknown:	LP LP unknown RP double double RP
                 {/*
                 */};
 o_line:		LP LP line_name RP double double RP {/* new Line($3->p, $3->o, $5, $6); */};
-flag_name:	_F _C { $$ = &(mark_t::c);  }|
-        _F _L _T  { $$ = &(mark_t::lt); } |
-        _F _L _B { $$ = &(mark_t::lb); } |
-        _F _R _T { $$ = &(mark_t::rt); } |
-        _F _R _B { $$ = &(mark_t::rb); } |
-        _F _C _T { $$ = &(mark_t::ct); } |
-        _F _C _B { $$ = &(mark_t::cb); } |
-        _F _P _L _T { $$ = &(mark_t::plt); } |
-        _F _P _L _C { $$ = &(mark_t::plc); } |
-        _F _P _L _B { $$ = &(mark_t::plb); } |
-        _F _P _R _T { $$ = &(mark_t::prt); } |
-        _F _P _R _C { $$ = &(mark_t::prc); } |
-        _F _P _R _B { $$ = &(mark_t::prb); } |
-        _F _G _L _T { $$ = &(mark_t::glt); }|
-        _F _G _L _B { $$ = &(mark_t::glb); }|
-        _F _G _R _T { $$ = &(mark_t::grt); }|
-        _F _G _R _B { $$ = &(mark_t::grb); }|
-        _F _L _0 { $$ = &(mark_t::l0); }|
-        _F _R _0 { $$ = &(mark_t::r0); }|
-        _F _T _0 { $$ = &(mark_t::t0); }|
-        _F _B _0 { $$ = &(mark_t::b0); }|
-        _F _T _L _10 { $$ = &(mark_t::tl10); }|
-        _F _T _L _20 { $$ = &(mark_t::tl20); }|
-        _F _T _L _30 { $$ = &(mark_t::tl30); }|
-        _F _T _L _40 { $$ = &(mark_t::tl40); }|
-        _F _T _L _50 { $$ = &(mark_t::tl50); }|
-        _F _T _R _10 { $$ = &(mark_t::tr10); }|
-        _F _T _R _20 { $$ = &(mark_t::tr20); }|
-        _F _T _R _30 { $$ = &(mark_t::tr30); }|
-        _F _T _R _40 { $$ = &(mark_t::tr40); }|
-        _F _T _R _50 { $$ = &(mark_t::tr50); }|
-        _F _B _L _10 { $$ = &(mark_t::bl10); }|
-        _F _B _L _20 { $$ = &(mark_t::bl20); }|
-        _F _B _L _30 { $$ = &(mark_t::bl30); }|
-        _F _B _L _40 { $$ = &(mark_t::bl40); }|
-        _F _B _L _50 { $$ = &(mark_t::bl50); }|
-        _F _B _R _10 { $$ = &(mark_t::br10); }|
-        _F _B _R _20 { $$ = &(mark_t::br20); }|
-        _F _B _R _30 { $$ = &(mark_t::br30); }|
-        _F _B _R _40 { $$ = &(mark_t::br40); }|
-        _F _B _R _50 { $$ = &(mark_t::br50); }|
-        _F _L _T _10 { $$ = &(mark_t::lt10); } |
-        _F _L _T _20 { $$ = &(mark_t::lt20); } |
-        _F _L _T _30 { $$ = &(mark_t::lt30); } |
-        _F _L _B _10 { $$ = &(mark_t::lb10); } |
-        _F _L _B _20 { $$ = &(mark_t::lb20); } |
-        _F _L _B _30 { $$ = &(mark_t::lb30); } |
-        _F _R _T _10 { $$ = &(mark_t::rt10); } |
-        _F _R _T _20 { $$ = &(mark_t::rt20); } |
-        _F _R _T _30 { $$ = &(mark_t::rt30); } |
-        _F _R _B _10 { $$ = &(mark_t::rb10); } |
-        _F _R _B _20 { $$ = &(mark_t::rb20); } |
-        _F _R _B _30 { $$ = &(mark_t::rb30); } ;
+flag_name:	_F _C {/* $$ = new flag_data(string("fc"),0,0); */}|
+        _F _L _T {/* $$ = new flag_data("flt",-52.50,-34.00); */} |
+        _F _L _B {/* $$ = new flag_data("flb",-52.50,+34.00); */} |
+        _F _R _T {/* $$ = new flag_data("frt",+52.50,-34.00); */} |
+        _F _R _B {/* $$ = new flag_data("frb",+52.50,+34.00); */} |
+        _F _C _T {/* $$ = new flag_data("fct",+00.00,-34.00); */} |
+        _F _C _B {/* $$ = new flag_data("fcb",+00.00,+34.00); */} |
+        _F _P _L _T {/* $$ = new flag_data("fplt",-36.00,-20.15); */} |
+        _F _P _L _C {/* $$ = new flag_data("fplc",-36.00,+00.00); */} |
+        _F _P _L _B {/* $$ = new flag_data("fplb",-36.00,+20.15); */} |
+        _F _P _R _T {/* $$ = new flag_data("fprt",+36.00,-20.15); */} |
+        _F _P _R _C {/* $$ = new flag_data("fprc",+36.00,+00.00); */} |
+        _F _P _R _B {/* $$ = new flag_data("fprb",+36.00,+20.15); */} |
+        _F _G _L _T {/* $$ = new flag_data("fglt",-52.50,-07.00); */}|
+        _F _G _L _B {/* $$ = new flag_data("fglb",-52.50,+07.00); */}|
+        _F _G _R _T {/* $$ = new flag_data("fgrt",+52.50,-07.00); */}|
+        _F _G _R _B {/* $$ = new flag_data("fgrb",+52.50,+07.00); */}|
+        _F _L _0 {/* $$ = new flag_data("fl0",-57.50,+00.00); */}|
+        _F _R _0 {/* $$ = new flag_data("fr0",+57.50,+00.00); */}|
+        _F _T _0 {/* $$ = new flag_data("ft0",+00.00,-39.00); */}|
+        _F _B _0 {/* $$ = new flag_data("fb0",+00.00,+39.00); */}|
+        _F _T _L _10 {/* $$ = new flag_data("ftl10",-10.00,-39.00); */}|
+        _F _T _L _20 {/* $$ = new flag_data("ftl20",-20.00,-39.00); */}|
+        _F _T _L _30 {/* $$ = new flag_data("ftl30",-30.00,-39.00); */}|
+        _F _T _L _40 {/* $$ = new flag_data("ftl40",-40.00,-39.00); */}|
+        _F _T _L _50 {/* $$ = new flag_data("ftl50",-50.00,-39.00); */}|
+        _F _T _R _10 {/* $$ = new flag_data("ftr10",+10.00,-39.00); */}|
+        _F _T _R _20 {/* $$ = new flag_data("ftr20",+20.00,-39.00); */}|
+        _F _T _R _30 {/* $$ = new flag_data("ftr30",+30.00,-39.00); */}|
+        _F _T _R _40 {/* $$ = new flag_data("ftr40",+40.00,-39.00); */}|
+        _F _T _R _50 {/* $$ = new flag_data("ftr50",+50.00,-39.00); */}|
+        _F _B _L _10 {/* $$ = new flag_data("fbl10",-10.00,+39.00); */}|
+        _F _B _L _20 {/* $$ = new flag_data("fbl20",-20.00,+39.00); */}|
+        _F _B _L _30 {/* $$ = new flag_data("fbl30",-30.00,+39.00); */}|
+        _F _B _L _40 {/* $$ = new flag_data("fbl40",-40.00,+39.00); */}|
+        _F _B _L _50 {/* $$ = new flag_data("fbl50",-50.00,+39.00); */}|
+        _F _B _R _10 {/* $$ = new flag_data("fbr10",+10.00,+39.00); */}|
+        _F _B _R _20 {/* $$ = new flag_data("fbr20",+20.00,+39.00); */}|
+        _F _B _R _30 {/* $$ = new flag_data("fbr30",+30.00,+39.00); */}|
+        _F _B _R _40 {/* $$ = new flag_data("fbr40",+40.00,+39.00); */}|
+        _F _B _R _50 {/* $$ = new flag_data("fbr50",+50.00,+39.00); */}|
+        _F _L _T _10 {/* $$ = new flag_data("flt10",-57.50,-10.00); */} |
+        _F _L _T _20 {/* $$ = new flag_data("flt20",-57.50,-20.00); */} |
+        _F _L _T _30 {/* $$ = new flag_data("flt30",-57.50,-30.00); */} |
+        _F _L _B _10 {/* $$ = new flag_data("flb10",-57.50,+10.00); */} |
+        _F _L _B _20 {/* $$ = new flag_data("flb20",-57.50,+20.00); */} |
+        _F _L _B _30 {/* $$ = new flag_data("flb30",-57.50,+30.00); */} |
+        _F _R _T _10 {/* $$ = new flag_data("frt10",+57.50,-10.00); */} |
+        _F _R _T _20 {/* $$ = new flag_data("frt20",+57.50,-20.00); */} |
+        _F _R _T _30 {/* $$ = new flag_data("frt30",+57.50,-30.00); */} |
+        _F _R _B _10 {/* $$ = new flag_data("frb10",+57.50,+10.00); */} |
+        _F _R _B _20 {/* $$ = new flag_data("frb20",+57.50,+20.00); */} |
+        _F _R _B _30 {/* $$ = new flag_data("frb30",+57.50,+30.00); */} ;
 line_name:	_L _L {/* $$ = new line_data(-52.50, Line::Horizontal); */} |
                 _L _R {/* $$ = new line_data(+52.50, Line::Horizontal); */} |
                 _L _T {/* $$ = new line_data(-34.00, Line::Vertical); */} |
@@ -566,14 +556,10 @@ unknown:	_BB {/* */} |
                 _GG {/**/} |
                 _PP {/* */} ;
 
-hear: LP HEAR int sender string RP {};
+hear: LP HEAR int sender string RP { std::cerr << "seen hear" << std::endl;};
 sender: OCL {} |
         OCR {} |
         CO {} |
         REFEREE {} |
         SELF {} |
         double {};
-
-error_: LP ERROR_ ERROR_DESC RP {};
-
-warning_: LP WARNING_ ERROR_DESC RP {};

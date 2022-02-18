@@ -8,7 +8,7 @@
 #include <iostream>
 #include <string>
 #include <cstdio>
-#include "command.hpp"
+#include <u2d/command.hpp>
 
 template<typename ... Args>
 std::string string_format(const std::string& format, Args ... args) {

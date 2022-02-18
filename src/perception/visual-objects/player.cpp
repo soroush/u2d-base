@@ -1,7 +1,7 @@
 /*
  libU2D, Robocup 2D Soccer Server Simulation base of U2D Team.
 
- Copyright (c) 2011, 2012, 2013 Soroush Rabiei <rabiei@tidm.ir>
+ Copyright (c) 2011, 2012, 2013 Soroush Rabiei <soroush.rabiei@gmail.com>
 
  U2D is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public

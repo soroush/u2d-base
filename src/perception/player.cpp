@@ -1,7 +1,7 @@
 /*
  libU2D, Robocup 2D Soccer Server Simulation base of U2D Team.
 
- Copyright (c) 2016 Soroush Rabiei <rabiei@tidm.net>
+ Copyright (c) 2016-2022 Soroush Rabiei <soroush.rabiei@gmail.com>
 
  U2D is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -20,7 +20,7 @@
  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "player.hpp"
+#include <u2d/perception/player.hpp>
 
 u2d::player_t::player_t(float distance, float direction,
                         float distance_change, float direction_change,

@@ -4,6 +4,8 @@
 ### Autotools ###
 # http://www.gnu.org/software/automake
 
+.vscode/*
+build/*
 Makefile.in
 /ar-lib
 /mdate-sh
